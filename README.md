@@ -20,7 +20,7 @@ Presença digital com site, SEO, conteúdo e conversão. No período destacado d
 [Ver case](https://willianrosa.com.br/case-killian-psicologa)
 
 ### KPSI
-Produto em desenvolvimento para gestão de psicólogos e clínicas, com prontuário, agenda, financeiro, documentos e IA como camada de orquestração.
+Produto finalizado para gestão de psicólogos e clínicas, com prontuário, agenda, financeiro, documentos e IA como camada de apoio à operação.
 
 [Ver case](https://willianrosa.com.br/case-kpsi)
 
@@ -28,6 +28,12 @@ Produto em desenvolvimento para gestão de psicólogos e clínicas, com prontuá
 Produto digital de assinatura com planos, catálogo, autenticação, área do assinante e estrutura de recorrência.
 
 [Ver case](https://willianrosa.com.br/case-clubinho-ludie)
+
+## Analytics, CRM & IA
+
+Também desenvolvo frentes de **Business Analytics, CRM, Customer Insights, dashboards e automação**, conectando indicador, comportamento e decisão.
+
+[Analytics & Dashboards](https://willianrosa.com.br/analytics-dashboards) · [CRM & Customer Insights](https://willianrosa.com.br/crm-customer-insights) · [IA & Automação](https://willianrosa.com.br/ia-automacao-negocios)
 
 ## Especialidade em Psicologia
 
