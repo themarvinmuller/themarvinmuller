@@ -1,16 +1,47 @@
-## Hi there 👋
+# Willian Rosa
 
-<!--
-**themarvinmuller/themarvinmuller** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+**Business Analytics · CRM · Customer Insights · Produtos Digitais**
 
-Here are some ideas to get you started:
+Transformo problemas de negócio em produtos digitais, dados e jornadas mais claras. Trabalho na interseção entre **estratégia, analytics, CRM, produto e tecnologia** — da estruturação do problema ao produto publicado e mensurado.
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+## O que eu construo
+
+- Sites e experiências digitais orientadas a conversão
+- SEO técnico, arquitetura de conteúdo e mensuração
+- Sistemas web, áreas logadas e dashboards
+- Automações e aplicações com IA
+- Soluções digitais para psicólogos e clínicas
+
+## Projetos em destaque
+
+### Killian Psicóloga
+Presença digital com site, SEO, conteúdo e conversão. No período destacado do case, a atuação profissional alcançou **20+ palestras e 5.000+ pessoas impactadas em cerca de 1 mês**, sem mídia paga.
+
+[Ver case](https://willian-site.vercel.app/case-killian-psicologa)
+
+### KPSI
+Produto em desenvolvimento para gestão de psicólogos e clínicas, com prontuário, agenda, financeiro, documentos e IA como camada de orquestração.
+
+[Ver case](https://willian-site.vercel.app/case-kpsi)
+
+### Clubinho Ludie
+Produto digital de assinatura com planos, catálogo, autenticação, área do assinante e estrutura de recorrência.
+
+[Ver case](https://willian-site.vercel.app/case-clubinho-ludie)
+
+## Especialidade em Psicologia
+
+Estruturo presença digital para psicólogos e clínicas com foco em **ser encontrado, transmitir confiança e transformar visita em contato**, respeitando contexto ético e privacidade.
+
+[Sites para psicólogos](https://willian-site.vercel.app/sites-para-psicologos) · [SEO para psicólogos](https://willian-site.vercel.app/seo-para-psicologos) · [Diagnóstico gratuito](https://willian-site.vercel.app/diagnostico)
+
+## Sobre mim
+
+Atuo como **Especialista de Business Analytics**, com experiência em CRM, Customer Insights, produto digital, dados e automação. Minha formação combina Administração, Marketing, Business Intelligence, Tecnologia da Informação, Gestão de Projetos e Design de Produtos.
+
+[Conheça minha trajetória](https://willian-site.vercel.app/sobre-willian-rosa)
+
+---
+
+**Site:** https://willian-site.vercel.app  
+**Contato comercial:** pelo diagnóstico no site.
