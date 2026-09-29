@@ -17,31 +17,31 @@ Transformo problemas de negócio em produtos digitais, dados e jornadas mais cla
 ### Killian Psicóloga
 Presença digital com site, SEO, conteúdo e conversão. No período destacado do case, a atuação profissional alcançou **20+ palestras e 5.000+ pessoas impactadas em cerca de 1 mês**, sem mídia paga.
 
-[Ver case](https://willian-site.vercel.app/case-killian-psicologa)
+[Ver case](https://willianrosa.com.br/case-killian-psicologa)
 
 ### KPSI
 Produto em desenvolvimento para gestão de psicólogos e clínicas, com prontuário, agenda, financeiro, documentos e IA como camada de orquestração.
 
-[Ver case](https://willian-site.vercel.app/case-kpsi)
+[Ver case](https://willianrosa.com.br/case-kpsi)
 
 ### Clubinho Ludie
 Produto digital de assinatura com planos, catálogo, autenticação, área do assinante e estrutura de recorrência.
 
-[Ver case](https://willian-site.vercel.app/case-clubinho-ludie)
+[Ver case](https://willianrosa.com.br/case-clubinho-ludie)
 
 ## Especialidade em Psicologia
 
 Estruturo presença digital para psicólogos e clínicas com foco em **ser encontrado, transmitir confiança e transformar visita em contato**, respeitando contexto ético e privacidade.
 
-[Sites para psicólogos](https://willian-site.vercel.app/sites-para-psicologos) · [SEO para psicólogos](https://willian-site.vercel.app/seo-para-psicologos) · [Diagnóstico gratuito](https://willian-site.vercel.app/diagnostico)
+[Sites para psicólogos](https://willianrosa.com.br/sites-para-psicologos) · [SEO para psicólogos](https://willianrosa.com.br/seo-para-psicologos) · [Diagnóstico gratuito](https://willianrosa.com.br/diagnostico)
 
 ## Sobre mim
 
 Atuo como **Especialista de Business Analytics**, com experiência em CRM, Customer Insights, produto digital, dados e automação. Minha formação combina Administração, Marketing, Business Intelligence, Tecnologia da Informação, Gestão de Projetos e Design de Produtos.
 
-[Conheça minha trajetória](https://willian-site.vercel.app/sobre-willian-rosa)
+[Conheça minha trajetória](https://willianrosa.com.br/sobre-willian-rosa)
 
 ---
 
-**Site:** https://willian-site.vercel.app  
+**Site:** https://willianrosa.com.br  
 **Contato comercial:** pelo diagnóstico no site.
