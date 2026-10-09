@@ -47,6 +47,15 @@ Atuo como **Especialista de Business Analytics**, com experiência em CRM, Custo
 
 [Conheça minha trajetória](https://willianrosa.com.br/sobre-willian-rosa)
 
+## Recursos públicos
+
+Mantenho materiais abertos sobre presença digital, SEO responsável, mensuração e arquitetura para psicólogos e clínicas:
+
+- [Repositório Presença Digital para Psicologia](https://github.com/themarvinmuller/presenca-digital-psicologia)
+- [Arquitetura de site para psicólogos](https://gist.github.com/themarvinmuller/f664a2871232e6367db856f946a08dfb)
+- [Mensuração de WhatsApp: clique não é lead](https://gist.github.com/themarvinmuller/2e9bb015ca3c597680fc88a49c523e93)
+- [Conteúdos completos no site](https://willianrosa.com.br/conteudos)
+
 ---
 
 **Site:** https://willianrosa.com.br  
