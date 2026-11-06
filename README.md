@@ -14,20 +14,26 @@ Transformo problemas de negócio em produtos digitais, dados e jornadas mais cla
 
 ## Projetos em destaque
 
-### Killian Psicóloga
-Presença digital com site, SEO, conteúdo e conversão. No período destacado do case, a atuação profissional alcançou **20+ palestras e 5.000+ pessoas impactadas em cerca de 1 mês**, sem mídia paga.
+### Psicologia
 
-[Ver case](https://willianrosa.com.br/case-killian-psicologa)
+**Killian Psicóloga** · site publicado  
+Presença digital com site, SEO, conteúdo e conversão. No período destacado do case, a atuação profissional alcançou **20+ palestras e 5.000+ pessoas impactadas em cerca de 1 mês**, sem mídia paga (números de palestras, não do site isoladamente).
 
-### KPSI
-Produto finalizado para gestão de psicólogos e clínicas, com prontuário, agenda, financeiro, documentos e IA como camada de apoio à operação.
+[Ver case](https://willianrosa.com.br/case-killian-psicologa) · [Site no ar](https://www.killianpsicologa.com.br/)
+
+**KPSI** · produto próprio  
+Sistema de gestão para psicólogos e clínicas, com prontuário, agenda, financeiro, documentos e IA com revisão humana. Os módulos internos exigem login e são mostrados em demonstração guiada.
 
 [Ver case](https://willianrosa.com.br/case-kpsi)
 
-### Clubinho Ludie
-Produto digital de assinatura com planos, catálogo, autenticação, área do assinante e estrutura de recorrência.
+### Outros negócios
 
-[Ver case](https://willianrosa.com.br/case-clubinho-ludie)
+**Clubinho Ludie** · em produção  
+E-commerce de assinatura com planos, catálogo, autenticação, área do assinante e estrutura de recorrência.
+
+[Ver case](https://willianrosa.com.br/case-clubinho-ludie) · [Loja no ar](https://clubinholudie.com)
+
+Estudos e exemplos didáticos de dados, CRM e automação ficam separados dos cases de clientes em [willianrosa.com.br/cases](https://willianrosa.com.br/cases#estudos).
 
 ## Analytics, CRM & IA
 
