@@ -1,8 +1,16 @@
 # Willian Rosa
 
-**Business Analytics · CRM · Customer Insights · Produtos Digitais**
+**Sites, SEO e sistemas para psicólogos e clínicas · Analytics · CRM · Produtos Digitais**
 
-Transformo problemas de negócio em produtos digitais, dados e jornadas mais claras. Trabalho na interseção entre **estratégia, analytics, CRM, produto e tecnologia** — da estruturação do problema ao produto publicado e mensurado.
+Ajudo psicólogos e clínicas a serem encontrados, transmitirem confiança e transformarem visita em contato, com site, SEO, mensuração e sistemas. Também atendo outros negócios em analytics, CRM, produto e IA, da estruturação do problema ao produto publicado e mensurado.
+
+👉 **Comece pelo [diagnóstico gratuito](https://willianrosa.com.br/diagnostico)** ou veja [sites para psicólogos](https://willianrosa.com.br/sites-para-psicologos).
+
+## Especialidade em Psicologia
+
+Estruturo presença digital para psicólogos e clínicas com foco em **ser encontrado, transmitir confiança e transformar visita em contato**, respeitando contexto ético e privacidade.
+
+[Sites para psicólogos](https://willianrosa.com.br/sites-para-psicologos) · [SEO para psicólogos](https://willianrosa.com.br/seo-para-psicologos) · [Diagnóstico gratuito](https://willianrosa.com.br/diagnostico)
 
 ## O que eu construo
 
@@ -19,6 +27,11 @@ Presença digital com site, SEO, conteúdo e conversão. No período destacado d
 
 [Ver case](https://willianrosa.com.br/case-killian-psicologa)
 
+### CaminhosPsi
+Redesenho e migração do site de um coletivo de psicologia, medição do WhatsApp corrigida e Google Ads com orçamento pequeno e medido.
+
+[Ver case](https://willianrosa.com.br/case-caminhospsi)
+
 ### KPSI
 Produto finalizado para gestão de psicólogos e clínicas, com prontuário, agenda, financeiro, documentos e IA como camada de apoio à operação.
 
@@ -34,12 +47,6 @@ Produto digital de assinatura com planos, catálogo, autenticação, área do as
 Também desenvolvo frentes de **Business Analytics, CRM, Customer Insights, dashboards e automação**, conectando indicador, comportamento e decisão.
 
 [Analytics & Dashboards](https://willianrosa.com.br/analytics-dashboards) · [CRM & Customer Insights](https://willianrosa.com.br/crm-customer-insights) · [IA & Automação](https://willianrosa.com.br/ia-automacao-negocios)
-
-## Especialidade em Psicologia
-
-Estruturo presença digital para psicólogos e clínicas com foco em **ser encontrado, transmitir confiança e transformar visita em contato**, respeitando contexto ético e privacidade.
-
-[Sites para psicólogos](https://willianrosa.com.br/sites-para-psicologos) · [SEO para psicólogos](https://willianrosa.com.br/seo-para-psicologos) · [Diagnóstico gratuito](https://willianrosa.com.br/diagnostico)
 
 ## Sobre mim
 
