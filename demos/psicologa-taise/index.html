@@ -12,18 +12,12 @@
 <style>
 /* Layout: retrato + frase acolhedora no topo; seções em faixas calmas; um único CTA (WhatsApp) repetido. */
 :root{
-  --bg:#F3F4EF; --surface:#FFFFFF; --ink:#1F2A25; --muted:#5B6660;
-  --pine:#2E5546; --pine-ink:#FFFFFF; --wood:#A8693A; --leaf:#E3EBE2; --line:#D6DDD4;
+  --bg:#FFFFFF; --surface:#FFFFFF; --ink:#1F2A25; --muted:#5B6660;
+  --pine:#2E5546; --pine-ink:#FFFFFF; --wood:#A8693A; --leaf:#F1F5F0; --line:#D6DDD4;
   --display:"Instrument Serif", Georgia, "Times New Roman", serif;
   --body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --max:1080px;
+  --max:1080px; color-scheme:light;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#141A17; --surface:#1C2420; --ink:#E7ECE7; --muted:#A4B0A8;
-  --pine:#7FB59C; --pine-ink:#0F1A15; --wood:#D69A6A; --leaf:#22302A; --line:#2E3A34; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#141A17; --surface:#1C2420; --ink:#E7ECE7; --muted:#A4B0A8;
-  --pine:#7FB59C; --pine-ink:#0F1A15; --wood:#D69A6A; --leaf:#22302A; --line:#2E3A34; color-scheme:dark}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
