@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Taise Ferreira Psicóloga</title>
-<meta name="description" content="Psicoterapia com Terapia de Aceitação e Compromisso (ACT). Atendimento particular, agendamento pelo WhatsApp.">
+<meta name="description" content="Psicóloga e psicanalista com mais de 12 anos de atuação clínica. Atendimento online e presencial, agendamento pelo WhatsApp.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Figtree:wght@400;500;600&display=swap">
@@ -91,7 +91,7 @@ section .head p{color:var(--muted)}
 .hexa h3{font-size:1.6rem}
 .hexa p{color:var(--muted);font-size:.97rem}
 .hexa .tag{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--wood);font-weight:600}
-@media (max-width:820px){.hexa{grid-template-columns:1fr 1fr}}
+@media (max-width:820px){.hexa{grid-template-columns:1fr}}
 @media (max-width:520px){.hexa{grid-template-columns:1fr}}
 
 .topics ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:10px}
@@ -107,6 +107,21 @@ section .head p{color:var(--muted)}
 .note b{display:block;margin-bottom:4px}
 @media (max-width:820px){.how .steps,.note{grid-template-columns:1fr}}
 
+
+.place .wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:48px;align-items:start}
+.place .info{display:grid;gap:18px;min-width:0}
+.place .info ul{list-style:none;padding:0;margin:0;display:grid;gap:12px;color:var(--muted)}
+.place .info li{padding-left:22px;position:relative}
+.place .info li::before{content:"";position:absolute;left:0;top:.6em;width:8px;height:8px;border-radius:50%;background:var(--wood)}
+.place .info .name{font-family:var(--display);font-size:1.5rem;color:var(--ink);line-height:1.2}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:170px;gap:10px;min-width:0}
+.gallery figure{margin:0;position:relative;overflow:hidden;border-radius:12px;background:var(--leaf)}
+.gallery img{width:100%;height:100%;object-fit:cover;display:block}
+.gallery figcaption{position:absolute;left:8px;bottom:8px;background:rgba(20,26,23,.72);color:#fff;font-size:.75rem;padding:4px 10px;border-radius:999px}
+.gallery .big{grid-column:span 2;grid-row:span 2}
+@media (max-width:820px){.place .wrap{grid-template-columns:1fr}.gallery{grid-template-columns:1fr 1fr;grid-auto-rows:140px}}
+.about .side{display:grid;gap:24px;align-content:start}
+.about .side img{width:100%;max-width:360px;aspect-ratio:4/5;object-fit:cover;border-radius:16px}
 .faq details{border-bottom:1px solid var(--line);padding-block:18px;max-width:760px}
 .faq summary{cursor:pointer;font-weight:600;font-size:1.05rem;list-style:none;display:flex;justify-content:space-between;gap:16px}
 .faq summary::after{content:"+";font-family:var(--display);font-size:1.6rem;line-height:1;color:var(--pine)}
@@ -118,6 +133,7 @@ section .head p{color:var(--muted)}
 .cta-band h2{max-width:18ch}
 .cta-band p{opacity:.85;max-width:52ch}
 .cta-band .btn{background:var(--pine-ink);color:var(--pine)}
+.cta-band .btn.ghost{background:transparent;color:var(--pine-ink);border:1.5px solid var(--pine-ink)}
 
 footer{padding-block:40px 110px;font-size:.88rem;color:var(--muted)}
 footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
@@ -128,14 +144,13 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
 </head>
 <body>
 
-
-<div class="demo"><div class="wrap">Demonstração criada por Willian Rosa · CRP, telefone e textos são exemplos para aprovação</div></div>
+<div class="demo"><div class="wrap">Demonstração criada por Willian Rosa · CRP e textos são exemplos para aprovação</div></div>
 
 <header class="top">
   <div class="wrap">
     <a class="brand" href="#inicio">Taise Ferreira<small>Psicóloga · CRP 00/00000</small></a>
     <nav class="links" aria-label="Seções">
-      <a href="#sobre">Sobre</a><a href="#act">Abordagem</a><a href="#como">Como funciona</a><a href="#duvidas">Dúvidas</a>
+      <a href="#sobre">Sobre</a><a href="#psicanalise">Psicanálise</a><a href="#como">Como funciona</a><a href="#espaco">Espaço</a><a href="#duvidas">Dúvidas</a>
     </nav>
     <a class="btn small wa" href="#">Agendar</a>
   </div>
@@ -145,55 +160,55 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
   <section class="hero" style="padding-block:0">
     <div class="wrap">
       <div>
-        <p class="eyebrow">Psicoterapia para adultos · ACT</p>
-        <h1 style="margin-top:14px">Um espaço para cuidar do que dói e se aproximar <em>do que importa</em> para você.</h1>
-        <p class="lead">Atendimento psicológico com a Terapia de Aceitação e Compromisso, online e presencial. O primeiro contato é feito direto comigo pelo WhatsApp.</p>
+        <p class="eyebrow">Psicologia · Psicanálise</p>
+        <h1 style="margin-top:14px">A partir da palavra, <em>elaboração</em> e <em>transformação</em>.</h1>
+        <p class="lead">Atendimento em psicanálise, online e presencial, com mais de 12 anos de atuação clínica. O primeiro contato é feito direto comigo pelo WhatsApp.</p>
         <div class="ctas">
           <a class="btn wa" href="#"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>Agendar pelo WhatsApp</a>
           <a class="btn ghost" href="#como">Como funciona</a>
         </div>
-        <div class="facts"><span>Online e presencial</span><span>Atendimento particular</span><span>Recibo para reembolso</span></div>
+        <div class="facts"><span>12+ anos de clínica</span><span>Online e presencial</span><span>Atendimento particular</span><span>Recibo para reembolso</span></div>
       </div>
       <figure class="portrait" style="margin:0">
         <div class="ph" role="img" aria-label="Espaço para a foto da psicóloga">TF</div>
-        <figcaption><b>Taise Ferreira</b>Psicóloga clínica<br>CRP 00/00000</figcaption>
+        <figcaption><b>Taise Ferreira</b>Psicóloga e psicanalista<br>CRP 00/00000</figcaption>
       </figure>
     </div>
   </section>
 
   <section class="about" id="sobre">
     <div class="wrap">
-      <div class="head" style="margin:0">
-        <p class="eyebrow">Sobre mim</p>
-        <h2>Olá, eu sou a Taise.</h2>
+      <div class="side">
+        <div class="head" style="margin:0">
+          <p class="eyebrow">Sobre mim</p>
+          <h2>Olá, eu sou a Taise.</h2>
+        </div>
+        <div role="img" aria-label="Foto: Taise Ferreira no consultório" style="width:100%;height:100%;min-height:160px;background:var(--leaf)"></div>
       </div>
       <div class="text">
-        <p>Sou psicóloga clínica e atendo adultos que estão passando por momentos de ansiedade, cansaço emocional, mudanças ou perdas. Meu trabalho é oferecer uma escuta atenta e, junto com você, construir caminhos possíveis para viver com mais sentido.</p>
-        <p>Trabalho com a Terapia de Aceitação e Compromisso (ACT), uma abordagem das terapias comportamentais contextuais. A ideia não é lutar contra tudo o que você sente, e sim aprender a lidar com pensamentos e emoções difíceis enquanto se move em direção ao que tem valor na sua vida.</p>
+        <p>Sou psicóloga e psicanalista, com mais de 12 anos de atuação clínica. Recebo pessoas que chegam com angústias, sintomas, impasses nas relações ou simplesmente com a sensação de que algo não vai bem e precisa ser falado.</p>
+        <p>Na psicanálise, a fala é o caminho. Com uma escuta atenta e sem julgamentos, abrimos espaço para que você fale do que sente e do que se repete na sua história, e para que esse sofrimento possa ser elaborado no seu tempo.</p>
         <dl class="cred">
           <div><dt>Registro</dt><dd>CRP 00/00000</dd></div>
           <div><dt>Formação</dt><dd>Psicologia · [Universidade]</dd></div>
-          <div><dt>Abordagem</dt><dd>ACT · Terapias contextuais</dd></div>
+          <div><dt>Abordagem</dt><dd>Psicanálise</dd></div><div><dt>Experiência</dt><dd>Mais de 12 anos de clínica</dd></div>
           <div><dt>Atendimento online</dt><dd>Cadastro e-Psi ativo</dd></div>
         </dl>
       </div>
     </div>
   </section>
 
-  <section class="act" id="act">
+  <section class="act" id="psicanalise">
     <div class="wrap">
       <div class="head">
         <p class="eyebrow">A abordagem</p>
-        <h2>O que trabalhamos na ACT</h2>
-        <p>A ACT busca desenvolver a flexibilidade psicológica, que é a capacidade de estar presente e agir de acordo com seus valores mesmo quando surgem desconfortos. Ela se apoia em seis processos.</p>
+        <h2>Como a psicanálise trabalha</h2>
+        <p>A psicanálise parte da ideia de que nossos sintomas e sofrimentos têm sentido, e que esse sentido pode ser escutado. Não há roteiro pronto nem respostas prontas. O percurso é construído a partir do que você traz.</p>
       </div>
       <div class="hexa">
-        <article><span class="tag">Abertura</span><h3>Aceitação</h3><p>Abrir espaço para emoções difíceis, sem precisar brigar com elas o tempo todo.</p></article>
-        <article><span class="tag">Abertura</span><h3>Desfusão</h3><p>Perceber pensamentos como pensamentos, e não como ordens ou verdades absolutas.</p></article>
-        <article><span class="tag">Consciência</span><h3>Momento presente</h3><p>Voltar a atenção para o aqui e agora, com curiosidade e gentileza.</p></article>
-        <article><span class="tag">Consciência</span><h3>Eu como contexto</h3><p>Notar que você é maior do que qualquer pensamento ou rótulo sobre si.</p></article>
-        <article><span class="tag">Engajamento</span><h3>Valores</h3><p>Esclarecer o que realmente importa para você e que tipo de pessoa quer ser.</p></article>
-        <article><span class="tag">Engajamento</span><h3>Ação comprometida</h3><p>Dar passos concretos, no seu ritmo, na direção desses valores.</p></article>
+        <article><span class="tag">Primeiro</span><h3>A palavra</h3><p>Você fala livremente sobre o que vier, sem precisar organizar ou escolher o assunto certo. É pela fala que o trabalho começa.</p></article>
+        <article><span class="tag">Depois</span><h3>Elaboração</h3><p>Aos poucos, o que antes parecia confuso ou repetitivo ganha contorno, e é possível olhar para isso de outro lugar.</p></article>
+        <article><span class="tag">Com o tempo</span><h3>Transformação</h3><p>Ao elaborar sua história, você encontra novas formas de se posicionar diante do que te faz sofrer, no seu ritmo.</p></article>
       </div>
     </div>
   </section>
@@ -205,7 +220,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
         <h2>Temas que acolho no consultório</h2>
       </div>
       <ul>
-        <li>Ansiedade</li><li>Estresse e esgotamento</li><li>Tristeza e desânimo</li><li>Luto e perdas</li><li>Autoestima e autocrítica</li><li>Relacionamentos</li><li>Transições de vida</li><li>Questões de carreira</li>
+        <li>Angústia e ansiedade</li><li>Tristeza e desânimo</li><li>Luto e perdas</li><li>Relacionamentos</li><li>Conflitos familiares</li><li>Autoestima</li><li>Sintomas que se repetem</li><li>Transições de vida</li>
       </ul>
     </div>
   </section>
@@ -224,7 +239,32 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
       <div class="note">
         <div><b>Atendimento particular</b>Não atendo por plano de saúde.</div>
         <div><b>Reembolso</b>Emito recibo para você solicitar reembolso ao seu plano, quando ele permitir.</div>
-        <div><b>Online ou presencial</b>Sessões por vídeo para todo o Brasil ou no consultório em [cidade].</div>
+        <div><b>Online ou presencial</b>Sessões por vídeo para todo o Brasil ou no espaço Sempre Viva, próximo ao Colégio Vetatz.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="place" id="espaco">
+    <div class="wrap">
+      <div class="info">
+        <p class="eyebrow">Onde atendo</p>
+        <h2>Um espaço pensado para acolher</h2>
+        <p class="name">Sempre Viva · Psicologia e Psicanálise</p>
+        <ul>
+          <li>Região tranquila, próxima ao Colégio Vetatz</li>
+          <li>Fácil acesso e vagas para estacionar</li>
+          <li>Recepção acolhedora e jardim na entrada</li>
+          <li>Salas reservadas, com isolamento e conforto</li>
+        </ul>
+        <div><a class="btn ghost" href="https://www.google.com/maps/search/?api=1&amp;query=Sempre%20Viva%20Psicologia%20e%20Psican%C3%A1lise%20Col%C3%A9gio%20Vetatz" target="_blank" rel="noopener">Ver no Google Maps</a></div>
+      </div>
+      <div class="gallery">
+        <figure class="big"><div role="img" aria-label="Foto: Recepção com parede verde, sofá e poltronas de fibra" style="width:100%;height:100%;min-height:160px;background:var(--leaf)"></div><figcaption>Recepção</figcaption></figure>
+        <figure><div role="img" aria-label="Foto: Caminho de pedras no jardim da entrada" style="width:100%;height:100%;min-height:160px;background:var(--leaf)"></div><figcaption>Entrada</figcaption></figure>
+        <figure><div role="img" aria-label="Foto: Sala de atendimento com sofá e tapete redondo" style="width:100%;height:100%;min-height:160px;background:var(--leaf)"></div><figcaption>Sala</figcaption></figure>
+        <figure><div role="img" aria-label="Foto: Sala de atendimento com poltrona e escrivaninha" style="width:100%;height:100%;min-height:160px;background:var(--leaf)"></div><figcaption>Sala</figcaption></figure>
+        <figure><div role="img" aria-label="Foto: Ambiente com plantas, painel de palha e iluminação suave" style="width:100%;height:100%;min-height:160px;background:var(--leaf)"></div><figcaption>Ambiente</figcaption></figure>
+        <figure><div role="img" aria-label="Foto: Taise Ferreira no consultório" style="width:100%;height:100%;min-height:160px;background:var(--leaf)"></div><figcaption>Consultório</figcaption></figure>
       </div>
     </div>
   </section>
@@ -236,6 +276,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
         <h2>Perguntas que costumo receber</h2>
       </div>
       <details><summary>O que eu falo na terapia fica em sigilo?</summary><p>Sim. O sigilo é um dever ético previsto no Código de Ética Profissional do Psicólogo e vale para tudo o que é conversado nas sessões.</p></details>
+      <details><summary>Como é uma sessão de psicanálise?</summary><p>Você fala livremente, e eu escuto com atenção ao que se repete, ao que surpreende e ao que fica nas entrelinhas. Não há tarefas nem um assunto obrigatório. Cada sessão parte do que você traz naquele dia.</p></details>
       <details><summary>Com que frequência acontecem as sessões?</summary><p>Na maioria dos casos, uma vez por semana. A frequência é combinada entre nós conforme o seu momento.</p></details>
       <details><summary>A terapia online funciona?</summary><p>Sim. O atendimento online segue as mesmas regras éticas do presencial e é regulamentado pelo Conselho Federal de Psicologia. Você só precisa de um lugar reservado e boa conexão.</p></details>
       <details><summary>Você atende plano de saúde?</summary><p>O atendimento é particular. Emito recibo para que você peça reembolso ao seu plano, se ele oferecer essa opção.</p></details>
@@ -246,7 +287,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
     <div class="wrap">
       <h2>Quando fizer sentido para você, estou por aqui.</h2>
       <p>Mande uma mensagem pelo WhatsApp. Respondo assim que possível, em horário comercial.</p>
-      <div style="display:flex;flex-wrap:wrap;gap:12px"><a class="btn wa" href="#">Conversar pelo WhatsApp</a><a class="btn ghost" style="color:var(--pine-ink);border-color:currentColor" href="https://www.instagram.com/taiseferreirapsicologa/" target="_blank" rel="noopener">Ver no Instagram</a></div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px"><a class="btn wa" href="#">Conversar pelo WhatsApp</a><a class="btn ghost" href="https://www.instagram.com/taiseferreirapsicologa/" target="_blank" rel="noopener">Ver no Instagram</a></div>
     </div>
   </section>
 </main>
