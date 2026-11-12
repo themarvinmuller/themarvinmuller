@@ -139,9 +139,9 @@
       }
     };
     var specs=[
-      {depth:.10, op:.22, seed:3, col:"#9CB3A2"},
-      {depth:.25, op:.35, seed:11, col:"#6F8E7A"},
-      {depth:.45, op:.55, seed:29, col:"#3F6553"}
+      {depth:.10, op:.22, seed:3, col:"#9CCBB9"},
+      {depth:.25, op:.35, seed:11, col:"#4FA085"},
+      {depth:.45, op:.55, seed:29, col:"#0F7B5F"}
     ];
     var layers=[];
     var sun=d.createElement("div"); sun.className="sun"; scene.appendChild(sun);
@@ -177,7 +177,7 @@
         q.x+=q.vx+Math.sin(t/2200+q.p)*.00012; q.y+=q.vy;
         if(q.y<-.02){q.y=1.02;q.x=.45+R()*.55;}
         var a=.35+.35*Math.sin(t/900+q.p*3);
-        ctx.fillStyle="rgba(196,154,91,"+a.toFixed(3)+")";
+        ctx.fillStyle="rgba(245,183,46,"+a.toFixed(3)+")";
         ctx.beginPath();ctx.arc(q.x*cw,q.y*ch,q.s,0,6.283);ctx.fill();
       });
     };
@@ -198,7 +198,7 @@
     var lx=lc.getContext("2d"), lw=0, lh=0, LR=rnd(17), leaves=[];
     lsize=function(){lw=lc.clientWidth;lh=lc.clientHeight;lc.width=lw*dpr;lc.height=lh*dpr;lx.setTransform(dpr,0,0,dpr,0,0);};
     lsize();
-    var cols=["rgba(180,85,46,.28)","rgba(95,127,107,.3)","rgba(195,154,91,.32)"];
+    var cols=["rgba(242,105,75,.32)","rgba(15,123,95,.28)","rgba(245,183,46,.4)"];
     for(var l=0;l<20;l++) leaves.push({x:LR(),y:LR(),s:7+LR()*10,sp:.00035+LR()*.0005,p:LR()*6.28,rot:LR()*6.28,c:cols[l%3]});
     drawLeaves=function(t){
       lx.clearRect(0,0,lw,lh);
