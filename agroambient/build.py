@@ -121,7 +121,7 @@ def org_ld():
         "address": {"@type": "PostalAddress", "streetAddress": SITE["street"], "addressLocality": SITE["city"],
                     "addressRegion": SITE["region"], "postalCode": SITE["postal"], "addressCountry": "BR"},
         "geo": {"@type": "GeoCoordinates", "latitude": SITE["geo"][0], "longitude": SITE["geo"][1]},
-        "areaServed": [{"@type": "Country", "name": "Brasil"}, {"@type": "State", "name": "Minas Gerais"}],
+        "areaServed": [{"@type": "Country", "name": "Brasil"}, {"@type": "State", "name": "Goiás"}, {"@type": "State", "name": "Minas Gerais"}],
         "founder": {"@type": "Person", "name": SITE["founder"], "jobTitle": SITE["founder_title"]},
         "foundingDate": SITE["founded"],
         "taxID": SITE["cnpj"],
@@ -204,7 +204,7 @@ def footer():
   <div class="wrap">
     <div>
       <a class="brand" href="/" style="color:#F4F1E4">%s AgroAmbient</a>
-      <p style="margin-top:1rem;max-width:40ch">Assessoria agroambiental e estudos de fauna terrestre e aquática. Base no Alto Paranaíba e Triângulo Mineiro, atuação em todo o Brasil.</p>
+      <p style="margin-top:1rem;max-width:40ch">Assessoria agroambiental e estudos de fauna terrestre e aquática. Base em Catalão (GO), atuação em todo o Brasil.</p>
       <p style="margin-top:1rem"><a href="%s" target="_blank" rel="noopener">Facebook</a></p>
     </div>
     <div><h4>Serviços</h4><ul>%s<li><a href="/servicos/">Todos os serviços</a></li></ul></div>
@@ -254,8 +254,8 @@ def render(path, title, description, body, schema=(), og_type="website", noindex
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#13201A">
-<meta name="geo.region" content="BR-MG">
-<meta name="geo.placename" content="Rio Paranaíba">
+<meta name="geo.region" content="BR-GO">
+<meta name="geo.placename" content="Catalão">
 {verify}<link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/static/icon-192.png" sizes="192x192" type="image/png">
 <link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
@@ -451,7 +451,7 @@ def contact_block(heading="h2", title="Conte o que o seu empreendimento precisa.
     <p class="form-intro">%s</p>
     <div class="row2">
       <label for="f-nome">Seu nome<input id="f-nome" name="nome" autocomplete="name" required></label>
-      <label for="f-cidade">Cidade do empreendimento<input id="f-cidade" name="cidade" placeholder="Ex.: Patos de Minas, MG"></label>
+      <label for="f-cidade">Cidade do empreendimento<input id="f-cidade" name="cidade" placeholder="Ex.: Catalão, GO"></label>
     </div>
     <label for="f-assunto">Do que você precisa?<select id="f-assunto" name="assunto">%s</select></label>
     <label for="f-msg">Conte em poucas palavras <span style="font-weight:400;color:var(--muted)">(opcional)</span><textarea id="f-msg" name="mensagem" rows="3" placeholder="Tipo de empreendimento, o que o órgão pediu, prazo..."></textarea></label>
@@ -495,10 +495,10 @@ def page_home():
   <div class="wrap">
     <p class="eyebrow fade-in">Consultoria ambiental · Fauna terrestre e aquática</p>
     <h1 id="heroTitle">Preservação ambiental, <em>plante esta ideia.</em></h1>
-    <p class="lede fade-in" style="--d:.15s">Estudos de fauna, licenciamento e assessoria agroambiental em todo o Brasil, a partir do Alto Paranaíba, em Minas Gerais.</p>
+    <p class="lede fade-in" style="--d:.15s">Estudos de fauna, licenciamento e assessoria agroambiental em todo o Brasil, a partir de Catalão, em Goiás, na divisa com Minas Gerais.</p>
     <div class="ctas fade-in" style="--d:.3s">%s<a class="btn btn-ghost" href="/servicos/">Conhecer os serviços</a></div>
   </div>
-  <p class="coords" aria-hidden="true">RIO PARANAÍBA · MG<br>19°11′S 46°15′W</p>
+  <p class="coords" aria-hidden="true">CATALÃO · GO<br>18°10′S 47°57′W</p>
   <span class="scroll-hint" aria-hidden="true"></span>
 </section>
 
@@ -574,8 +574,8 @@ def page_home():
         e(SITE["founder"]), e(SITE["founder_title"]), partners_html(), areas_grid(), glossary(), river_block(), fauna_panel(), process_html(), gallery(),
         courses_cards() + '<p class="reveal" style="margin-top:2rem">%s</p>' % btn("/cursos-e-palestras/", "Ver cursos e palestras"),
         faq_html(faq_preview), "".join(post_card(p) for p in POSTS), contact_block())
-    render("/", "AgroAmbient | Consultoria ambiental e estudos de fauna em Minas Gerais",
-           "Estudos de fauna terrestre e aquática, licenciamento ambiental, outorga e assessoria agroambiental em todo o Brasil, a partir do Alto Paranaíba (MG).",
+    render("/", "AgroAmbient | Consultoria ambiental e estudos de fauna em Goiás, Minas e todo o Brasil",
+           "Estudos de fauna terrestre e aquática, licenciamento ambiental, outorga e assessoria agroambiental em todo o Brasil, a partir de Catalão (GO).",
            body)
 
 
@@ -597,7 +597,7 @@ def page_sobre():
       <h2 style="margin-top:0">Quem somos</h2>
       <p>Fundada em 2015, a AgroAmbient é especializada na execução de estudos e serviços ambientais voltados à fauna terrestre e aquática, e fornece assessoria ambiental e agrícola completa em todo o território nacional.</p>
       <p>Desenvolvemos soluções ambientais para empresas de consultoria e gestão ambiental e para os setores minerário, energético, agropecuário e industrial, com atendimento técnico em todas as etapas dos projetos, de forma eficiente, segura e alinhada às exigências legais.</p>
-      <p>Nossa sede fica em Rio Paranaíba, no Alto Paranaíba mineiro, uma região de forte produção agrícola e de Cerrado. Essa origem explica o jeito de trabalhar: entender a rotina de quem produz e encontrar o caminho para que a atividade cresça dentro da lei e com respeito ao ambiente.</p>
+      <p>Nossa sede fica em Catalão, no sudeste de Goiás, na divisa com Minas Gerais, uma região de forte produção agrícola, mineração e Cerrado. Essa origem explica o jeito de trabalhar: entender a rotina de quem produz e encontrar o caminho para que a atividade cresça dentro da lei e com respeito ao ambiente.</p>
       <p>Além dos estudos técnicos, a AgroAmbient ministra cursos e palestras para instruir a sociedade a respeito da preservação ambiental, aliada ao desenvolvimento econômico e sustentável.</p>
     </div>
     <div class="reveal">%s</div>
@@ -626,8 +626,8 @@ def page_sobre():
     <p class="reveal" style="margin-top:1.6rem">%s</p>
   </div>
   <div>
-    <div class="sec-head reveal"><p class="eyebrow">Onde atuamos</p><h2>Base em Minas Gerais, atuação em todo o Brasil.</h2>
-      <p>Atendemos com frequência o Alto Paranaíba, o Triângulo Mineiro e o noroeste de Minas, e deslocamos a equipe para projetos em qualquer estado.</p></div>
+    <div class="sec-head reveal"><p class="eyebrow">Onde atuamos</p><h2>Base em Goiás, atuação em todo o Brasil.</h2>
+      <p>De Catalão atendemos com frequência Goiás, o Triângulo Mineiro e o Alto Paranaíba, e deslocamos a equipe para projetos em qualquer estado.</p></div>
   </div>
 </div></section>
 %s""" % (photo("equipe", "Biólogo da AgroAmbient com puçá em levantamento de fauna no Cerrado", caption="Equipe em campo"), e(SITE["founder"]), e(SITE["founder_title"]),
@@ -850,7 +850,7 @@ def page_contato():
     body = hero_page("Fale com a AgroAmbient.", "Peça um orçamento, tire dúvidas sobre o licenciamento ou agende uma palestra.", cr, eyebrow="Contato", seed=31) + """
 <section class="sec"><div class="wrap">%s</div></section>""" % contact_block()
     render("/contato/", "Contato e orçamento",
-           "Solicite orçamento de estudos de fauna, licenciamento ambiental e outorga. WhatsApp (34) 99806-7566 e telefone (34) 3855-1197, Rio Paranaíba (MG).",
+           "Solicite orçamento de estudos de fauna, licenciamento ambiental e outorga. WhatsApp (34) 99806-7566 e telefone (34) 3855-1197. Sede em Catalão (GO).",
            body, schema=[{"@type": "ContactPage", "url": abs_url("/contato/"), "name": "Contato AgroAmbient", "about": {"@id": ORG_ID}}, crumbs_ld(cr)])
 
 
@@ -907,7 +907,7 @@ def write_seo_files():
     L = ["# AgroAmbient", "", "> %s" % SITE["description"], "",
          "- Empresa: %s" % SITE["legal_name"],
          "- Sede: %s, %s, %s/%s, Brasil" % (SITE["street"], SITE["city"], SITE["region"], SITE["postal"]),
-         "- Atuação: todo o território nacional, com base no Alto Paranaíba e Triângulo Mineiro (MG)",
+         "- Atuação: todo o território nacional, com base em Catalão (GO), na divisa com Minas Gerais",
          "- Telefone: %s" % SITE["phone"], "- WhatsApp: %s" % SITE["whatsapp"], "- E-mail: %s" % SITE["email"],
          "- Fundação: %s" % SITE["founded"], "- CNPJ: %s" % SITE["cnpj"], "- CTF/IBAMA: %s" % SITE["ctf"], "- Registro CRBio-04: %s" % SITE["crbio"],
          "- Direção técnica: %s, %s" % (SITE["founder"], SITE["founder_title"]),
