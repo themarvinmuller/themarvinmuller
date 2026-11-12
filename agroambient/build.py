@@ -421,7 +421,7 @@ ASSUNTOS = ["Estudos de fauna", "Licenciamento e assessoria", "Agro e produção
 
 def contact_block(heading="h2", title="Conte o que o seu empreendimento precisa."):
     opts = "".join('<option>%s</option>' % e(a) for a in ASSUNTOS)
-    wa = ('<a href="https://wa.me/%s" target="_blank" rel="noopener" data-track="whatsapp_click">WhatsApp</a>' % SITE["whatsapp_e164"]) if SITE["whatsapp_e164"] else \
+    wa = ('<a href="https://wa.me/%s" target="_blank" rel="noopener" data-track="whatsapp_click">%s</a>' % (SITE["whatsapp_e164"], SITE["whatsapp"])) if SITE["whatsapp_e164"] else \
         '<span class="tbd" title="O número no site antigo está incompleto">(34) 9 9155-548_</span> <span class="tbd-tag">número a confirmar</span>'
     insta = ('<a href="%s" target="_blank" rel="noopener">Instagram</a>' % SITE["instagram"]) if SITE["instagram"] else '<span class="tbd">Instagram</span> <span class="tbd-tag">@ a confirmar</span>'
     if SITE["whatsapp_e164"]:
@@ -810,7 +810,7 @@ def page_contato():
     body = hero_page("Fale com a AgroAmbient.", "Peça um orçamento, tire dúvidas sobre o licenciamento ou agende uma palestra.", cr, eyebrow="Contato", seed=31) + """
 <section class="sec"><div class="wrap">%s</div></section>""" % contact_block()
     render("/contato/", "Contato e orçamento",
-           "Solicite orçamento de estudos de fauna, licenciamento ambiental e outorga. Telefone (34) 3855-1197, Rio Paranaíba (MG).",
+           "Solicite orçamento de estudos de fauna, licenciamento ambiental e outorga. WhatsApp (34) 99806-7566 e telefone (34) 3855-1197, Rio Paranaíba (MG).",
            body, schema=[{"@type": "ContactPage", "url": abs_url("/contato/"), "name": "Contato AgroAmbient", "about": {"@id": ORG_ID}}, crumbs_ld(cr)])
 
 

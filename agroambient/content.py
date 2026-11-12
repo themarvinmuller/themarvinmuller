@@ -21,7 +21,8 @@ SITE = {
     "description": "Consultoria ambiental especializada em estudos de fauna terrestre e aquática, licenciamento ambiental e assessoria agroambiental. Base em Rio Paranaíba (MG), atuação em todo o Brasil.",
     "phone": "(34) 3855-1197",
     "phone_e164": "+553438551197",
-    "whatsapp_e164": "",  # ex.: "5534991555480" (o número no site antigo está incompleto)
+    "whatsapp_e164": "5534998067566",
+    "whatsapp": "(34) 99806-7566",
     "email": "agroambient@gmail.com",
     "street": "Rua Joaquim Lopes da Silva, 291",
     "city": "Rio Paranaíba",
@@ -427,7 +428,7 @@ FAQ = [
     ("Orçamento e prazos", [
         ("Quanto custa um estudo ambiental?", "O valor depende do tipo de estudo, da área, dos grupos de fauna, do número de campanhas e da distância. Enviamos uma proposta depois de entender o empreendimento."),
         ("Quanto tempo leva?", "Estudos de campo seguem o calendário de campanhas pedido pelo órgão, muitas vezes cobrindo seca e chuva. Documentos sem campo costumam ser mais rápidos. O prazo vai detalhado na proposta."),
-        ("Como peço um orçamento?", "Pelo formulário da página de contato ou pelo telefone (34) 3855-1197. Conte o tipo de empreendimento, a cidade e o que o órgão pediu."),
+        ("Como peço um orçamento?", "Pelo formulário da página de contato, que abre o WhatsApp (34) 99806-7566 com a mensagem pronta, ou pelo telefone (34) 3855-1197. Conte o tipo de empreendimento, a cidade e o que o órgão pediu."),
     ]),
 ]
 
