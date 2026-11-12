@@ -48,7 +48,7 @@ Preencha em `content.py`:
 - Conversão do Ads: com `ads` e `ads_lead_label`, o envio do formulário dispara a conversão de lead. No GA4, marque `generate_lead` como evento-chave.
 
 ## Formulário
-Hoje o envio abre o aplicativo de e-mail do visitante com a mensagem pronta para `agroambient@gmail.com`. Para receber direto, ligar a um serviço de formulários (Formspree, Resend etc.) em `assets/site.js`.
+Formulário curto (nome, cidade, assunto, mensagem opcional). Ao enviar, abre o WhatsApp da empresa com a mensagem pronta e dispara o evento `generate_lead` (e a conversão do Ads). O número vem de `whatsapp_e164` em `content.py` (só dígitos, com 55 e DDD). Enquanto estiver vazio, o envio cai no e-mail `agroambient@gmail.com`.
 
 ## Pendências (marcadas no site como "a confirmar")
 - WhatsApp completo (`whatsapp_e164`), @ do Instagram, ano de fundação, CNPJ, CTF/IBAMA.

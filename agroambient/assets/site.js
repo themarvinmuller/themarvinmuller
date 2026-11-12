@@ -95,16 +95,25 @@
     var msg=$("formMsg");
     form.addEventListener("submit",function(e){
       e.preventDefault();
-      var nome=$("f-nome"), email=$("f-email");
+      var nome=$("f-nome");
       if(!nome.value.trim()){msg.textContent="Preencha seu nome para continuar.";nome.focus();return;}
-      if(!email.value.trim()||!email.checkValidity()){msg.textContent="Informe um e-mail válido para receber a resposta.";email.focus();return;}
-      var to=form.dataset.email||"agroambient@gmail.com";
-      var fields=[["Nome",nome.value],["Empresa",$("f-empresa").value],["E-mail",email.value],["Telefone",$("f-tel").value],["Assunto",sel.value],["Cidade/UF",$("f-cidade").value],["","" ],["Mensagem",$("f-msg").value]];
-      var body=fields.map(function(f){return f[0]?f[0]+": "+f[1]:"";}).join("\n");
-      // TODO: trocar por um serviço de envio (Formspree, Resend etc.) para receber sem depender do e-mail do visitante.
+      var cidade=$("f-cidade").value.trim(), texto=$("f-msg").value.trim();
+      var lines=["Olá, AgroAmbient! Vim pelo site.","","*Nome:* "+nome.value.trim(),"*Assunto:* "+sel.value];
+      if(cidade) lines.push("*Cidade:* "+cidade);
+      if(texto) lines.push("","*Mensagem:* "+texto);
+      var body=lines.join("\n"), wa=form.dataset.wa;
       window.agroTrack && window.agroTrack.lead(sel.value);
-      location.href="mailto:"+to+"?subject="+encodeURIComponent("Pedido pelo site: "+sel.value)+"&body="+encodeURIComponent(body);
-      msg.textContent="Abrimos seu aplicativo de e-mail com a mensagem pronta. Se ele não abrir, escreva para "+to+".";
+      if(wa){
+        var url="https://wa.me/"+wa+"?text="+encodeURIComponent(body);
+        var w=window.open(url,"_blank","noopener");
+        if(!w) location.href=url;
+        msg.textContent="Abrimos o WhatsApp com a sua mensagem. É só tocar em enviar.";
+      }else{
+        // Sem número de WhatsApp configurado (content.py → whatsapp_e164): cai no e-mail.
+        var to=form.dataset.email||"agroambient@gmail.com";
+        location.href="mailto:"+to+"?subject="+encodeURIComponent("Pedido pelo site: "+sel.value)+"&body="+encodeURIComponent(body.replace(/\*/g,""));
+        msg.textContent="Abrimos seu aplicativo de e-mail com a mensagem pronta. Se ele não abrir, escreva para "+to+".";
+      }
     });
   }
   var y=$("year"); if(y) y.textContent=new Date().getFullYear();
