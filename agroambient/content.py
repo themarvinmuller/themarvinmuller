@@ -477,8 +477,6 @@ SERVICES = [
         "when": [
             "Regularização ambiental da propriedade.",
             "Projetos de irrigação que precisam de outorga e licença.",
-            "Projetos de piscicultura " + "[[a confirmar]]" + ".",
-            "Sistemas agroflorestais " + "[[a confirmar]]" + ".",
         ],
         "how": [
             ("Visita técnica", "Diagnóstico da propriedade e das pendências."),

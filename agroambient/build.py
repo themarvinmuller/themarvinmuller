@@ -430,8 +430,8 @@ ASSUNTOS = ["Estudos de fauna", "Licenciamento e assessoria", "Agro e produção
 def contact_block(heading="h2", title="Conte o que o seu empreendimento precisa."):
     opts = "".join('<option>%s</option>' % e(a) for a in ASSUNTOS)
     wa = ('<a href="https://wa.me/%s" target="_blank" rel="noopener" data-track="whatsapp_click">%s</a>' % (SITE["whatsapp_e164"], SITE["whatsapp"])) if SITE["whatsapp_e164"] else \
-        '<span class="tbd" title="O número no site antigo está incompleto">(34) 9 9155-548_</span> <span class="tbd-tag">número a confirmar</span>'
-    insta = ('<a href="%s" target="_blank" rel="noopener">Instagram</a>' % SITE["instagram"]) if SITE["instagram"] else '<span class="tbd">Instagram</span> <span class="tbd-tag">@ a confirmar</span>'
+        ""
+    insta = (' · <a href="%s" target="_blank" rel="noopener">Instagram</a>' % SITE["instagram"]) if SITE["instagram"] else ""
     if SITE["whatsapp_e164"]:
         intro, btn = "Preencha em 30 segundos. Ao enviar, o WhatsApp abre com a mensagem pronta para a nossa equipe.", "Enviar pelo WhatsApp"
     else:
@@ -444,7 +444,7 @@ def contact_block(heading="h2", title="Conte o que o seu empreendimento precisa.
       <div><dt>WhatsApp</dt><dd>%s</dd></div>
       <div><dt>E-mail</dt><dd><span id="mail">%s</span><button class="copy" type="button" data-copy="mail" data-track="copy_email">copiar</button></dd></div>
       <div><dt>Endereço</dt><dd>%s<br>%s, %s · %s<br><a href="%s" target="_blank" rel="noopener" style="font-size:.92rem;font-weight:500">Ver no Google Maps</a></dd></div>
-      <div><dt>Redes</dt><dd><a href="%s" target="_blank" rel="noopener">Facebook</a> · %s</dd></div>
+      <div><dt>Redes</dt><dd><a href="%s" target="_blank" rel="noopener">Facebook</a>%s</dd></div>
     </dl>
   </div>
   <form id="form" class="reveal" style="--d:.1s" novalidate data-wa="%s" data-email="%s" aria-label="Pedido de orçamento pelo WhatsApp">
@@ -584,7 +584,7 @@ def courses_cards():
              ("Curso", "Manejo e resgate de fauna", "Boas práticas para equipes que atuam em obras, supressão de vegetação e reservatórios."),
              ("Programa", "Educação ambiental nas escolas", "Atividades adaptadas por idade, com saídas de campo e material de apoio.")]
     cards = "".join('<article class="course reveal" style="--d:%.2fs"><p class="eyebrow">%s</p><h3>%s</h3><p>%s</p></article>' % (i * .08, e(a), e(b), e(c)) for i, (a, b, c) in enumerate(items))
-    return '<div class="course-grid">%s</div><p class="reveal" style="margin-top:1.6rem;color:rgba(244,241,228,.6);font-size:.9rem">Temas de exemplo <span class="tbd-tag">confirmar agenda e temas reais</span></p>' % cards
+    return '<div class="course-grid">%s</div><p class="reveal" style="margin-top:1.6rem;color:rgba(244,241,228,.6);font-size:.9rem">Temas e formatos ajustados ao público de cada instituição.</p>' % cards
 
 
 def page_sobre():
@@ -739,7 +739,7 @@ def page_cursos():
       <li>Comunidades do entorno de empreendimentos.</li>
       <li>Eventos, feiras e semanas do meio ambiente.</li>
     </ul>
-    <p>Quer saber sobre agenda e valores? <a href="/contato/?assunto=Cursos%%20e%%20palestras">Fale com a gente</a>. <span class="tbd-tag">publicar agenda real</span></p>
+    <p>Quer saber sobre agenda e valores? <a href="/contato/?assunto=Cursos%%20e%%20palestras">Fale com a gente</a>.</p>
   </div>
   <div class="reveal">%s</div>
 </div></section>
