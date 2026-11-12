@@ -29,7 +29,12 @@ SITE = {
     "region": "MG",
     "postal": "38810-000",
     "geo": (-19.1936, -46.2475),
-    "founded": "2014",  # a confirmar
+    "founded": "2015",
+    "cnpj": "21.630.431/0001-01",
+    "ctf": "7856773",          # Cadastro Técnico Federal do IBAMA
+    "crbio": "000944-04/2021", # registro da empresa no CRBio-04
+    "founder_title": "Biólogo, mestre e especialista em Zoologia com ênfase em ictiofauna",
+    "portfolio_pdf": "/static/portfolio-agroambient-estudos-de-fauna.pdf",
     "facebook": "https://www.facebook.com/AgroAmbient",
     "instagram": "",  # a confirmar
     "founder": "Willian Lopes Silva",
@@ -41,18 +46,36 @@ SITE = {
 }
 
 WIX = "https://static.wixstatic.com/media/"
+F = "/static/fotos/"
+# Fotos do portfólio da AgroAmbient (static/fotos). As do Wix ficam só onde o portfólio não tem foto equivalente.
 PHOTOS = {
-    "equipe": WIX + "57a0dc_0d54e57c6aa14aa9a60cecc9803a0de9~mv2_d_4608_3456_s_4_2.jpg",
+    "equipe": F + "pesquisador-campo.jpg",
+    "monitoramento": F + "armadilha-fotografica.jpg",
+    "inventario": F + "tamandua-bandeira.jpg",
+    "resgate": F + "tamandua-mirim.jpg",
+    "ictio": F + "caiaque-reservatorio.jpg",
+    "biota": F + "biota-aquatica.jpg",
+    "rio": F + "rio-cerrado.jpg",
+    "cascavel": F + "cascavel.jpg",
+    "eia": F + "eia-rima-campo.jpg",
+    "macrofitas": F + "macrofitas.jpg",
+    "drone": F + "drone.jpg",
+    "necropsia": F + "necropsia-peixes.jpg",
+    "amostras": F + "amostras-laboratorio.jpg",
+    "manejo": F + "manejo-fauna.jpg",
+    "educacao": F + "palestra.jpg",
+    "cursos": F + "palestra.jpg",
     "viveiro": WIX + "57a0dc_4b4271099d1f4ad8ad1c32b2cc58fc14.jpg",
-    "campo": WIX + "57a0dc_8ff4eb9548e74ead9b710b7afa8eb4e1~mv2.jpg",
-    "monitoramento": WIX + "57a0dc_3d219359292749548eaedb42d15e57b3~mv2.jpg",
-    "ictio": WIX + "57a0dc_af13d31c5c7e45e09cc3025a239a6521~mv2.jpg",
-    "resgate": WIX + "57a0dc_c2759609d14544288fbe21ff7ddbb952~mv2.jpg",
-    "educacao": WIX + "57a0dc_4e9375f96c3f451caf7270611a41d97d.jpg",
     "licenciamento": WIX + "57a0dc_ceb6e89f9adb4707a177bebdee4a3c93.jpg",
-    "cursos": WIX + "57a0dc_be1ba0d4858f4a8c9ba26db18675cc2f.jpg",
     "campo2": WIX + "57a0dc_8ec79b557e4242ab8d326700e71c3d93~mv2.jpg",
 }
+
+# Clientes e parceiros (do portfólio)
+PARTNERS = ["Mosaic Fertilizantes", "IBAR", "Serra Mar Ambiental", "RHI Magnesita", "Água e Terra Análise Ambiental",
+            "Verde Cerrado Consultoria", "EuroChem Fertilizantes Tocantins", "Viver Minas Mineração", "Bio Golden Consultoria Ambiental e Mineral"]
+SECTORS = ["Mineração", "Energia", "Agropecuária", "Indústria", "Consultorias e gestão ambiental"]
+DIFERENCIAIS = ["Atuação em todo o território nacional", "Alto padrão técnico e científico", "Atendimento personalizado",
+                "Cumprimento de prazos", "Equipe qualificada e equipada", "Todos os grupos animais"]
 
 AREAS = [
     ("fauna", "Estudos de fauna", "Levantamentos de fauna terrestre e aquática para licenciamento, condicionantes e obras."),
@@ -95,7 +118,7 @@ SERVICES = [
         "related": ["inventario-de-fauna", "resgate-de-fauna", "licenciamento-ambiental"],
     },
     {
-        "slug": "inventario-de-fauna", "area": "fauna", "hero": "cerrado", "photo": "campo",
+        "slug": "inventario-de-fauna", "area": "fauna", "hero": "cerrado", "photo": "inventario",
         "name": "Inventariamento de fauna",
         "title": "Inventário de fauna (levantamento de fauna)",
         "short": "Levantamento das espécies de mamíferos, aves, répteis, anfíbios e peixes da área do empreendimento.",
@@ -181,7 +204,7 @@ SERVICES = [
         "related": ["transposicao-de-peixes", "resgate-de-fauna", "outorga-de-agua"],
     },
     {
-        "slug": "transposicao-de-peixes", "area": "fauna", "hero": "river", "photo": "ictio",
+        "slug": "transposicao-de-peixes", "area": "fauna", "hero": "river", "photo": "biota",
         "name": "Transposição de peixes",
         "title": "Transposição de peixes em barragens e reservatórios",
         "short": "Planejamento e execução de operações que ajudam os peixes a vencer barramentos e manter seus deslocamentos.",
@@ -207,6 +230,56 @@ SERVICES = [
             ("Toda barragem precisa de transposição de peixes?", "Não necessariamente. A exigência depende do licenciamento, das espécies presentes e da legislação aplicável a cada caso."),
         ],
         "related": ["estudos-ictiologicos", "resgate-de-fauna", "monitoramento-de-fauna"],
+    },
+    {
+        "slug": "biota-aquatica-e-ictioplancton", "area": "fauna", "hero": "river", "photo": "biota",
+        "name": "Biota aquática e ictioplâncton",
+        "title": "Inventário e monitoramento de biota aquática e ictioplâncton",
+        "short": "Coleta e análise de comunidades aquáticas, ovos e larvas de peixes em rios e reservatórios.",
+        "summary": "Inventariamos e monitoramos a biota aquática (plâncton, macroinvertebrados bentônicos e outras comunidades) e o ictioplâncton, que são os ovos e as larvas de peixes. Esses dados mostram a qualidade ambiental do corpo d'água e onde e quando os peixes se reproduzem.",
+        "intro": [
+            "A biota aquática responde rápido a mudanças na água, por isso é usada como indicadora nos estudos de barragens, captações, mineração e efluentes.",
+            "O ictioplâncton indica áreas e períodos de desova. É informação central para hidrelétricas, sistemas de transposição e planos de conservação de peixes migradores.",
+        ],
+        "when": [
+            "Licenciamento ou condicionante de barragem, PCH ou reservatório.",
+            "Programas de monitoramento da qualidade da água com bioindicadores.",
+            "Avaliação de áreas de desova e de rotas de peixes migradores.",
+        ],
+        "how": [
+            ("Plano amostral", "Pontos, períodos e métodos de coleta definidos com base no termo de referência."),
+            ("Coleta", "Redes de plâncton, amostradores de fundo e coletas noturnas de ictioplâncton, com registro georreferenciado."),
+            ("Triagem e identificação", "Separação e identificação em laboratório por especialistas."),
+            ("Análise e relatório", "Índices ecológicos, comparação entre campanhas e relatório no formato do órgão."),
+        ],
+        "deliverables": ["Relatório técnico por campanha", "Banco de dados das coletas", "Mapas dos pontos amostrais", "Responsável técnico"],
+        "faq": [
+            ("O que é ictioplâncton?", "São os ovos e as larvas de peixes que ficam à deriva na água. Estudá-lo mostra onde e quando os peixes se reproduzem."),
+        ],
+        "related": ["estudos-ictiologicos", "transposicao-de-peixes", "manejo-de-macrofitas"],
+    },
+    {
+        "slug": "laudos-periciais-e-necropsia", "area": "fauna", "hero": "river", "photo": "necropsia",
+        "name": "Laudos periciais e necropsia",
+        "title": "Laudos periciais ambientais e necropsia de peixes e outros animais",
+        "short": "Laudos técnicos para mortandade de peixes, perícias ambientais e investigação da causa da morte de animais.",
+        "summary": "Elaboramos laudos periciais ambientais e laudos de necropsia (autópsia) de peixes e outros animais. Eles ajudam a esclarecer a causa de mortandades e a embasar defesas, processos e respostas ao órgão ambiental.",
+        "intro": [
+            "Quando há mortandade de peixes ou de outros animais, a resposta rápida faz diferença: a coleta e a conservação das amostras precisam começar cedo para que o laudo seja conclusivo.",
+        ],
+        "when": [
+            "Mortandade de peixes em rios, lagos, tanques ou reservatórios.",
+            "Processos judiciais ou administrativos que pedem perícia ambiental.",
+            "Investigação de causa de morte de animais silvestres ou de criação.",
+        ],
+        "how": [
+            ("Atendimento à ocorrência", "Vistoria do local, registro fotográfico e coleta de amostras."),
+            ("Necropsia e análises", "Exame dos animais em laboratório e, quando necessário, análises complementares."),
+            ("Laudo", "Conclusões técnicas fundamentadas, com responsável técnico."),
+        ],
+        "deliverables": ["Laudo pericial ou de necropsia", "Registro fotográfico", "Cadeia de custódia das amostras", "Responsável técnico"],
+        "faq": [],
+        "related": ["estudos-ictiologicos", "biota-aquatica-e-ictioplancton", "diagnostico-ambiental"],
     },
     {
         "slug": "licenciamento-ambiental", "area": "licenciamento", "hero": "cerrado", "photo": "licenciamento",
@@ -267,7 +340,7 @@ SERVICES = [
         "related": ["licenciamento-ambiental", "estudos-ictiologicos", "assessoria-agricola"],
     },
     {
-        "slug": "diagnostico-ambiental", "area": "licenciamento", "hero": "cerrado", "photo": "campo",
+        "slug": "diagnostico-ambiental", "area": "licenciamento", "hero": "cerrado", "photo": "rio",
         "name": "Diagnóstico ambiental",
         "title": "Diagnóstico ambiental de áreas e propriedades",
         "short": "Retrato técnico do meio físico e biótico de uma área, para licenciamento, compra de terras ou planejamento.",
@@ -291,7 +364,7 @@ SERVICES = [
         "related": ["inventario-de-fauna", "licenciamento-ambiental", "planos-de-manejo"],
     },
     {
-        "slug": "planos-de-manejo", "area": "licenciamento", "hero": "cerrado", "photo": "viveiro",
+        "slug": "planos-de-manejo", "area": "licenciamento", "hero": "cerrado", "photo": "cascavel",
         "name": "Planos de manejo",
         "title": "Planos de manejo e programas ambientais",
         "short": "Planejamento do uso e da conservação de áreas naturais, reservas e unidades de conservação.",
@@ -314,16 +387,19 @@ SERVICES = [
         "related": ["diagnostico-ambiental", "estudos-tecnicos", "educacao-ambiental"],
     },
     {
-        "slug": "estudos-tecnicos", "area": "licenciamento", "hero": "cerrado", "photo": "licenciamento",
-        "name": "EIA, PRAD, PTRF e PAE",
-        "title": "Estudos técnicos: EIA/RIMA, PRAD, PTRF e PAE",
+        "slug": "estudos-tecnicos", "area": "licenciamento", "hero": "cerrado", "photo": "eia",
+        "name": "EIA/RIMA, PCA, RAP e outros estudos",
+        "title": "Estudos técnicos: EIA/RIMA, PCA, RAP, EVA, PRAD, PTRF e PAE",
         "short": "Elaboração dos estudos e planos técnicos pedidos no licenciamento e na recuperação de áreas.",
-        "summary": "Elaboramos os principais estudos exigidos pelos órgãos ambientais: EIA/RIMA para empreendimentos de impacto significativo, PRAD para recuperar áreas degradadas, PTRF para recompor a vegetação e PAE para situações de emergência.",
+        "summary": "Elaboramos os principais estudos exigidos pelos órgãos ambientais: EIA/RIMA para empreendimentos de impacto significativo, PCA e RAP no licenciamento, EVA para avaliar a viabilidade ambiental, PRAD e PTRF para recuperar áreas e vegetação e PAE para situações de emergência.",
         "intro": [
             "Cada sigla corresponde a um documento com finalidade própria. A tabela abaixo resume quando cada um costuma ser pedido.",
         ],
         "table": [
             ("EIA/RIMA", "Estudo de Impacto Ambiental e Relatório de Impacto Ambiental", "Empreendimentos com potencial de impacto significativo (Resolução CONAMA nº 001/1986)."),
+            ("PCA", "Plano de Controle Ambiental", "Medidas e programas para controlar os impactos do empreendimento, comum na licença de instalação."),
+            ("RAP", "Relatório Ambiental Preliminar", "Estudo simplificado pedido em alguns licenciamentos para atividades de menor impacto."),
+            ("EVA", "Estudo de Viabilidade Ambiental", "Avaliação inicial das restrições e dos riscos ambientais antes de decidir pelo projeto ou pelo local."),
             ("PRAD", "Plano de Recuperação de Áreas Degradadas", "Recuperação de áreas alteradas por obra, mineração ou uso agrícola."),
             ("PTRF", "Projeto Técnico de Reconstituição da Flora", "Recomposição de vegetação nativa, compensações e APPs."),
             ("PAE", "Plano de Ação de Emergência", "Barragens e reservatórios, com ações para emergências."),
@@ -342,6 +418,52 @@ SERVICES = [
         "deliverables": ["Estudo completo no formato do órgão", "Mapas e anexos", "Responsável técnico"],
         "faq": [],
         "related": ["licenciamento-ambiental", "planos-de-manejo", "diagnostico-ambiental"],
+    },
+    {
+        "slug": "manejo-de-macrofitas", "area": "licenciamento", "hero": "river", "photo": "macrofitas",
+        "name": "Manejo de macrófitas",
+        "title": "Manejo de macrófitas aquáticas em reservatórios",
+        "short": "Diagnóstico e controle de plantas aquáticas que tomam reservatórios, lagos e canais.",
+        "summary": "Macrófitas são plantas aquáticas que, em excesso, cobrem a superfície de reservatórios, prejudicam a qualidade da água, a geração de energia, a captação e o uso múltiplo. Fazemos o diagnóstico das espécies e da área afetada e o plano de manejo para controlá-las.",
+        "intro": [
+            "O crescimento descontrolado costuma estar ligado ao excesso de nutrientes na água. Por isso o manejo combina a retirada das plantas com o entendimento da causa.",
+        ],
+        "when": [
+            "Reservatórios de hidrelétricas, irrigação ou abastecimento com infestação de plantas aquáticas.",
+            "Condicionante de licença que pede monitoramento ou controle de macrófitas.",
+            "Problemas em tomadas d'água, bombas ou navegação.",
+        ],
+        "how": [
+            ("Diagnóstico", "Identificação das espécies, mapeamento da área coberta e avaliação da causa."),
+            ("Plano de manejo", "Métodos de controle adequados ao local e ao uso da água."),
+            ("Acompanhamento", "Monitoramento da área e dos resultados ao longo do tempo."),
+        ],
+        "deliverables": ["Diagnóstico das macrófitas", "Plano de manejo", "Mapas da infestação", "Relatórios de monitoramento"],
+        "faq": [],
+        "related": ["biota-aquatica-e-ictioplancton", "mapeamento-com-drone", "diagnostico-ambiental"],
+    },
+    {
+        "slug": "mapeamento-com-drone", "area": "licenciamento", "hero": "cerrado", "photo": "drone",
+        "name": "Mapeamento com drone",
+        "title": "Aeromapeamento e avaliação ambiental com drone",
+        "short": "Imagens aéreas e mapas atualizados para diagnósticos, licenciamento e monitoramento.",
+        "summary": "Usamos drones para mapear áreas de estudo, gerar ortofotos atualizadas e acompanhar mudanças no uso do solo, na vegetação, em margens de reservatórios e em áreas em recuperação.",
+        "intro": [
+            "O drone dá uma visão atual e detalhada da área, mais precisa que imagens de satélite antigas, e ajuda a planejar campanhas de campo e a documentar resultados.",
+        ],
+        "when": [
+            "Diagnóstico ambiental e mapeamento de uso do solo.",
+            "Acompanhamento de áreas em recuperação, supressão ou obras.",
+            "Mapeamento de macrófitas, margens e áreas de difícil acesso.",
+        ],
+        "how": [
+            ("Planejamento de voo", "Área, resolução e período do levantamento."),
+            ("Voo e processamento", "Captura das imagens e geração de ortofotos e mapas."),
+            ("Análise", "Interpretação das imagens e integração ao estudo ambiental."),
+        ],
+        "deliverables": ["Ortofoto da área", "Mapas temáticos", "Relatório de análise"],
+        "faq": [],
+        "related": ["diagnostico-ambiental", "manejo-de-macrofitas", "estudos-tecnicos"],
     },
     {
         "slug": "assessoria-agricola", "area": "agro", "hero": "cerrado", "photo": "viveiro",
@@ -397,11 +519,13 @@ SERVICES = [
 # ---------------------------------------------------------------------------
 GLOSS = [
     ["EIA/RIMA", "Estudo de Impacto Ambiental e Relatório de Impacto Ambiental", "Exigido para empreendimentos com potencial de causar impacto significativo. Reúne diagnóstico do meio físico, biótico e socioeconômico, inclusive levantamento de fauna.", "/servicos/estudos-tecnicos/"],
+    ["PCA", "Plano de Controle Ambiental", "Conjunto de medidas e programas para controlar os impactos do empreendimento, comum na licença de instalação.", "/servicos/estudos-tecnicos/"],
+    ["RAP", "Relatório Ambiental Preliminar", "Estudo simplificado pedido em alguns licenciamentos para atividades de menor impacto.", "/servicos/estudos-tecnicos/"],
     ["PRAD", "Plano de Recuperação de Áreas Degradadas", "Define como uma área alterada por obra, mineração ou atividade agrícola volta a ter cobertura e funções ecológicas.", "/servicos/estudos-tecnicos/"],
     ["PTRF", "Projeto Técnico de Reconstituição da Flora", "Projeto de recomposição da vegetação nativa, comum em compensações e em Áreas de Preservação Permanente.", "/servicos/estudos-tecnicos/"],
     ["PAE", "Plano de Ação de Emergência", "Procedimentos para situações de emergência, como em barragens e reservatórios, incluindo ações com a fauna afetada.", "/servicos/estudos-tecnicos/"],
     ["Outorga", "Outorga de direito de uso de recursos hídricos", "Autorização para captar água ou intervir em cursos d'água. Em Minas Gerais, é analisada pelo IGAM.", "/servicos/outorga-de-agua/"],
-    ["CTF", "Cadastro Técnico Federal do IBAMA", "Registro obrigatório para pessoas e empresas que exercem atividades potencialmente poluidoras ou de defesa ambiental.", ""],
+    ["CTF", "Cadastro Técnico Federal do IBAMA", "Registro obrigatório para pessoas e empresas que exercem atividades potencialmente poluidoras ou de defesa ambiental. A AgroAmbient é certificada (CTF 7856773).", "/sobre/"],
     ["AAF", "Autorização Ambiental de Funcionamento", "Antiga modalidade de regularização simplificada em Minas Gerais, hoje substituída pelo Licenciamento Ambiental Simplificado (LAS).", "/servicos/licenciamento-ambiental/"],
 ]
 
@@ -412,13 +536,17 @@ FAQ = [
     ("Sobre a AgroAmbient", [
         ("O que a AgroAmbient faz?", "A AgroAmbient é uma consultoria ambiental especializada em estudos de fauna terrestre e aquática. Também faz licenciamento ambiental, outorga de água, diagnósticos, planos de manejo, assessoria agrícola, educação ambiental, cursos e palestras."),
         ("Onde a AgroAmbient atende?", "A sede fica em Rio Paranaíba, no Alto Paranaíba (MG), e a empresa atende em todo o território nacional, com equipe que se desloca até o empreendimento."),
-        ("Desde quando a empresa atua?", "A AgroAmbient atua com consultoria ambiental desde " + "[[2014, a confirmar]]" + ", com foco em trabalhos com fauna."),
+        ("Desde quando a empresa atua?", "A AgroAmbient foi fundada em 2015 e atua com estudos e serviços ambientais voltados à fauna terrestre e aquática."),
+        ("A AgroAmbient é registrada nos órgãos competentes?", "Sim. A empresa tem CNPJ 21.630.431/0001-01, é certificada no Cadastro Técnico Federal do IBAMA (CTF 7856773) e registrada no Conselho Regional de Biologia (CRBio-04 000944-04/2021)."),
+        ("Quem é o responsável técnico?", "A direção técnica é do biólogo Willian Lopes Silva, mestre e especialista em Zoologia com ênfase em ictiofauna, com equipe multidisciplinar de biólogos especialistas nas diversas áreas da zoologia e da gestão ambiental."),
+        ("Para quais setores a AgroAmbient trabalha?", "Para empresas de consultoria e gestão ambiental e para os setores minerário, energético, agropecuário e industrial."),
     ]),
     ("Estudos de fauna", [
         ("Qual a diferença entre inventário e monitoramento de fauna?", "O inventário levanta as espécies que existem na área em um momento. O monitoramento repete o levantamento ao longo do tempo, com os mesmos métodos, para medir mudanças e avaliar impactos do empreendimento."),
         ("Preciso de autorização para capturar fauna no estudo?", "Sim. Estudos que envolvem captura, coleta ou transporte de animais silvestres dependem de autorização do órgão ambiental competente. A AgroAmbient prepara e solicita essa autorização."),
         ("Quando o resgate de fauna é exigido?", "Normalmente quando há supressão de vegetação, obras ou enchimento de reservatórios que podem atingir animais silvestres, conforme a licença ou a autorização emitida."),
-        ("Vocês trabalham com peixes?", "Sim. Fazemos estudos ictiológicos, resgate de ictiofauna e transposição de peixes, com especialistas em ecologia e taxonomia."),
+        ("Vocês trabalham com peixes?", "Sim. Fazemos estudos ictiológicos, inventário e monitoramento de biota aquática e de ictioplâncton, resgate de ictiofauna, transposição de peixes e laudos de necropsia de peixes. A direção técnica é especializada em ictiofauna."),
+        ("Vocês fazem laudos periciais?", "Sim. Elaboramos laudos periciais ambientais e laudos de necropsia de peixes e outros animais, por exemplo em casos de mortandade."),
     ]),
     ("Licenciamento e documentos", [
         ("Como sei se meu empreendimento precisa de licença ambiental?", "Depende da atividade, do porte e da localização. Em Minas Gerais, o enquadramento segue a Deliberação Normativa COPAM nº 217/2017. Fazemos essa análise no primeiro contato."),
