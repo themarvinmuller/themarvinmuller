@@ -5,33 +5,105 @@
   "cleanUrls": true,
   "trailingSlash": true,
   "redirects": [
-    { "source": "/a-empresa", "destination": "/sobre/", "statusCode": 301 },
-    { "source": "/assessoria-ambiental", "destination": "/servicos/licenciamento-ambiental/", "statusCode": 301 },
-    { "source": "/portfolio", "destination": "/projetos/", "statusCode": 301 },
-    { "source": "/fale-conocsco", "destination": "/contato/", "statusCode": 301 },
-    { "source": "/fale-conosco", "destination": "/contato/", "statusCode": 301 }
+    {
+      "source": "/a-empresa",
+      "destination": "/sobre/",
+      "statusCode": 301
+    },
+    {
+      "source": "/a-empresa/",
+      "destination": "/sobre/",
+      "statusCode": 301
+    },
+    {
+      "source": "/assessoria-ambiental",
+      "destination": "/servicos/licenciamento-ambiental/",
+      "statusCode": 301
+    },
+    {
+      "source": "/assessoria-ambiental/",
+      "destination": "/servicos/licenciamento-ambiental/",
+      "statusCode": 301
+    },
+    {
+      "source": "/portfolio",
+      "destination": "/projetos/",
+      "statusCode": 301
+    },
+    {
+      "source": "/portfolio/",
+      "destination": "/projetos/",
+      "statusCode": 301
+    },
+    {
+      "source": "/fale-conocsco",
+      "destination": "/contato/",
+      "statusCode": 301
+    },
+    {
+      "source": "/fale-conocsco/",
+      "destination": "/contato/",
+      "statusCode": 301
+    },
+    {
+      "source": "/fale-conosco",
+      "destination": "/contato/",
+      "statusCode": 301
+    },
+    {
+      "source": "/fale-conosco/",
+      "destination": "/contato/",
+      "statusCode": 301
+    }
   ],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
       ]
     },
     {
       "source": "/assets/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     },
     {
       "source": "/static/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800"
+        }
+      ]
     },
     {
       "source": "/(llms.txt|llms-full.txt)",
-      "headers": [{ "key": "Content-Type", "value": "text/plain; charset=utf-8" }]
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=utf-8"
+        }
+      ]
     }
   ]
 }
