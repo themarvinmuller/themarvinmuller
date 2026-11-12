@@ -424,6 +424,10 @@ def contact_block(heading="h2", title="Conte o que o seu empreendimento precisa.
     wa = ('<a href="https://wa.me/%s" target="_blank" rel="noopener" data-track="whatsapp_click">WhatsApp</a>' % SITE["whatsapp_e164"]) if SITE["whatsapp_e164"] else \
         '<span class="tbd" title="O número no site antigo está incompleto">(34) 9 9155-548_</span> <span class="tbd-tag">número a confirmar</span>'
     insta = ('<a href="%s" target="_blank" rel="noopener">Instagram</a>' % SITE["instagram"]) if SITE["instagram"] else '<span class="tbd">Instagram</span> <span class="tbd-tag">@ a confirmar</span>'
+    if SITE["whatsapp_e164"]:
+        intro, btn = "Preencha em 30 segundos. Ao enviar, o WhatsApp abre com a mensagem pronta para a nossa equipe.", "Enviar pelo WhatsApp"
+    else:
+        intro, btn = "Preencha em 30 segundos. Ao enviar, seu e-mail abre com a mensagem pronta para a nossa equipe.", "Enviar pedido"
     maps = "https://www.google.com/maps/search/?api=1&query=" + quote("%s, %s - %s, %s" % (SITE["street"], SITE["city"], SITE["region"], SITE["postal"]))
     return """<div class="contact-grid">
   <div class="cinfo reveal">
@@ -435,26 +439,22 @@ def contact_block(heading="h2", title="Conte o que o seu empreendimento precisa.
       <div><dt>Redes</dt><dd><a href="%s" target="_blank" rel="noopener">Facebook</a> · %s</dd></div>
     </dl>
   </div>
-  <form id="form" class="reveal" style="--d:.1s" novalidate data-email="%s" aria-label="Pedido de orçamento">
+  <form id="form" class="reveal" style="--d:.1s" novalidate data-wa="%s" data-email="%s" aria-label="Pedido de orçamento pelo WhatsApp">
+    <p class="form-intro">%s</p>
     <div class="row2">
-      <label for="f-nome">Nome<input id="f-nome" name="nome" autocomplete="name" required></label>
-      <label for="f-empresa">Empresa<input id="f-empresa" name="empresa" autocomplete="organization"></label>
+      <label for="f-nome">Seu nome<input id="f-nome" name="nome" autocomplete="name" required></label>
+      <label for="f-cidade">Cidade do empreendimento<input id="f-cidade" name="cidade" placeholder="Ex.: Patos de Minas, MG"></label>
     </div>
-    <div class="row2">
-      <label for="f-email">E-mail<input id="f-email" name="email" type="email" autocomplete="email" required></label>
-      <label for="f-tel">Telefone / WhatsApp<input id="f-tel" name="telefone" type="tel" autocomplete="tel"></label>
-    </div>
-    <label for="f-assunto">Assunto<select id="f-assunto" name="assunto">%s</select></label>
-    <label for="f-cidade">Cidade e estado do empreendimento<input id="f-cidade" name="cidade" placeholder="Ex.: Patos de Minas, MG"></label>
-    <label for="f-msg">Mensagem<textarea id="f-msg" name="mensagem" placeholder="Tipo de empreendimento, exigência do órgão ambiental, prazo..."></textarea></label>
+    <label for="f-assunto">Do que você precisa?<select id="f-assunto" name="assunto">%s</select></label>
+    <label for="f-msg">Conte em poucas palavras <span style="font-weight:400;color:var(--muted)">(opcional)</span><textarea id="f-msg" name="mensagem" rows="3" placeholder="Tipo de empreendimento, o que o órgão pediu, prazo..."></textarea></label>
     <p style="font-size:.82rem;color:var(--muted)">Usamos seus dados só para responder ao pedido. Veja a <a href="/politica-de-privacidade/">política de privacidade</a>.</p>
     <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:center">
-      <button class="btn btn-ipe" type="submit">Enviar pedido</button>
+      <button class="btn btn-ipe btn-wa" type="submit"><svg aria-hidden="true" viewBox="0 0 32 32" width="20" height="20"><path fill="currentColor" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6c-2 0-4-.5-5.7-1.6l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5.9-1.6.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.2 1.4 3.5c.2.2 2.4 3.6 5.8 5 2.1.9 3 1 4 .8.7-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5-.1-.2-.3-.2-.6-.4z"/></svg> %s</button>
       <p class="form-msg" id="formMsg" aria-live="polite"></p>
     </div>
   </form>
 </div>""" % (SITE["phone_e164"], SITE["phone"], wa, SITE["email"], SITE["street"], SITE["city"], SITE["region"], SITE["postal"], maps,
-           SITE["facebook"], insta, SITE["email"], opts)
+           SITE["facebook"], insta, SITE["whatsapp_e164"], SITE["email"], intro, opts, btn)
 
 
 def gallery():
@@ -821,7 +821,7 @@ def page_privacidade():
 <p>Esta política explica como a %s (“AgroAmbient”), CNPJ <span class="tbd-tag">a confirmar</span>, com sede em %s, %s/%s, trata dados pessoais neste site, conforme a Lei Geral de Proteção de Dados (Lei nº 13.709/2018).</p>
 <h2>Quais dados coletamos</h2>
 <ul>
-<li><strong>Dados que você envia:</strong> nome, empresa, e-mail, telefone, cidade e mensagem, quando você usa o formulário de contato ou nos escreve.</li>
+<li><strong>Dados que você envia:</strong> nome, cidade, assunto e mensagem, quando você usa o formulário de contato. O formulário não guarda nada no site: ele abre o WhatsApp com a mensagem pronta, e a conversa segue pelo WhatsApp, sujeita também à política do aplicativo.</li>
 <li><strong>Dados de navegação:</strong> páginas visitadas, tipo de dispositivo e origem da visita, coletados por cookies do Google Analytics e do Google Ads, somente se você aceitar no aviso de cookies.</li>
 </ul>
 <h2>Para que usamos</h2>
