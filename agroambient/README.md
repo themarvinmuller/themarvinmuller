@@ -44,7 +44,7 @@ Preencha em `content.py`:
 
 - Com IDs vazios, nenhum script do Google é carregado e o aviso de cookies não aparece.
 - Consent Mode v2 com aviso de cookies (LGPD): tudo começa negado e só libera com "Aceitar". Link "Preferências de cookies" no rodapé.
-- Eventos: `generate_lead` (formulário, com o assunto), `whatsapp_click`, `phone_click`, `cta_orcamento`, `cta_palestra`, `copy_phone`, `copy_email`, `faq_open`. Todos vão também para o `dataLayer` (serve ao Google Tag Manager).
+- Eventos: `generate_lead` (formulário, com o assunto), `whatsapp_click`, `phone_click`, `cta_orcamento`, `cta_palestra`, `copy_phone`, `copy_email`, `faq_open`, `download_portfolio`. Todos vão também para o `dataLayer` (serve ao Google Tag Manager).
 - Conversão do Ads: com `ads` e `ads_lead_label`, o envio do formulário dispara a conversão de lead. No GA4, marque `generate_lead` como evento-chave.
 
 ## Formulário
