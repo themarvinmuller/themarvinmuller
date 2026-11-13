@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://taise-ferreira-demo.vercel.app/sitemap.xml

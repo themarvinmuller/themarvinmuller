@@ -108,57 +108,37 @@
       msg.textContent="Abrimos o WhatsApp com a sua mensagem. É só tocar em enviar.";
     });
   }
+  /* ---------- Escritos em janela ---------- */
+  d.querySelectorAll("[data-read]").forEach(function(card){
+    var dlg=$(card.getAttribute("data-read")); if(!dlg||!dlg.showModal) return;
+    var open=function(){dlg.showModal();};
+    card.addEventListener("click",open);
+    dlg.querySelector(".close").addEventListener("click",function(){dlg.close();});
+    dlg.addEventListener("click",function(e){if(e.target===dlg) dlg.close();});
+    dlg.addEventListener("close",function(){var b=card.querySelector(".go"); if(b) b.focus();});
+  });
   var y=$("year"); if(y) y.textContent=new Date().getFullYear();
 
   /* =========================================================
-     HERÓI: folhagens do consultório em camadas + luz de janela
+     HERÓI: sempre-vivas da logo em camadas + sementes ao vento
      ========================================================= */
   var scene=$("scene"), heroVisible=false, drawHero=null, applyParallax=null, sizeHero=null, scrollY=0;
   if(scene){
     heroVisible=true;
-    var NS="http://www.w3.org/2000/svg", W=1600, H=900;
-    var el=function(tag,attrs,parent){var e=d.createElementNS(NS,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;};
-    var layer=function(depth){var svg=el("svg",{viewBox:"0 0 "+W+" "+H,preserveAspectRatio:"xMidYMid slice"});svg.dataset.depth=depth;scene.appendChild(svg);return svg;};
-    /* folha simples com nervura central */
-    var leaf=function(g,x,y,len,wid,ang,fill,vein){
-      var t=el("g",{transform:"translate("+x+" "+y+") rotate("+ang+")"},g);
-      el("path",{d:"M0 0 C "+(wid)+" "+(-len*.25)+" "+(wid*.9)+" "+(-len*.75)+" 0 "+(-len)+" C "+(-wid*.9)+" "+(-len*.75)+" "+(-wid)+" "+(-len*.25)+" 0 0Z",fill:fill},t);
-      if(vein){
-        el("path",{d:"M0 0 L0 "+(-len*.96),stroke:vein,"stroke-width":Math.max(1.2,wid/16),fill:"none"},t);
-        for(var k=1;k<6;k++){var yy=-len*k/6.4;el("path",{d:"M0 "+yy+" q "+(wid*.4)+" "+(-len*.05)+" "+(wid*.72)+" "+(-len*.12)+" M0 "+yy+" q "+(-wid*.4)+" "+(-len*.05)+" "+(-wid*.72)+" "+(-len*.12),stroke:vein,"stroke-width":Math.max(.8,wid/30),fill:"none"},t);}
-      }
-    };
-    /* ramo de samambaia */
-    var fern=function(g,x,y,len,ang,color,r){
-      var t=el("g",{transform:"translate("+x+" "+y+") rotate("+ang+")"},g);
-      el("path",{d:"M0 0 Q "+(len*.12)+" "+(-len*.5)+" 0 "+(-len),stroke:color,"stroke-width":2,fill:"none"},t);
-      for(var k=2;k<22;k++){
-        var f=k/22, yy=-len*f, s=len*.16*(1-f*.8)+4, xx=Math.sin(f*Math.PI)*len*.06;
-        leaf(t,xx,yy,s,s*.28,-62-r()*10,color,null);
-        leaf(t,xx,yy,s,s*.28,62+r()*10,color,null);
-      }
-    };
+    /* Sempre-vivas da logo em três camadas de profundidade (parallax), longe do texto */
     var specs=[
-      {depth:.10, op:.22, seed:3, col:"#E6D6BC"},
-      {depth:.25, op:.35, seed:11, col:"#C9AD89"},
-      {depth:.45, op:.55, seed:29, col:"#8A5C3C"}
+      {depth:.10, src:"img/flor-1.webp", items:[[90,58,28,-8],[-1,112,22,10],[72,110,20,4]]},
+      {depth:.25, src:"img/flor-2.webp", items:[[97,40,34,6],[-5,118,28,-12],[58,118,18,-4]]},
+      {depth:.45, src:"img/flor-3.webp", items:[[100,98,40,-4],[3,130,24,14]]}
     ];
     var layers=[];
     var sun=d.createElement("div"); sun.className="sun"; scene.appendChild(sun);
-    specs.forEach(function(s,i){
-      var L=layer(s.depth), r=rnd(s.seed), g=el("g",{opacity:s.op},L);
-      /* tufos nos cantos inferiores e na borda direita, longe do texto */
-      var spots=[[0,H],[W,H],[W,H*.45],[W*.06,H*.92]];
-      spots.forEach(function(p,j){
-        if(i===2&&j===3) return;
-        var n=4+Math.floor(r()*4);
-        for(var k=0;k<n;k++){
-          var len=140+r()*240-(2-i)*20, wid=len*(.22+r()*.12);
-          var base=p[0]===0?-40+r()*80:(p[0]===W?-90+r()*40:-90+r()*60);
-          var ang=p[0]===0?(10+r()*60):(-70+r()*60);
-          if(r()<.3) fern(g,p[0]+(p[0]===0?r()*80:-r()*80),p[1]-r()*40,len*1.3,ang,s.col,r);
-          else leaf(g,p[0]+(p[0]===0?r()*120:-r()*120),p[1]+r()*30,len,wid,ang+base*.1,s.col,i===2?"rgba(255,255,255,.18)":null);
-        }
+    specs.forEach(function(s){
+      var L=d.createElement("div"); L.className="layer"; L.dataset.depth=s.depth; scene.appendChild(L);
+      s.items.forEach(function(it,k){
+        var im=d.createElement("img"); im.src=s.src; im.alt=""; im.decoding="async";
+        im.style.cssText="left:"+it[0]+"%;top:"+it[1]+"%;height:"+it[2]+"vmax;--r:"+it[3]+"deg;--sw:"+(5+k*1.5)+"s";
+        L.appendChild(im);
       });
       layers.push(L);
     });
@@ -166,7 +146,7 @@
     var ctx=cv.getContext("2d"), cw=0, ch=0;
     sizeHero=function(){cw=scene.clientWidth;ch=scene.clientHeight;cv.width=cw*dpr;cv.height=ch*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);};
     sizeHero();
-    /* partículas de poeira na luz da janela */
+    /* sementes da sempre-viva soltas no ar */
     var R=rnd(99), motes=[];
     for(var f=0;f<38;f++) motes.push({x:.45+R()*.55,y:R(),vx:(R()-.5)*.00025,vy:-.00008-R()*.00018,p:R()*6.28,s:.8+R()*1.8});
     var mx=0,my=0,tx=0,ty=0;
