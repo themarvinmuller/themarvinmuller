@@ -209,7 +209,7 @@ def footer():
     </div>
     <div><h4>Serviços</h4><ul>%s<li><a href="/servicos/">Todos os serviços</a></li></ul></div>
     <div><h4>Contato</h4><ul><li><a href="tel:%s" data-track="phone_click">%s</a></li><li>%s</li><li>%s</li><li>%s, %s · %s</li><li><a href="/perguntas-frequentes/">Perguntas frequentes</a></li><li><a href="/blog/">Blog</a></li></ul></div>
-    <div class="legal"><span>© <span id="year">%s</span> %s · <a href="/politica-de-privacidade/">Privacidade</a> · <button class="consent-link" type="button" id="consentOpen">Preferências de cookies</button></span><span>CNPJ %s · CTF/IBAMA %s · CRBio-04 %s</span></div>
+    <div class="legal"><span>© <span id="year">%s</span> %s · <a href="/politica-de-privacidade/">Privacidade</a> · <button class="consent-link" type="button" id="consentOpen">Preferências de cookies</button></span><span>CNPJ %s · CTF/IBAMA %s · CRBio-04 %s</span><span class="credit">Site por <a href="https://willianrosa.com.br" target="_blank" rel="noopener">Willian Rosa</a></span></div>
   </div>
 </footer>
 <div class="consent" id="consent" role="dialog" aria-live="polite" aria-label="Preferências de cookies" hidden>

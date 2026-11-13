@@ -282,6 +282,7 @@ textarea{min-height:120px;resize:vertical}
 .site-foot ul{list-style:none;margin:0;padding:0;display:grid;gap:.4rem}
 .site-foot .legal{grid-column:1/-1;border-top:1px solid rgba(244,241,228,.12);padding-top:1.4rem;display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.05em;color:rgba(244,241,228,.5)}
 .site-foot .tbd-tag{color:#F4F1E4}
+.site-foot .credit a{color:inherit;text-decoration:underline;text-decoration-color:rgba(244,241,228,.25);text-underline-offset:3px}
 @media (max-width:760px){.site-foot .wrap{grid-template-columns:1fr}}
 
 /* ---------- WhatsApp flutuante ---------- */
