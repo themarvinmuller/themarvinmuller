@@ -36,7 +36,11 @@ SITE = {
     "founder_title": "Biólogo, mestre e especialista em Zoologia com ênfase em ictiofauna",
     "portfolio_pdf": "/static/portfolio-agroambient-estudos-de-fauna.pdf",
     "facebook": "https://www.facebook.com/AgroAmbient",
-    "instagram": "",  # a confirmar
+    "instagram": "https://www.instagram.com/agroambient_fauna/",
+    "linkedin": "https://www.linkedin.com/in/agroambient-estudos-de-fauna-93259ab0/",
+    "google_maps": "",  # link do perfil no Google Meu Negócio, quando existir
+    "blog_author": "Willian Lopes Silva",
+    "blog_author_title": "Biólogo",
     "founder": "Willian Lopes Silva",
     # Medição. Preencha e publique; com IDs vazios nada do Google é carregado.
     "ga4": "G-Z8P10ESHK6",  # propriedade agroambient.com.br (conta AgroAmbient)
@@ -45,9 +49,8 @@ SITE = {
     "gsc_verification": "",  # código da meta google-site-verification, se usar verificação por HTML
 }
 
-WIX = "https://static.wixstatic.com/media/"
 F = "/static/fotos/"
-# Fotos do portfólio da AgroAmbient (static/fotos). As do Wix ficam só onde o portfólio não tem foto equivalente.
+# Fotos do portfólio da AgroAmbient (static/fotos). Depois de adicionar ou trocar uma foto, rode `python3 tools/otimizar_fotos.py`.
 PHOTOS = {
     "equipe": F + "pesquisador-campo.jpg",
     "monitoramento": F + "armadilha-fotografica.jpg",
@@ -65,9 +68,10 @@ PHOTOS = {
     "manejo": F + "manejo-fauna.jpg",
     "educacao": F + "palestra.jpg",
     "cursos": F + "palestra.jpg",
-    "viveiro": WIX + "57a0dc_4b4271099d1f4ad8ad1c32b2cc58fc14.jpg",
-    "licenciamento": WIX + "57a0dc_ceb6e89f9adb4707a177bebdee4a3c93.jpg",
-    "campo2": WIX + "57a0dc_8ec79b557e4242ab8d326700e71c3d93~mv2.jpg",
+    # Antes vinham do Wix; trocadas por fotos próprias até chegarem fotos específicas desses serviços.
+    "viveiro": F + "drone.jpg",
+    "licenciamento": F + "amostras-laboratorio.jpg",
+    "campo2": F + "rio-cerrado.jpg",
 }
 
 # Clientes e parceiros (do portfólio)
@@ -284,10 +288,11 @@ SERVICES = [
     {
         "slug": "licenciamento-ambiental", "area": "licenciamento", "hero": "cerrado", "photo": "licenciamento",
         "name": "Licenciamento ambiental",
-        "title": "Licenciamento ambiental em Minas Gerais e em todo o Brasil",
+        "title": "Licenciamento ambiental em Goiás, Minas Gerais e todo o Brasil",
         "short": "Organizamos os estudos, protocolamos e acompanhamos o processo até a emissão da licença.",
         "summary": "Licenciamento ambiental é o procedimento pelo qual o órgão ambiental autoriza a localização, instalação e operação de atividades que usam recursos naturais ou podem causar degradação. Cuidamos dos estudos, do protocolo e do acompanhamento.",
         "intro": [
+            "Em Goiás, o licenciamento estadual é conduzido pela SEMAD (Secretaria de Estado de Meio Ambiente e Desenvolvimento Sustentável), com base na Lei Estadual nº 20.694/2019, e os processos tramitam pelo sistema eletrônico da secretaria. Municípios com órgão ambiental estruturado, como Catalão, licenciam as atividades de impacto local.",
             "Em Minas Gerais, a modalidade de licenciamento é definida pelo porte e pelo potencial poluidor da atividade, conforme a Deliberação Normativa COPAM nº 217/2017. Pode ser simplificado (LAS), concomitante (LAC) ou trifásico (LAT), com licença prévia, de instalação e de operação.",
             "Começamos entendendo a atividade e enquadrando corretamente o empreendimento. Isso evita estudos desnecessários e pedidos de informação complementar que atrasam a licença.",
         ],
@@ -315,9 +320,9 @@ SERVICES = [
         "name": "Outorga de uso de água",
         "title": "Outorga de direito de uso de recursos hídricos",
         "short": "Regularização de captações, barramentos, poços e lançamentos em cursos d'água.",
-        "summary": "A outorga é a autorização do poder público para usar água de rios, lagos ou do subsolo, ou para intervir em cursos d'água. Em Minas Gerais, a análise é feita pelo IGAM. Preparamos os estudos e o pedido.",
+        "summary": "A outorga é a autorização do poder público para usar água de rios, lagos ou do subsolo, ou para intervir em cursos d'água. Em Goiás, quem analisa é a SEMAD; em Minas Gerais, o IGAM. Preparamos os estudos e o pedido.",
         "intro": [
-            "A outorga é prevista na Política Nacional de Recursos Hídricos (Lei nº 9.433/1997) e, em Minas Gerais, na Lei Estadual nº 13.199/1999. Usos considerados insignificantes também precisam de cadastro.",
+            "A outorga é prevista na Política Nacional de Recursos Hídricos (Lei nº 9.433/1997) e nas leis estaduais: em Goiás, a Lei nº 13.123/1997; em Minas Gerais, a Lei nº 13.199/1999. Em rios de domínio da União, como os que dividem estados, o pedido vai para a ANA. Usos considerados insignificantes também precisam de cadastro.",
             "Para irrigação, dessedentação animal, piscicultura e indústria, a outorga costuma ser exigida junto com o licenciamento ambiental.",
         ],
         "when": [
@@ -522,8 +527,15 @@ GLOSS = [
     ["PRAD", "Plano de Recuperação de Áreas Degradadas", "Define como uma área alterada por obra, mineração ou atividade agrícola volta a ter cobertura e funções ecológicas.", "/servicos/estudos-tecnicos/"],
     ["PTRF", "Projeto Técnico de Reconstituição da Flora", "Projeto de recomposição da vegetação nativa, comum em compensações e em Áreas de Preservação Permanente.", "/servicos/estudos-tecnicos/"],
     ["PAE", "Plano de Ação de Emergência", "Procedimentos para situações de emergência, como em barragens e reservatórios, incluindo ações com a fauna afetada.", "/servicos/estudos-tecnicos/"],
-    ["Outorga", "Outorga de direito de uso de recursos hídricos", "Autorização para captar água ou intervir em cursos d'água. Em Minas Gerais, é analisada pelo IGAM.", "/servicos/outorga-de-agua/"],
+    ["Outorga", "Outorga de direito de uso de recursos hídricos", "Autorização para captar água ou intervir em cursos d'água. Em Goiás, é analisada pela SEMAD; em Minas Gerais, pelo IGAM.", "/servicos/outorga-de-agua/"],
     ["CTF", "Cadastro Técnico Federal do IBAMA", "Registro obrigatório para pessoas e empresas que exercem atividades potencialmente poluidoras ou de defesa ambiental. A AgroAmbient é certificada (CTF 7856773).", "/sobre/"],
+    ["RCA", "Relatório de Controle Ambiental", "Estudo que descreve a atividade, seus impactos e as medidas de controle, pedido em licenciamentos de médio porte, normalmente junto com o PCA.", "/servicos/estudos-tecnicos/"],
+    ["RADA", "Relatório de Avaliação de Desempenho Ambiental", "Avalia como o empreendimento cumpriu as medidas de controle no período da licença. É pedido na renovação da licença de operação.", "/servicos/licenciamento-ambiental/"],
+    ["ASV", "Autorização para Supressão de Vegetação", "Autorização para retirar vegetação nativa. Costuma exigir inventário florestal e, muitas vezes, afugentamento e resgate de fauna durante o desmate.", "/servicos/resgate-de-fauna/"],
+    ["PGRS", "Plano de Gerenciamento de Resíduos Sólidos", "Define como o empreendimento separa, armazena, transporta e destina seus resíduos, conforme a Política Nacional de Resíduos Sólidos (Lei nº 12.305/2010).", "/servicos/estudos-tecnicos/"],
+    ["EIV", "Estudo de Impacto de Vizinhança", "Estudo exigido pelo município para empreendimentos urbanos que afetam o entorno (trânsito, ruído, paisagem), previsto no Estatuto da Cidade.", "/servicos/estudos-tecnicos/"],
+    ["CRA", "Certidão de Regularidade Ambiental", "Documento que comprova que a empresa ou a atividade está regular perante o órgão ambiental. Muito pedido em licitações e financiamentos.", "/servicos/licenciamento-ambiental/"],
+    ["Relatório fotográfico", "Relatório fotográfico ambiental", "Registro em fotos, com data e localização, do cumprimento de condicionantes, da execução de programas ou da situação de uma área.", "/servicos/estudos-tecnicos/"],
     ["AAF", "Autorização Ambiental de Funcionamento", "Antiga modalidade de regularização simplificada em Minas Gerais, hoje substituída pelo Licenciamento Ambiental Simplificado (LAS).", "/servicos/licenciamento-ambiental/"],
 ]
 
@@ -533,7 +545,8 @@ GLOSS = [
 FAQ = [
     ("Sobre a AgroAmbient", [
         ("O que a AgroAmbient faz?", "A AgroAmbient é uma consultoria ambiental especializada em estudos de fauna terrestre e aquática. Também faz licenciamento ambiental, outorga de água, diagnósticos, planos de manejo, assessoria agrícola, educação ambiental, cursos e palestras."),
-        ("Onde a AgroAmbient atende?", "A sede fica em Catalão (GO), na divisa com Minas Gerais, e a empresa atende em todo o território nacional, com equipe que se desloca até o empreendimento."),
+        ("Onde a AgroAmbient atende?", "A sede fica em Catalão (GO), na divisa com Minas Gerais, e a empresa atende em todo o território nacional, com equipe que se desloca até o empreendimento. Com mais frequência, atendemos o sudeste goiano, o Triângulo Mineiro e o Alto Paranaíba."),
+        ("A AgroAmbient trabalha com licenciamento em Goiás?", "Sim. Preparamos estudos e processos para a SEMAD de Goiás e para os órgãos ambientais municipais, além de Minas Gerais e outros estados."),
         ("Desde quando a empresa atua?", "A AgroAmbient foi fundada em 2015 e atua com estudos e serviços ambientais voltados à fauna terrestre e aquática."),
         ("A AgroAmbient é registrada nos órgãos competentes?", "Sim. A empresa tem CNPJ 21.630.431/0001-01, é certificada no Cadastro Técnico Federal do IBAMA (CTF 7856773) e registrada no Conselho Regional de Biologia (CRBio-04 000944-04/2021)."),
         ("Quem é o responsável técnico?", "A direção técnica é do biólogo Willian Lopes Silva, mestre e especialista em Zoologia com ênfase em ictiofauna, com equipe multidisciplinar de biólogos especialistas nas diversas áreas da zoologia e da gestão ambiental."),
@@ -547,14 +560,14 @@ FAQ = [
         ("Vocês fazem laudos periciais?", "Sim. Elaboramos laudos periciais ambientais e laudos de necropsia de peixes e outros animais, por exemplo em casos de mortandade."),
     ]),
     ("Licenciamento e documentos", [
-        ("Como sei se meu empreendimento precisa de licença ambiental?", "Depende da atividade, do porte e da localização. Em Minas Gerais, o enquadramento segue a Deliberação Normativa COPAM nº 217/2017. Fazemos essa análise no primeiro contato."),
-        ("O que é outorga de água?", "É a autorização para usar água de rios, lagos ou poços, ou para intervir em cursos d'água. Em Minas Gerais, é analisada pelo IGAM. Usos insignificantes precisam de cadastro."),
+        ("Como sei se meu empreendimento precisa de licença ambiental?", "Depende da atividade, do porte e da localização. Em Goiás, as regras estão na Lei Estadual nº 20.694/2019 e o órgão estadual é a SEMAD; em Minas Gerais, o enquadramento segue a Deliberação Normativa COPAM nº 217/2017. Fazemos essa análise no primeiro contato."),
+        ("O que é outorga de água?", "É a autorização para usar água de rios, lagos ou poços, ou para intervir em cursos d'água. Em Goiás, é analisada pela SEMAD; em Minas Gerais, pelo IGAM; em rios federais, pela ANA. Usos insignificantes precisam de cadastro."),
         ("Os estudos têm responsável técnico?", "Sim. Todos os estudos são assinados por profissional habilitado, com a anotação de responsabilidade técnica no respectivo conselho de classe."),
     ]),
     ("Orçamento e prazos", [
         ("Quanto custa um estudo ambiental?", "O valor depende do tipo de estudo, da área, dos grupos de fauna, do número de campanhas e da distância. Enviamos uma proposta depois de entender o empreendimento."),
         ("Quanto tempo leva?", "Estudos de campo seguem o calendário de campanhas pedido pelo órgão, muitas vezes cobrindo seca e chuva. Documentos sem campo costumam ser mais rápidos. O prazo vai detalhado na proposta."),
-        ("Como peço um orçamento?", "Pelo formulário da página de contato, que abre o WhatsApp (34) 99806-7566 com a mensagem pronta, ou pelo telefone (34) 3855-1197. Conte o tipo de empreendimento, a cidade e o que o órgão pediu."),
+        ("Como peço um orçamento?", "Pelo formulário da página de contato, que abre o WhatsApp (34) 99806-7566 com a mensagem pronta, ou por e-mail. Conte o tipo de empreendimento, a cidade e o que o órgão pediu."),
     ]),
 ]
 
@@ -652,5 +665,74 @@ POSTS = [
         ],
         "related": ["outorga-de-agua", "assessoria-agricola", "licenciamento-ambiental"],
     },
+    {
+        "slug": "licenciamento-ambiental-em-goias",
+        "title": "Licenciamento ambiental em Goiás: como funciona e por onde começar",
+        "description": "Quem licencia em Goiás, quando o município entra, quais estudos costumam ser pedidos e como evitar atrasos no processo na SEMAD.",
+        "date": "2026-11-14",
+        "summary": "Em Goiás, o licenciamento estadual fica com a SEMAD e segue a Lei Estadual nº 20.694/2019. Atividades de impacto local podem ser licenciadas pelo município. O primeiro passo é enquadrar a atividade pelo porte e pelo potencial poluidor, porque é isso que define o tipo de licença e os estudos exigidos.",
+        "body": [
+            ("h2", "Quem licencia: estado, município ou União"),
+            ("p", "A Lei Complementar nº 140/2011 divide a competência do licenciamento entre União, estados e municípios. Em Goiás, a maior parte dos empreendimentos é licenciada pela SEMAD (Secretaria de Estado de Meio Ambiente e Desenvolvimento Sustentável). Atividades de impacto apenas local podem ser licenciadas pela prefeitura, quando o município tem órgão ambiental e conselho de meio ambiente estruturados. Empreendimentos que atingem mais de um estado ou áreas federais ficam com o IBAMA."),
+            ("h2", "A lei estadual"),
+            ("p", "A Lei Estadual nº 20.694/2019 traz as normas gerais do licenciamento ambiental em Goiás. Ela prevê modalidades diferentes conforme o porte e o potencial poluidor da atividade, do licenciamento em etapas (licença prévia, de instalação e de operação) a procedimentos simplificados para atividades de menor impacto. Os pedidos são feitos pelo sistema eletrônico da SEMAD."),
+            ("h2", "Estudos que costumam ser pedidos"),
+            ("ul", [
+                "<strong>Atividades de menor impacto:</strong> estudos simplificados e plano de controle ambiental.",
+                "<strong>Médio impacto:</strong> RCA e PCA, muitas vezes com diagnóstico de fauna e flora.",
+                "<strong>Significativo impacto:</strong> EIA/RIMA, com audiência pública e diagnóstico completo do meio biótico, incluindo levantamento de fauna em campo.",
+                "<strong>Supressão de vegetação nativa:</strong> autorização específica, com inventário florestal e, em geral, afugentamento e resgate de fauna.",
+            ]),
+            ("h2", "Onde os processos mais atrasam"),
+            ("ol", [
+                "Enquadramento errado da atividade, que obriga a refazer o pedido.",
+                "Estudos de fauna sem as campanhas de seca e chuva pedidas no termo de referência.",
+                "Falta de outorga de água ou de documentos da propriedade, como o CAR.",
+                "Respostas lentas aos pedidos de informação complementar.",
+            ]),
+            ("h2", "Goiás e Minas ao mesmo tempo"),
+            ("p", "Na região de Catalão é comum o empreendimento ter áreas, captações ou fornecedores dos dois lados da divisa. Cada estado segue sua própria lei e seu próprio órgão, então vale planejar os dois processos juntos para que um não trave o outro."),
+            ("p", "Quer saber qual licença o seu empreendimento precisa em Goiás? Veja como funciona a nossa <a href=\"/servicos/licenciamento-ambiental/\">assessoria em licenciamento ambiental</a> ou <a href=\"/contato/?assunto=Licenciamento%20e%20assessoria\">fale com a AgroAmbient</a>."),
+        ],
+        "related": ["licenciamento-ambiental", "estudos-tecnicos", "inventario-de-fauna"],
+    },
+    {
+        "slug": "outorga-de-agua-em-goias",
+        "title": "Outorga de água em Goiás: o que o produtor rural precisa saber",
+        "description": "Quem precisa de outorga em Goiás, quando o pedido vai para a SEMAD ou para a ANA, o que é uso insignificante e cuidados antes de captar água.",
+        "date": "2026-11-14",
+        "summary": "Em Goiás, quem capta água de rios, represas ou poços, constrói barramentos ou lança efluentes precisa de outorga da SEMAD, com base na Lei Estadual nº 13.123/1997. Se o rio é federal, como os que dividem estados, o pedido vai para a ANA. Usos pequenos, considerados insignificantes, dispensam outorga mas precisam de cadastro.",
+        "body": [
+            ("h2", "Quem precisa de outorga"),
+            ("ul", [
+                "Captação em rio, córrego, lago ou represa para irrigação, dessedentação animal, piscicultura ou indústria.",
+                "Uso de água subterrânea por poço tubular.",
+                "Construção de barramentos, travessias e canalizações.",
+                "Lançamento de efluentes em cursos d'água.",
+            ]),
+            ("h2", "SEMAD ou ANA?"),
+            ("p", "A dominialidade do rio define quem analisa o pedido. Rios que nascem e terminam dentro de Goiás são de domínio estadual, e a outorga é da SEMAD. Rios que atravessam ou dividem estados, como o Paranaíba e trechos do São Marcos, são de domínio da União, e o pedido vai para a ANA (Agência Nacional de Águas e Saneamento Básico). Para quem está na região de Catalão, conferir isso é o primeiro passo."),
+            ("h2", "Uso insignificante"),
+            ("p", "Usos de pequeno volume, definidos em norma estadual, são considerados insignificantes. Eles dispensam a outorga, mas precisam ser cadastrados. Os limites variam conforme o tipo de uso e a bacia, por isso vale conferir caso a caso."),
+            ("h2", "Cuidados antes de pedir"),
+            ("ol", [
+                "Confirme se o rio é estadual ou federal.",
+                "Verifique a disponibilidade hídrica da bacia: em áreas de conflito pelo uso da água, os pedidos são mais restritos.",
+                "Organize os documentos da propriedade e o CAR.",
+                "Planeje a outorga junto com o licenciamento da atividade, porque um processo depende do outro.",
+                "Controle o vencimento: outorgas têm prazo e precisam ser renovadas.",
+            ]),
+            ("p", "Precisa regularizar o uso de água em Goiás? Veja como funciona a nossa <a href=\"/servicos/outorga-de-agua/\">assessoria em outorga</a>."),
+        ],
+        "related": ["outorga-de-agua", "licenciamento-ambiental", "assessoria-agricola"],
+    },
 ]
 
+# ---------------------------------------------------------------------------
+# Trabalhe conosco (página /trabalhe-conosco/). O formulário abre o WhatsApp com a candidatura pronta.
+# ---------------------------------------------------------------------------
+CARREIRAS = {
+    "areas": ["Mastofauna", "Avifauna", "Herpetofauna", "Ictiofauna", "Biota aquática e ictioplâncton", "Resgate e manejo de fauna",
+              "Licenciamento e estudos ambientais", "Geoprocessamento e drone", "Auxiliar de campo", "Estágio", "Outra"],
+    "vinculos": ["Campanhas de campo (por projeto)", "Prestação de serviço", "Estágio", "Efetivo", "Qualquer formato"],
+}

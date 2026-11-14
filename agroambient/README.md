@@ -59,3 +59,8 @@ Formulário curto (nome, cidade, assunto, mensagem opcional). Ao enviar, abre o 
 - Se piscicultura e sistemas agroflorestais continuam sendo oferecidos.
 - Logos de clientes autorizados, cases de projetos, agenda real de cursos.
 - Fotos: hoje vêm do Wix antigo (`static.wixstatic.com`). Baixar em boa resolução para `static/` antes de desligar o Wix.
+
+## Fotos e fontes
+
+- Fotos ficam em `static/fotos/`. Depois de adicionar ou trocar uma foto, rode `python3 tools/otimizar_fotos.py` (precisa do Pillow só na sua máquina). Ele gera as versões WebP em `static/fotos/w/` e o `tamanhos.json` que o build usa para largura, altura e `srcset`.
+- As fontes são servidas pelo próprio site (`static/fonts/` e `assets/fonts.css`), sem chamar o Google Fonts.

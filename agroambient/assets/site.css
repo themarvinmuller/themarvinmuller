@@ -414,3 +414,29 @@ ol.howto p{color:var(--muted);margin-top:.15rem}
 .river-list a span{transition:background .25s}
 .river-list a:hover span{background:rgba(234,244,240,.22)}
 .river .btn-ghost{color:#EAF4F0}
+
+/* ---------- Ajustes da revisão de 14/11/2026 ---------- */
+/* Botão do WhatsApp sobe enquanto o aviso de cookies está aberto (--consent-h vem do site.js) */
+.wa{bottom:calc(18px + env(safe-area-inset-bottom,0px) + var(--consent-h,0px))}
+/* Contraste do texto pequeno sobre o céu da abertura */
+.hero .eyebrow,.hero .lede,.hero .crumbs{text-shadow:0 1px 3px rgba(10,20,16,.65),0 0 18px rgba(10,20,16,.45)}
+.hero .eyebrow{color:rgba(250,248,238,.95)}
+/* Aviso de cookies mais baixo no celular, ocupando a largura e sem tapar os botões da abertura */
+@media (max-width:640px){
+  .consent{left:0;right:0;bottom:0;max-width:none;border-radius:10px 10px 0 0;padding:.85rem 1rem calc(.85rem + env(safe-area-inset-bottom,0px));gap:.55rem;font-size:.85rem;grid-template-columns:1fr auto;align-items:center}
+  .consent strong{font-size:.95rem}
+  .consent .row{flex-direction:column;gap:.4rem}
+  .consent .btn{padding:.5em .9em;font-size:.85rem}
+}
+/* Formulário: botões lado a lado com quebra */
+#formEmail{font-size:.9rem}
+.form-carreira .row2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media (max-width:640px){.form-carreira .row2{grid-template-columns:1fr}}
+/* <picture> ocupa a moldura da foto */
+.photo picture{display:block;width:100%;height:100%}
+/* Página inicial mais curta no celular: blog e cursos viram faixas que deslizam para o lado; galeria mostra 4 fotos */
+@media (max-width:600px){
+  .cards-scroll,#cursos .course-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:.9rem;padding-bottom:.6rem;margin-right:calc(-1 * var(--gutter-r,16px))}
+  .cards-scroll>*,#cursos .course-grid>*{flex:0 0 82%;scroll-snap-align:start}
+  #campo .gallery .g5,#campo .gallery .g6{display:none}
+}

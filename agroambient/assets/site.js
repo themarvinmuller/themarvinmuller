@@ -86,35 +86,70 @@
     });
   });
 
-  /* ---------- Formulário ---------- */
+  /* ---------- Formulário de orçamento ---------- */
   var form=$("form");
   if(form){
     var params=new URLSearchParams(location.search), pre=params.get("assunto");
     var sel=$("f-assunto");
     if(pre){Array.prototype.forEach.call(sel.options,function(o){if(o.value===pre||o.text===pre) sel.value=o.value;});}
     var msg=$("formMsg");
-    form.addEventListener("submit",function(e){
-      e.preventDefault();
+    function montar(){
       var nome=$("f-nome");
-      if(!nome.value.trim()){msg.textContent="Preencha seu nome para continuar.";nome.focus();return;}
+      if(!nome.value.trim()){msg.textContent="Preencha seu nome para continuar.";nome.focus();return null;}
       var cidade=$("f-cidade").value.trim(), texto=$("f-msg").value.trim();
       var lines=["Olá, AgroAmbient! Vim pelo site.","","*Nome:* "+nome.value.trim(),"*Assunto:* "+sel.value];
       if(cidade) lines.push("*Cidade:* "+cidade);
       if(texto) lines.push("","*Mensagem:* "+texto);
-      var body=lines.join("\n"), wa=form.dataset.wa;
+      return lines.join("\n");
+    }
+    function porEmail(body){
+      var to=form.dataset.email||"agroambient@gmail.com";
+      location.href="mailto:"+to+"?subject="+encodeURIComponent("Pedido pelo site: "+sel.value)+"&body="+encodeURIComponent(body.replace(/\*/g,""));
+      msg.textContent="Abrimos seu aplicativo de e-mail com a mensagem pronta. Se ele não abrir, escreva para "+to+".";
+    }
+    form.addEventListener("submit",function(e){
+      e.preventDefault();
+      var body=montar(); if(!body) return;
+      var wa=form.dataset.wa;
       window.agroTrack && window.agroTrack.lead(sel.value);
       if(wa){
         var url="https://wa.me/"+wa+"?text="+encodeURIComponent(body);
         var w=window.open(url,"_blank","noopener");
         if(!w) location.href=url;
         msg.textContent="Abrimos o WhatsApp com a sua mensagem. É só tocar em enviar.";
-      }else{
-        // Sem número de WhatsApp configurado (content.py → whatsapp_e164): cai no e-mail.
-        var to=form.dataset.email||"agroambient@gmail.com";
-        location.href="mailto:"+to+"?subject="+encodeURIComponent("Pedido pelo site: "+sel.value)+"&body="+encodeURIComponent(body.replace(/\*/g,""));
-        msg.textContent="Abrimos seu aplicativo de e-mail com a mensagem pronta. Se ele não abrir, escreva para "+to+".";
-      }
+      }else porEmail(body);
     });
+    var be=$("formEmail");
+    if(be) be.addEventListener("click",function(){var body=montar(); if(!body) return; window.agroTrack && window.agroTrack.lead(sel.value); porEmail(body);});
+  }
+
+  /* ---------- Formulário Trabalhe conosco (abre o WhatsApp com a candidatura pronta) ---------- */
+  var fc=$("formCarreira");
+  if(fc){
+    var fcMsg=$("fcMsg");
+    fc.addEventListener("submit",function(e){
+      e.preventDefault();
+      var faltando=null, lines=["Olá, AgroAmbient! Quero me candidatar pelo site.",""];
+      Array.prototype.forEach.call(fc.querySelectorAll("[data-label]"),function(el){
+        var v=el.value.trim();
+        if(el.required&&!v&&!faltando) faltando=el;
+        if(v) lines.push("*"+el.dataset.label+":* "+v);
+      });
+      if(faltando){fcMsg.textContent="Preencha os campos obrigatórios.";faltando.focus();return;}
+      window.agroTrack && window.agroTrack.event("candidatura",{area:$("c-area").value});
+      var url="https://wa.me/"+fc.dataset.wa+"?text="+encodeURIComponent(lines.join("\n"));
+      var w=window.open(url,"_blank","noopener"); if(!w) location.href=url;
+      fcMsg.textContent="Abrimos o WhatsApp com a sua candidatura. Toque em enviar e, se quiser, anexe o currículo em PDF na conversa.";
+    });
+  }
+
+  /* ---------- Aviso de cookies: sobe o botão do WhatsApp enquanto o aviso estiver aberto ---------- */
+  var cb=$("consent");
+  if(cb&&window.ResizeObserver){
+    var ajusta=function(){d.documentElement.style.setProperty("--consent-h",(cb.hidden?0:cb.offsetHeight)+"px");};
+    new ResizeObserver(ajusta).observe(cb);
+    new MutationObserver(ajusta).observe(cb,{attributes:true,attributeFilter:["hidden"]});
+    ajusta();
   }
   var y=$("year"); if(y) y.textContent=new Date().getFullYear();
 

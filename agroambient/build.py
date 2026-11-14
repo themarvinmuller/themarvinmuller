@@ -15,7 +15,7 @@ import shutil
 from pathlib import Path
 from urllib.parse import quote
 
-from content import SITE, PHOTOS, AREAS, SERVICES, GLOSS, FAQ, POSTS, PARTNERS, SECTORS, DIFERENCIAIS
+from content import SITE, PHOTOS, AREAS, SERVICES, GLOSS, FAQ, POSTS, PARTNERS, SECTORS, DIFERENCIAIS, CARREIRAS
 
 ROOT = Path(__file__).parent
 DIST = ROOT / "dist"
@@ -25,6 +25,10 @@ SVC = {s["slug"]: s for s in SERVICES}
 AREA_NAME = {a[0]: a[1] for a in AREAS}
 AREA_ASSUNTO = {"fauna": "Estudos de fauna", "licenciamento": "Licenciamento e assessoria", "agro": "Agro e produção", "educacao": "Cursos e palestras"}
 PAGES = []  # (path, title) para sitemap e llms
+POSTS = sorted(POSTS, key=lambda p: p["date"], reverse=True)  # mais recentes primeiro
+FOTO_TAM = json.loads((ROOT / "static" / "fotos" / "tamanhos.json").read_text(encoding="utf-8")) if (ROOT / "static" / "fotos" / "tamanhos.json").exists() else {}
+MAIN_PHONE = SITE["phone"] or SITE["whatsapp"]          # telefone exibido (fixo; se vazio, o WhatsApp)
+MAIN_PHONE_E164 = SITE["phone_e164"] or ("+" + SITE["whatsapp_e164"] if SITE["whatsapp_e164"] else "")
 
 # ---------------------------------------------------------------------------
 # utilidades
@@ -60,6 +64,18 @@ def plain(s):
     return re.sub(r"\s+", " ", s).strip().replace(" .", ".")
 
 
+def trim_desc(s, limit=158):
+    """Corta a descrição para caber no resultado do Google: termina numa frase inteira ou numa palavra."""
+    s = plain(s)
+    if len(s) <= limit:
+        return s
+    cut = s[:limit]
+    end = cut.rfind(". ")
+    if end > 90:
+        return cut[:end + 1]
+    return cut[:cut.rfind(" ")].rstrip(",;:") + "…"
+
+
 def file_hash(p):
     return hashlib.sha1(p.read_bytes()).hexdigest()[:10]
 
@@ -75,7 +91,7 @@ def ld(obj):
 ORG_ID = U + "/#organizacao"
 SITE_ID = U + "/#site"
 
-LOGO_IMG = '<img src="/static/logo-agroambient.png" alt="" width="44" height="44">'
+LOGO_IMG = '<img src="/static/logo-88.png" alt="" width="44" height="44">'
 LOGO_SVG = '<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="{bg}"/><path d="M20 31V15" stroke="#F4F1E4" stroke-width="2" stroke-linecap="round"/><path d="M20 22c-6 0-9-4-9-9 6 0 9 4 9 9zM20 18c5 0 8-3 8-8-5 0-8 3-8 8z" fill="#D99A12"/><path d="M9 30c4-2 8-2 11 0s7 2 11 0" stroke="#62B7C0" stroke-width="2" fill="none" stroke-linecap="round"/></svg>'
 LEAF_DECO = '<svg class="deco" viewBox="0 0 200 200" aria-hidden="true"><path d="M100 190V60M100 120c-40 0-60-25-60-60 40 0 60 25 60 60zM100 95c35 0 52-22 52-52-35 0-52 22-52 52z" fill="currentColor"/></svg>'
 ARROW = '<svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
@@ -91,10 +107,23 @@ def icon(area):
     return '<svg class="svc-icon" viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">%s</svg>' % ICONS[area]
 
 
-def photo(key, alt, cls="", caption=None, style=""):
+def img_tag(src, alt, sizes="(max-width: 700px) 100vw, 50vw", lazy=True):
+    """<picture> com WebP em vários tamanhos (gerados por tools/otimizar_fotos.py) e JPEG de reserva, sempre com largura e altura."""
+    name = src.rsplit("/", 1)[-1]
+    info = FOTO_TAM.get(name) if src.startswith("/static/fotos/") else None
+    load = ' loading="lazy"' if lazy else ' fetchpriority="high"'
+    if not info:
+        return '<img%s decoding="async" src="%s" alt="%s">' % (load, e(src), e(alt))
+    stem = name.rsplit(".", 1)[0]
+    srcset = ", ".join("/static/fotos/w/%s-%d.webp %dw" % (stem, w, w) for w in info["webp"])
+    return ('<picture><source type="image/webp" srcset="%s" sizes="%s"><img%s decoding="async" src="%s" alt="%s" width="%d" height="%d"></picture>'
+            % (srcset, sizes, load, e(src), e(alt), info["w"], info["h"]))
+
+
+def photo(key, alt, cls="", caption=None, style="", sizes="(max-width: 700px) 100vw, 50vw"):
     cap = '<figcaption>%s</figcaption>' % e(caption) if caption else ""
-    return ('<figure class="photo %s" style="margin:0;%s"><img loading="lazy" decoding="async" src="%s" alt="%s">'
-            '<span class="ph">%s</span>%s</figure>') % (cls, style, e(PHOTOS[key]), e(alt), e(caption or alt), cap)
+    return ('<figure class="photo %s" style="margin:0;%s">%s'
+            '<span class="ph">%s</span>%s</figure>') % (cls, style, img_tag(PHOTOS[key], alt, sizes), e(caption or alt), cap)
 
 
 def contato_href(assunto=None):
@@ -116,8 +145,13 @@ def org_ld():
         "image": abs_url("/static/og.png"),
         "description": SITE["description"],
         "slogan": SITE["slogan"],
-        "telephone": SITE["phone_e164"],
+        "telephone": MAIN_PHONE_E164,
         "email": SITE["email"],
+        "contactPoint": [x for x in [
+            {"@type": "ContactPoint", "contactType": "customer service", "telephone": "+" + SITE["whatsapp_e164"], "availableLanguage": "Portuguese",
+             "contactOption": "WhatsApp", "areaServed": "BR"} if SITE["whatsapp_e164"] else None,
+            {"@type": "ContactPoint", "contactType": "sales", "telephone": SITE["phone_e164"], "email": SITE["email"], "availableLanguage": "Portuguese", "areaServed": "BR"} if SITE["phone_e164"] else None,
+        ] if x],
         "address": {"@type": "PostalAddress", "streetAddress": SITE["street"], "addressLocality": SITE["city"],
                     "addressRegion": SITE["region"], "postalCode": SITE["postal"], "addressCountry": "BR"},
         "geo": {"@type": "GeoCoordinates", "latitude": SITE["geo"][0], "longitude": SITE["geo"][1]},
@@ -133,11 +167,20 @@ def org_ld():
                        "EIA/RIMA", "PCA", "RAP", "PRAD", "PTRF", "PAE", "biota aquática", "ictioplâncton",
                        "necropsia de peixes", "laudos periciais ambientais", "manejo de macrófitas", "mapeamento com drone",
                        "educação ambiental", "Cerrado"],
-        "sameAs": [x for x in [SITE["facebook"], SITE["instagram"]] if x],
+        "sameAs": [x for x in [SITE["facebook"], SITE["instagram"], SITE.get("linkedin", ""), SITE.get("google_maps", "")] if x],
         "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Serviços ambientais",
                             "itemListElement": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": s["name"], "url": abs_url("/servicos/%s/" % s["slug"])}} for s in SERVICES]},
     }
     return o
+
+
+def author_ld():
+    """Autor dos artigos: o biólogo responsável (E-E-A-T), ligado à empresa."""
+    if not SITE.get("blog_author"):
+        return {"@id": ORG_ID}
+    return {"@type": "Person", "@id": U + "/#autor", "name": SITE["blog_author"], "jobTitle": SITE["blog_author_title"],
+            "description": SITE["founder_title"] if SITE["blog_author"] == SITE["founder"] else SITE["blog_author_title"],
+            "worksFor": {"@id": ORG_ID}, "url": U + "/sobre/", "knowsAbout": ["ictiofauna", "zoologia", "estudos de fauna", "licenciamento ambiental"]}
 
 
 def site_ld():
@@ -196,43 +239,60 @@ def header(path):
 </header>""" % (LOGO_IMG, "\n      ".join(links))
 
 
+def socials():
+    """Links das redes que estiverem preenchidas em content.py."""
+    nets = [("Facebook", SITE["facebook"]), ("Instagram", SITE["instagram"]), ("LinkedIn", SITE.get("linkedin", ""))]
+    return " · ".join('<a href="%s" target="_blank" rel="noopener">%s</a>' % (e(u), n) for n, u in nets if u)
+
+
 def footer():
     svc_links = "".join('<li><a href="/servicos/%s/">%s</a></li>' % (s["slug"], e(s["name"])) for s in SERVICES[:7])
     wa = ("https://wa.me/%s?text=%s" % (SITE["whatsapp_e164"], quote("Olá! Vim pelo site da AgroAmbient."))) if SITE["whatsapp_e164"] else "/contato/"
-    wa_label = "Falar pelo WhatsApp" if SITE["whatsapp_e164"] else "Falar com a AgroAmbient (WhatsApp a confirmar)"
+    wa_label = "Falar pelo WhatsApp" if SITE["whatsapp_e164"] else "Falar com a AgroAmbient"
+    contato = []
+    if SITE["whatsapp_e164"]:
+        contato.append('<li><a href="https://wa.me/%s" target="_blank" rel="noopener" data-track="whatsapp_click" data-local="rodape">WhatsApp %s</a></li>' % (SITE["whatsapp_e164"], SITE["whatsapp"]))
+    if SITE["phone"]:
+        contato.append('<li><a href="tel:%s" data-track="phone_click" data-local="rodape">%s</a></li>' % (SITE["phone_e164"], SITE["phone"]))
+    contato.append('<li><a href="mailto:%s" data-track="email_click" data-local="rodape">%s</a></li>' % (SITE["email"], SITE["email"]))
+    contato.append('<li>%s</li><li>%s, %s · %s</li>' % (SITE["street"], SITE["city"], SITE["region"], SITE["postal"]))
+    contato.append('<li><a href="/perguntas-frequentes/">Perguntas frequentes</a></li><li><a href="/blog/">Blog</a></li><li><a href="/trabalhe-conosco/">Trabalhe conosco</a></li>')
+    medidores = " e ".join(x for x in ["Google Analytics" if SITE["ga4"] else "", "Google Ads" if SITE["ads"] else ""] if x)
+    objetivo = "entender as visitas e medir nossos anúncios" if SITE["ads"] else "entender como o site é usado"
     return """<footer class="site-foot">
   <div class="wrap">
     <div>
       <a class="brand" href="/" style="color:#F4F1E4">%s AgroAmbient</a>
       <p style="margin-top:1rem;max-width:40ch">Assessoria agroambiental e estudos de fauna terrestre e aquática. Base em Catalão (GO), atuação em todo o Brasil.</p>
-      <p style="margin-top:1rem"><a href="%s" target="_blank" rel="noopener">Facebook</a></p>
+      <p style="margin-top:1rem">%s</p>
     </div>
     <div><h4>Serviços</h4><ul>%s<li><a href="/servicos/">Todos os serviços</a></li></ul></div>
-    <div><h4>Contato</h4><ul><li><a href="tel:%s" data-track="phone_click">%s</a></li><li>%s</li><li>%s</li><li>%s, %s · %s</li><li><a href="/perguntas-frequentes/">Perguntas frequentes</a></li><li><a href="/blog/">Blog</a></li></ul></div>
+    <div><h4>Contato</h4><ul>%s</ul></div>
     <div class="legal"><span>© <span id="year">%s</span> %s · <a href="/politica-de-privacidade/">Privacidade</a> · <button class="consent-link" type="button" id="consentOpen">Preferências de cookies</button></span><span>CNPJ %s · CTF/IBAMA %s · CRBio-04 %s</span><span class="credit">Site por <a href="https://willianrosa.com.br" target="_blank" rel="noopener">Willian Rosa</a></span></div>
   </div>
 </footer>
 <div class="consent" id="consent" role="dialog" aria-live="polite" aria-label="Preferências de cookies" hidden>
-  <div><strong>Cookies e medição</strong><p>Usamos cookies do Google Analytics e do Google Ads para entender as visitas e melhorar nossos anúncios. Veja a <a href="/politica-de-privacidade/">política de privacidade</a>.</p></div>
+  <div><strong>Cookies e medição</strong><p>Usamos cookies do %s para %s, só se você aceitar. Veja a <a href="/politica-de-privacidade/">política de privacidade</a>.</p></div>
   <div class="row"><button class="btn btn-ipe" type="button" id="consentYes">Aceitar</button><button class="btn btn-line" type="button" id="consentNo">Recusar</button></div>
 </div>
-<a class="wa" href="%s" id="waBtn" data-track="whatsapp_click" aria-label="%s"%s>
+<a class="wa" href="%s" id="waBtn" data-track="whatsapp_click" data-local="botao_flutuante" aria-label="%s"%s>
   <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6c-2 0-4-.6-5.7-1.6l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5.9-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.7 3.7 0 0 0-1.1 2.7 6.4 6.4 0 0 0 1.3 3.4 14.7 14.7 0 0 0 5.7 5c2.1.9 2.9 1 4 .8.6-.1 1.9-.8 2.2-1.5s.3-1.4.2-1.5-.3-.2-.6-.3z"/></svg>
-</a>""" % (LOGO_IMG, SITE["facebook"], svc_links, SITE["phone_e164"], SITE["phone"], SITE["email"],
-           SITE["street"], SITE["city"], SITE["region"], SITE["postal"], datetime.date.today().year, SITE["legal_name"], SITE["cnpj"], SITE["ctf"], SITE["crbio"],
-           wa, wa_label, ' target="_blank" rel="noopener"' if SITE["whatsapp_e164"] else "")
+</a>""" % (LOGO_IMG, socials(), svc_links, "".join(contato), datetime.date.today().year, SITE["legal_name"], SITE["cnpj"], SITE["ctf"], SITE["crbio"],
+           medidores or "Google Analytics", objetivo, wa, wa_label, ' target="_blank" rel="noopener"' if SITE["whatsapp_e164"] else "")
 
 
 ASSET_V = {}
+FONT_PRELOAD = []  # fontes usadas na primeira dobra (preenchido em main)
 
 
 def render(path, title, description, body, schema=(), og_type="website", noindex=False, extra_head=""):
     """Escreve dist/<path>/index.html."""
-    full_title = title if "AgroAmbient" in title else "%s | AgroAmbient" % title
+    # O Google corta títulos acima de ~60 caracteres: só acrescenta a marca quando cabe.
+    full_title = title if ("AgroAmbient" in title or len(title) > 50) else "%s | AgroAmbient" % title
     graph = {"@context": "https://schema.org", "@graph": [org_ld() if path == "/" else {"@id": ORG_ID, "@type": ["Organization", "ProfessionalService"], "name": SITE["name"], "url": U + "/"},
                                                           site_ld()] + list(schema)}
     canon = abs_url(path)
-    desc = plain(description)
+    desc = trim_desc(description)
     verify = '<meta name="google-site-verification" content="%s">\n' % e(SITE["gsc_verification"]) if SITE["gsc_verification"] else ""
     doc = """<!doctype html>
 <html lang="pt-BR">
@@ -261,10 +321,7 @@ def render(path, title, description, body, schema=(), og_type="website", noindex
 <link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="alternate" type="text/plain" title="Resumo para assistentes de IA" href="/llms.txt">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Figtree:ital,wght@0,400..700;1,400..600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="/assets/site.css?v={vcss}">
+{preload}<link rel="stylesheet" href="/assets/site.css?v={vcss}">
 {tracking}
 {extra}{ld}
 <style>:root{{padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}}body{{margin:0}}[hidden]{{display:none!important}}</style>
@@ -279,7 +336,7 @@ def render(path, title, description, body, schema=(), og_type="website", noindex
 </body>
 </html>
 """.format(title=e(full_title), desc=e(desc), canon=canon, robots="noindex, follow" if noindex else "index, follow, max-image-preview:large, max-snippet:-1",
-           og_type=og_type, og=abs_url("/static/og.png"), verify=verify, vcss=ASSET_V["css"], vjs=ASSET_V["js"],
+           og_type=og_type, og=abs_url("/static/og.png"), preload="".join('<link rel="preload" href="/static/fonts/%s" as="font" type="font/woff2" crossorigin>\n' % f for f in FONT_PRELOAD), verify=verify, vcss=ASSET_V["css"], vjs=ASSET_V["js"],
            tracking=tracking_script(), extra=extra_head, ld=ld(graph), header=header(path), body=body, footer=footer())
     out = DIST / path.strip("/") / "index.html" if path != "/404" else DIST / "404.html"
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -324,7 +381,7 @@ def cta_band(title="Conte o que o seu empreendimento precisa.", text="Respondemo
     return """<section class="sec" style="padding-top:0"><div class="wrap"><div class="cta-band reveal">%s
   <div><h2>%s</h2><p>%s</p></div>
   <div class="row">%s<a class="btn btn-line" style="color:inherit;box-shadow:inset 0 0 0 1.5px currentColor" href="tel:%s" data-track="phone_click">%s</a></div>
-</div></div></section>""" % (LEAF_DECO, e(title), e(text), btn(contato_href(assunto), "Solicitar orçamento", track="cta_orcamento", local="faixa"), SITE["phone_e164"], SITE["phone"])
+</div></div></section>""" % (LEAF_DECO, e(title), e(text), btn(contato_href(assunto), "Solicitar orçamento", track="cta_orcamento", local="faixa"), MAIN_PHONE_E164, MAIN_PHONE)
 
 
 def svc_card(s):
@@ -431,20 +488,20 @@ def contact_block(heading="h2", title="Conte o que o seu empreendimento precisa.
     opts = "".join('<option>%s</option>' % e(a) for a in ASSUNTOS)
     wa = ('<a href="https://wa.me/%s" target="_blank" rel="noopener" data-track="whatsapp_click">%s</a>' % (SITE["whatsapp_e164"], SITE["whatsapp"])) if SITE["whatsapp_e164"] else \
         ""
-    insta = (' · <a href="%s" target="_blank" rel="noopener">Instagram</a>' % SITE["instagram"]) if SITE["instagram"] else ""
     if SITE["whatsapp_e164"]:
         intro, btn = "Preencha em 30 segundos. Ao enviar, o WhatsApp abre com a mensagem pronta para a nossa equipe.", "Enviar pelo WhatsApp"
     else:
         intro, btn = "Preencha em 30 segundos. Ao enviar, seu e-mail abre com a mensagem pronta para a nossa equipe.", "Enviar pedido"
-    maps = "https://www.google.com/maps/search/?api=1&query=" + quote("%s, %s - %s, %s" % (SITE["street"], SITE["city"], SITE["region"], SITE["postal"]))
+    tel_row = ('<div><dt>Telefone</dt><dd><a id="tel" href="tel:%s" data-track="phone_click">%s</a><button class="copy" type="button" data-copy="tel" data-track="copy_phone">copiar</button></dd></div>' % (SITE["phone_e164"], SITE["phone"])) if SITE["phone"] else ""
+    maps = SITE.get("google_maps") or "https://www.google.com/maps/search/?api=1&query=" + quote("%s, %s - %s, %s" % (SITE["street"], SITE["city"], SITE["region"], SITE["postal"]))
     return """<div class="contact-grid">
   <div class="cinfo reveal">
     <dl>
-      <div><dt>Telefone</dt><dd><a id="tel" href="tel:%s" data-track="phone_click">%s</a><button class="copy" type="button" data-copy="tel" data-track="copy_phone">copiar</button></dd></div>
       <div><dt>WhatsApp</dt><dd>%s</dd></div>
-      <div><dt>E-mail</dt><dd><span id="mail">%s</span><button class="copy" type="button" data-copy="mail" data-track="copy_email">copiar</button></dd></div>
+      %s
+      <div><dt>E-mail</dt><dd><a id="mail" href="mailto:%s" data-track="email_click">%s</a><button class="copy" type="button" data-copy="mail" data-track="copy_email">copiar</button></dd></div>
       <div><dt>Endereço</dt><dd>%s<br>%s, %s · %s<br><a href="%s" target="_blank" rel="noopener" style="font-size:.92rem;font-weight:500">Ver no Google Maps</a></dd></div>
-      <div><dt>Redes</dt><dd><a href="%s" target="_blank" rel="noopener">Facebook</a>%s</dd></div>
+      <div><dt>Redes</dt><dd>%s</dd></div>
     </dl>
   </div>
   <form id="form" class="reveal" style="--d:.1s" novalidate data-wa="%s" data-email="%s" aria-label="Pedido de orçamento pelo WhatsApp">
@@ -458,11 +515,12 @@ def contact_block(heading="h2", title="Conte o que o seu empreendimento precisa.
     <p style="font-size:.82rem;color:var(--muted)">Usamos seus dados só para responder ao pedido. Veja a <a href="/politica-de-privacidade/">política de privacidade</a>.</p>
     <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:center">
       <button class="btn btn-ipe btn-wa" type="submit"><svg aria-hidden="true" viewBox="0 0 32 32" width="20" height="20"><path fill="currentColor" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6c-2 0-4-.5-5.7-1.6l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5.9-1.6.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.2 1.4 3.5c.2.2 2.4 3.6 5.8 5 2.1.9 3 1 4 .8.7-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5-.1-.2-.3-.2-.6-.4z"/></svg> %s</button>
+      <button class="btn btn-line" type="button" id="formEmail" data-track="form_email">Prefiro enviar por e-mail</button>
       <p class="form-msg" id="formMsg" aria-live="polite"></p>
     </div>
   </form>
-</div>""" % (SITE["phone_e164"], SITE["phone"], wa, SITE["email"], SITE["street"], SITE["city"], SITE["region"], SITE["postal"], maps,
-           SITE["facebook"], insta, SITE["whatsapp_e164"], SITE["email"], intro, opts, btn)
+</div>""" % (wa, tel_row, SITE["email"], SITE["email"], SITE["street"], SITE["city"], SITE["region"], SITE["postal"], maps,
+           socials(), SITE["whatsapp_e164"], SITE["email"], intro, opts, btn)
 
 
 def portfolio_btn(local, cls="btn-line"):
@@ -482,7 +540,8 @@ def gallery():
     items = [("monitoramento", "Armadilha fotográfica", "g1"), ("ictio", "Ictiofauna em reservatório", "g2"), ("resgate", "Resgate de fauna", "g3"),
              ("macrofitas", "Manejo de macrófitas", "g4"), ("eia", "Levantamento para EIA/RIMA", "g5"), ("drone", "Mapeamento com drone", "g6")]
     return '<div class="gallery">%s</div>' % "".join(
-        photo(k, "Registro de campo da AgroAmbient: " + c.lower(), cls=g + " reveal", caption=c, style="--d:%.2fs" % ((i % 3) * .08)) for i, (k, c, g) in enumerate(items))
+        photo(k, "Registro de campo da AgroAmbient: " + c.lower(), cls=g + " reveal", caption=c, style="--d:%.2fs" % ((i % 3) * .08),
+              sizes="(max-width: 760px) 50vw, 34vw") for i, (k, c, g) in enumerate(items))
 
 
 # ---------------------------------------------------------------------------
@@ -530,7 +589,7 @@ def page_home():
   <div class="sec-head reveal"><p class="eyebrow">Serviços</p><h2>Do levantamento em campo ao protocolo no órgão ambiental.</h2>
     <p>Quatro frentes de trabalho que se complementam. Você pode contratar um estudo pontual ou a assessoria completa do empreendimento.</p></div>
   <div style="margin-top:3.5rem">%s</div>
-  %s
+  <p class="reveal" style="margin-top:2rem"><a class="btn btn-line" href="/servicos/">Ver todos os serviços e o significado das siglas</a></p>
 </div></section>
 
 %s
@@ -559,7 +618,8 @@ def page_home():
 
 <section class="sec services"><div class="wrap">
   <div class="sec-head reveal"><p class="eyebrow">Blog</p><h2>Guias sobre fauna e licenciamento.</h2></div>
-  <div class="cards" style="margin-top:2.4rem">%s</div>
+  <div class="cards cards-scroll" style="margin-top:2.4rem">%s</div>
+  <p class="reveal" style="margin-top:1.6rem"><a class="btn btn-line" href="/blog/">Ver todos os artigos</a></p>
 </div></section>
 
 <section class="sec" id="contato"><div class="wrap">
@@ -569,12 +629,12 @@ def page_home():
         btn("/contato/", "Solicitar orçamento", track="cta_orcamento", local="hero"),
         portfolio_btn("home"),
         photo("equipe", "Biólogo da AgroAmbient com puçá em levantamento de fauna no Cerrado", caption="Equipe em campo"),
-        photo("monitoramento", "Instalação de armadilha fotográfica para monitoramento de fauna", caption="Armadilha fotográfica"),
-        photo("necropsia", "Análise de peixes em laboratório com estereomicroscópio", caption="Laboratório"),
-        e(SITE["founder"]), e(SITE["founder_title"]), partners_html(), areas_grid(), glossary(), river_block(), fauna_panel(), process_html(), gallery(),
+        photo("monitoramento", "Instalação de armadilha fotográfica para monitoramento de fauna", caption="Armadilha fotográfica", sizes="(max-width: 860px) 50vw, 25vw"),
+        photo("necropsia", "Análise de peixes em laboratório com estereomicroscópio", caption="Laboratório", sizes="(max-width: 860px) 50vw, 25vw"),
+        e(SITE["founder"]), e(SITE["founder_title"]), partners_html(), areas_grid(), river_block(), fauna_panel(), process_html(), gallery(),
         courses_cards() + '<p class="reveal" style="margin-top:2rem">%s</p>' % btn("/cursos-e-palestras/", "Ver cursos e palestras"),
-        faq_html(faq_preview), "".join(post_card(p) for p in POSTS), contact_block())
-    render("/", "AgroAmbient | Consultoria ambiental e estudos de fauna em Goiás, Minas e todo o Brasil",
+        faq_html(faq_preview), "".join(post_card(p) for p in POSTS[:3]), contact_block())
+    render("/", "AgroAmbient | Estudos de fauna e consultoria ambiental",
            "Estudos de fauna terrestre e aquática, licenciamento ambiental, outorga e assessoria agroambiental em todo o Brasil, a partir de Catalão (GO).",
            body)
 
@@ -682,7 +742,7 @@ def page_service(s):
     aside = """<aside class="aside">
   <div class="aside-card"><h2>Precisa de %s?</h2><p>Conte o tipo de empreendimento e o que o órgão pediu. Respondemos com proposta e prazo.</p>%s<p style="font-size:.9rem">Ou ligue: <a href="tel:%s" data-track="phone_click">%s</a></p></div>
   <div class="aside-card"><h2>%s</h2><ul>%s</ul></div>
-</aside>""" % (e(s["name"].lower()), btn(contato_href(assunto), "Pedir orçamento", track="cta_orcamento", local="aside"), SITE["phone_e164"], SITE["phone"],
+</aside>""" % (e(s["name"].lower()), btn(contato_href(assunto), "Pedir orçamento", track="cta_orcamento", local="aside"), MAIN_PHONE_E164, MAIN_PHONE,
                e(AREA_NAME[s["area"]]), "".join('<li><a href="/servicos/%s/"%s>%s</a></li>' % (x["slug"], ' aria-current="page"' if x is s else "", e(x["name"])) for x in siblings))
     related = "".join(svc_card(SVC[r]) for r in s["related"] if r in SVC)
     body = hero + """
@@ -697,7 +757,7 @@ def page_service(s):
                "category": AREA_NAME[s["area"]]}, crumbs_ld(cr)]
     if s["faq"]:
         schema.append(faq_ld(s["faq"]))
-    render(path, s["title"], s["summary"][:300], body, schema=schema)
+    render(path, s["title"], s["summary"], body, schema=schema)
 
 
 def page_fauna():
@@ -794,7 +854,7 @@ def page_blog():
 <section class="sec"><div class="wrap"><div class="cards">%s</div></div></section>
 %s""" % ("".join(post_card(p) for p in POSTS), cta_band())
     render("/blog/", "Blog: fauna, licenciamento e regularização ambiental",
-           "Artigos e guias da AgroAmbient sobre estudos de fauna, resgate, licenciamento ambiental e outorga de água em Minas Gerais.",
+           "Artigos e guias da AgroAmbient sobre estudos de fauna, resgate, licenciamento ambiental e outorga de água em Goiás e Minas Gerais.",
            body, schema=[{"@type": "Blog", "url": abs_url("/blog/"), "name": "Blog da AgroAmbient", "publisher": {"@id": ORG_ID},
                           "blogPost": [{"@type": "BlogPosting", "headline": p["title"], "url": abs_url("/blog/%s/" % p["slug"])} for p in POSTS]}, crumbs_ld(cr)])
 
@@ -821,7 +881,8 @@ def page_post(p):
     cr = [("Início", "/"), ("Blog", "/blog/"), (p["title"], path)]
     d = datetime.date.fromisoformat(p["date"])
     words = len(plain(" ".join(str(v) for _, v in p["body"])).split())
-    meta = '<p class="post-meta"><time datetime="%s">%s</time> · %d min de leitura · Equipe AgroAmbient</p>' % (p["date"], d.strftime("%d/%m/%Y"), max(1, round(words / 200)))
+    autor = ("%s, %s" % (SITE["blog_author"], SITE["blog_author_title"].lower())) if SITE.get("blog_author") else "Equipe AgroAmbient"
+    meta = '<p class="post-meta"><time datetime="%s">%s</time> · %d min de leitura · Por %s</p>' % (p["date"], d.strftime("%d/%m/%Y"), max(1, round(words / 200)), e(autor))
     hero = hero_page(p["title"], p["description"], cr, eyebrow="Blog", seed=29 + POSTS.index(p), meta=meta)
     toc = "".join('<li><a href="#%s">%s</a></li>' % (re.sub(r"[^a-z0-9]+", "-", v.lower().encode("ascii", "ignore").decode()).strip("-"), e(v)) for k, v in p["body"] if k == "h2")
     aside = """<aside class="aside">
@@ -841,7 +902,7 @@ def page_post(p):
 %s""" % (e(p["summary"]), render_post_body(p["body"]), d.strftime("%d/%m/%Y"), aside, "".join(post_card(x) for x in POSTS if x is not p), cta_band())
     schema = [{"@type": "BlogPosting", "headline": p["title"], "description": p["description"], "datePublished": p["date"], "dateModified": p["date"],
                "inLanguage": "pt-BR", "mainEntityOfPage": abs_url(path), "url": abs_url(path), "image": abs_url("/static/og.png"),
-               "author": {"@id": ORG_ID}, "publisher": {"@id": ORG_ID}, "abstract": p["summary"]}, crumbs_ld(cr)]
+               "author": author_ld(), "publisher": {"@id": ORG_ID}, "abstract": p["summary"]}, crumbs_ld(cr)]
     render(path, p["title"], p["description"], body, schema=schema, og_type="article")
 
 
@@ -850,8 +911,53 @@ def page_contato():
     body = hero_page("Fale com a AgroAmbient.", "Peça um orçamento, tire dúvidas sobre o licenciamento ou agende uma palestra.", cr, eyebrow="Contato", seed=31) + """
 <section class="sec"><div class="wrap">%s</div></section>""" % contact_block()
     render("/contato/", "Contato e orçamento",
-           "Solicite orçamento de estudos de fauna, licenciamento ambiental e outorga. WhatsApp (34) 99806-7566 e telefone (34) 3855-1197. Sede em Catalão (GO).",
+           "Solicite orçamento de estudos de fauna, licenciamento ambiental e outorga. WhatsApp %s. Sede em Catalão (GO), atendimento em todo o Brasil." % SITE["whatsapp"],
            body, schema=[{"@type": "ContactPage", "url": abs_url("/contato/"), "name": "Contato AgroAmbient", "about": {"@id": ORG_ID}}, crumbs_ld(cr)])
+
+
+def page_carreiras():
+    cr = [("Início", "/"), ("Trabalhe conosco", "/trabalhe-conosco/")]
+    areas = "".join('<option>%s</option>' % e(a) for a in CARREIRAS["areas"])
+    vinc = "".join('<option>%s</option>' % e(a) for a in CARREIRAS["vinculos"])
+    body = hero_page("Trabalhe com a AgroAmbient.", "Biólogos, técnicos e estudantes que gostam de campo: deixe seus dados para as próximas campanhas e vagas.",
+                     cr, eyebrow="Trabalhe conosco", seed=43) + """
+<section class="sec"><div class="wrap split">
+  <div class="prose reveal">
+    <h2 style="margin-top:0">Quem procuramos</h2>
+    <p>Montamos equipes por projeto para estudos de fauna terrestre e aquática, resgate de fauna e estudos ambientais em todo o Brasil. Por isso estamos sempre formando um banco de profissionais.</p>
+    <ul>
+      <li>Biólogos com experiência em mastofauna, avifauna, herpetofauna, ictiofauna ou biota aquática.</li>
+      <li>Profissionais de licenciamento, geoprocessamento e mapeamento com drone.</li>
+      <li>Auxiliares de campo e estudantes interessados em estágio.</li>
+    </ul>
+    <p>Para trabalhar com fauna em campo, registro ativo no conselho de classe e disponibilidade para viagens contam a favor.</p>
+    <p>Preencha o formulário: ao enviar, o WhatsApp abre com a sua candidatura pronta. Se quiser, anexe o currículo em PDF na própria conversa.</p>
+  </div>
+  <form id="formCarreira" class="reveal form-carreira" novalidate data-wa="%s" aria-label="Candidatura pelo WhatsApp">
+    <div class="row2">
+      <label for="c-nome">Nome completo<input id="c-nome" data-label="Nome" autocomplete="name" required></label>
+      <label for="c-cidade">Cidade e estado<input id="c-cidade" data-label="Cidade" placeholder="Ex.: Catalão, GO" required></label>
+    </div>
+    <div class="row2">
+      <label for="c-formacao">Formação<input id="c-formacao" data-label="Formação" placeholder="Ex.: Biologia, mestrado em Zoologia" required></label>
+      <label for="c-registro">Registro profissional <span style="font-weight:400;color:var(--muted)">(opcional)</span><input id="c-registro" data-label="Registro" placeholder="Ex.: CRBio 12345/04-D"></label>
+    </div>
+    <div class="row2">
+      <label for="c-area">Área de interesse<select id="c-area" data-label="Área">%s</select></label>
+      <label for="c-vinculo">Formato<select id="c-vinculo" data-label="Formato">%s</select></label>
+    </div>
+    <label for="c-exp">Experiência em poucas palavras<textarea id="c-exp" data-label="Experiência" rows="3" placeholder="Grupos com que já trabalhou, métodos, campanhas, tempo de experiência..." required></textarea></label>
+    <label for="c-link">Link do currículo Lattes ou LinkedIn <span style="font-weight:400;color:var(--muted)">(opcional)</span><input id="c-link" data-label="Currículo" type="url" placeholder="https://"></label>
+    <p style="font-size:.82rem;color:var(--muted)">Usamos seus dados só para processos seletivos da AgroAmbient. Veja a <a href="/politica-de-privacidade/">política de privacidade</a>.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:center">
+      <button class="btn btn-ipe btn-wa" type="submit">Enviar candidatura pelo WhatsApp</button>
+      <p class="form-msg" id="fcMsg" aria-live="polite"></p>
+    </div>
+  </form>
+</div></section>""" % (SITE["whatsapp_e164"], areas, vinc)
+    render("/trabalhe-conosco/", "Trabalhe conosco: biólogos e equipe de campo",
+           "Biólogos, técnicos e estudantes: cadastre-se para campanhas de campo, estudos de fauna e vagas na AgroAmbient. A candidatura é enviada pelo WhatsApp.",
+           body, schema=[crumbs_ld(cr)])
 
 
 def page_privacidade():
@@ -861,25 +967,29 @@ def page_privacidade():
 <p>Esta política explica como a %s (“AgroAmbient”), CNPJ %s, com sede em %s, %s/%s, trata dados pessoais neste site, conforme a Lei Geral de Proteção de Dados (Lei nº 13.709/2018).</p>
 <h2>Quais dados coletamos</h2>
 <ul>
-<li><strong>Dados que você envia:</strong> nome, cidade, assunto e mensagem, quando você usa o formulário de contato. O formulário não guarda nada no site: ele abre o WhatsApp com a mensagem pronta, e a conversa segue pelo WhatsApp, sujeita também à política do aplicativo.</li>
-<li><strong>Dados de navegação:</strong> páginas visitadas, tipo de dispositivo e origem da visita, coletados por cookies do Google Analytics e do Google Ads, somente se você aceitar no aviso de cookies.</li>
+<li><strong>Dados que você envia:</strong> nome, cidade, assunto e mensagem, quando você usa o formulário de contato, e dados profissionais, quando você se candidata pela página Trabalhe conosco. O formulário não guarda nada no site: ele abre o WhatsApp com a mensagem pronta, e a conversa segue pelo WhatsApp, sujeita também à política do aplicativo.</li>
+<li><strong>Dados de navegação:</strong> páginas visitadas, tipo de dispositivo e origem da visita, coletados por cookies do %s, somente se você aceitar no aviso de cookies.</li>
 </ul>
 <h2>Para que usamos</h2>
 <ul>
 <li>Responder pedidos de orçamento e dúvidas.</li>
 <li>Entender como o site é usado e melhorar o conteúdo.</li>
-<li>Medir o resultado de anúncios.</li>
+%s
 </ul>
 <h2>Base legal</h2>
 <p>Usamos os dados de contato para atender ao seu pedido e para procedimentos preliminares de contrato. Os cookies de medição e publicidade dependem do seu consentimento, que pode ser retirado a qualquer momento em “Preferências de cookies”, no rodapé.</p>
 <h2>Compartilhamento</h2>
-<p>Não vendemos dados pessoais. Os dados de navegação são processados pelo Google (Analytics e Ads) quando você consente. Podemos compartilhar dados quando exigido por lei ou por autoridade competente.</p>
+<p>Não vendemos dados pessoais. Os dados de navegação são processados pelo Google (%s) quando você consente. Podemos compartilhar dados quando exigido por lei ou por autoridade competente.</p>
 <h2>Por quanto tempo guardamos</h2>
 <p>Pelo tempo necessário para atender ao pedido e cumprir obrigações legais.</p>
 <h2>Seus direitos</h2>
 <p>Você pode pedir confirmação, acesso, correção, anonimização, portabilidade ou exclusão dos seus dados, e informações sobre compartilhamento, conforme o artigo 18 da LGPD. Escreva para <strong>%s</strong>.</p>
 <p class="note">Última atualização: %s.</p>
-</article></div></section>""" % (SITE["legal_name"], SITE["cnpj"], SITE["street"], SITE["city"], SITE["region"], SITE["email"], datetime.date.today().strftime("%d/%m/%Y"))
+</article></div></section>""" % (SITE["legal_name"], SITE["cnpj"], SITE["street"], SITE["city"], SITE["region"],
+       "Google Analytics e do Google Ads" if SITE["ads"] else "Google Analytics",
+       "<li>Medir o resultado de anúncios.</li>" if SITE["ads"] else "",
+       "Analytics e Ads" if SITE["ads"] else "Google Analytics",
+       SITE["email"], datetime.date.today().strftime("%d/%m/%Y"))
     render("/politica-de-privacidade/", "Política de privacidade", "Como a AgroAmbient trata dados pessoais e cookies neste site, conforme a LGPD.", body, schema=[crumbs_ld(cr)])
 
 
@@ -908,7 +1018,8 @@ def write_seo_files():
          "- Empresa: %s" % SITE["legal_name"],
          "- Sede: %s, %s, %s/%s, Brasil" % (SITE["street"], SITE["city"], SITE["region"], SITE["postal"]),
          "- Atuação: todo o território nacional, com base em Catalão (GO), na divisa com Minas Gerais",
-         "- Telefone: %s" % SITE["phone"], "- WhatsApp: %s" % SITE["whatsapp"], "- E-mail: %s" % SITE["email"],
+         ] + (["- Telefone: %s" % SITE["phone"]] if SITE["phone"] else []) + ["- WhatsApp: %s" % SITE["whatsapp"], "- E-mail: %s" % SITE["email"],
+         "- Redes: %s" % ", ".join(x for x in [SITE["instagram"], SITE.get("linkedin", ""), SITE["facebook"]] if x),
          "- Fundação: %s" % SITE["founded"], "- CNPJ: %s" % SITE["cnpj"], "- CTF/IBAMA: %s" % SITE["ctf"], "- Registro CRBio-04: %s" % SITE["crbio"],
          "- Direção técnica: %s, %s" % (SITE["founder"], SITE["founder_title"]),
          "- Setores atendidos: %s" % ", ".join(SECTORS),
@@ -923,7 +1034,8 @@ def write_seo_files():
           "- [Sobre](%s/sobre/): história, missão, visão e equipe." % U,
           "- [Fauna](%s/fauna/): grupos de fauna estudados e métodos." % U,
           "- [Perguntas frequentes](%s/perguntas-frequentes/): respostas sobre fauna, licenciamento, prazos e orçamento." % U,
-          "- [Contato](%s/contato/): orçamento e dados de contato." % U, "", "## Artigos", ""]
+          "- [Contato](%s/contato/): orçamento e dados de contato." % U,
+          "- [Trabalhe conosco](%s/trabalhe-conosco/): cadastro de biólogos e equipe de campo." % U, "", "## Artigos", ""]
     L += ["- [%s](%s/blog/%s/): %s" % (p["title"], U, p["slug"], p["description"]) for p in POSTS]
     L += ["", "## Opcional", "", "- [Texto completo do site](%s/llms-full.txt): todo o conteúdo em texto simples." % U, ""]
     (DIST / "llms.txt").write_text("\n".join(L), encoding="utf-8")
@@ -966,10 +1078,13 @@ def main():
     if DIST.exists():
         shutil.rmtree(DIST)
     (DIST / "assets").mkdir(parents=True)
-    for f in ("site.css", "site.js"):
-        shutil.copy(ROOT / "assets" / f, DIST / "assets" / f)
-    ASSET_V["css"] = file_hash(ROOT / "assets" / "site.css")
+    # fontes locais (assets/fonts.css) vão junto no mesmo CSS, sem pedir nada ao Google
+    css = (ROOT / "assets" / "fonts.css").read_text(encoding="utf-8") + (ROOT / "assets" / "site.css").read_text(encoding="utf-8")
+    (DIST / "assets" / "site.css").write_text(css, encoding="utf-8")
+    shutil.copy(ROOT / "assets" / "site.js", DIST / "assets" / "site.js")
+    ASSET_V["css"] = hashlib.sha1(css.encode("utf-8")).hexdigest()[:10]
     ASSET_V["js"] = file_hash(ROOT / "assets" / "site.js")
+    FONT_PRELOAD[:] = sorted(f.name for f in (ROOT / "static" / "fonts").glob("*.woff2") if f.name.startswith(("bricolage", "figtree-normal")))
     if (ROOT / "static").exists():
         shutil.copytree(ROOT / "static", DIST / "static")
     page_home()
@@ -985,6 +1100,7 @@ def main():
     for p in POSTS:
         page_post(p)
     page_contato()
+    page_carreiras()
     page_privacidade()
     page_404()
     write_seo_files()

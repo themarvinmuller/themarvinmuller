@@ -1,0 +1,126 @@
+{
+ "amostras-laboratorio.jpg": {
+  "w": 720,
+  "h": 1280,
+  "webp": [
+   480
+  ]
+ },
+ "armadilha-fotografica.jpg": {
+  "w": 960,
+  "h": 1280,
+  "webp": [
+   480,
+   800
+  ]
+ },
+ "biota-aquatica.jpg": {
+  "w": 1280,
+  "h": 720,
+  "webp": [
+   480,
+   800,
+   1280
+  ]
+ },
+ "caiaque-reservatorio.jpg": {
+  "w": 908,
+  "h": 1210,
+  "webp": [
+   480,
+   800
+  ]
+ },
+ "cascavel.jpg": {
+  "w": 1280,
+  "h": 853,
+  "webp": [
+   480,
+   800,
+   1280
+  ]
+ },
+ "drone.jpg": {
+  "w": 908,
+  "h": 1210,
+  "webp": [
+   480,
+   800
+  ]
+ },
+ "eia-rima-campo.jpg": {
+  "w": 1280,
+  "h": 564,
+  "webp": [
+   480,
+   800,
+   1280
+  ]
+ },
+ "macrofitas.jpg": {
+  "w": 908,
+  "h": 1210,
+  "webp": [
+   480,
+   800
+  ]
+ },
+ "manejo-fauna.jpg": {
+  "w": 720,
+  "h": 960,
+  "webp": [
+   480
+  ]
+ },
+ "necropsia-peixes.jpg": {
+  "w": 1280,
+  "h": 960,
+  "webp": [
+   480,
+   800,
+   1280
+  ]
+ },
+ "palestra.jpg": {
+  "w": 864,
+  "h": 864,
+  "webp": [
+   480,
+   800
+  ]
+ },
+ "pesquisador-campo.jpg": {
+  "w": 1280,
+  "h": 854,
+  "webp": [
+   480,
+   800,
+   1280
+  ]
+ },
+ "rio-cerrado.jpg": {
+  "w": 1280,
+  "h": 853,
+  "webp": [
+   480,
+   800,
+   1280
+  ]
+ },
+ "tamandua-bandeira.jpg": {
+  "w": 603,
+  "h": 452,
+  "webp": [
+   480
+  ]
+ },
+ "tamandua-mirim.jpg": {
+  "w": 1280,
+  "h": 853,
+  "webp": [
+   480,
+   800,
+   1280
+  ]
+ }
+}
