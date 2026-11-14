@@ -39,7 +39,7 @@ SITE = {
     "instagram": "",  # a confirmar
     "founder": "Willian Lopes Silva",
     # Medição. Preencha e publique; com IDs vazios nada do Google é carregado.
-    "ga4": "",            # ex.: "G-ABC123XYZ"
+    "ga4": "G-Z8P10ESHK6",  # propriedade agroambient.com.br (conta AgroAmbient)
     "ads": "",            # ex.: "AW-123456789"
     "ads_lead_label": "", # rótulo da conversão de lead no Google Ads
     "gsc_verification": "",  # código da meta google-site-verification, se usar verificação por HTML
