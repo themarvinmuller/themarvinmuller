@@ -13,8 +13,8 @@ def TBD(text):
 # Configuração geral
 # ---------------------------------------------------------------------------
 SITE = {
-    # Troque para https://www.agroambient.com.br quando o domínio estiver apontado para a Vercel.
-    "url": "https://agroambient-site.vercel.app",
+    # Domínio oficial (Registro.br, apontado para a Vercel; www redireciona para cá).
+    "url": "https://agroambient.com.br",
     "name": "AgroAmbient",
     "legal_name": "AgroAmbient Assessoria Agroambiental",
     "slogan": "Preservação ambiental, plante esta ideia.",
@@ -39,7 +39,7 @@ SITE = {
     "instagram": "",  # a confirmar
     "founder": "Willian Lopes Silva",
     # Medição. Preencha e publique; com IDs vazios nada do Google é carregado.
-    "ga4": "",            # ex.: "G-ABC123XYZ"
+    "ga4": "G-Z8P10ESHK6",  # propriedade agroambient.com.br (conta AgroAmbient)
     "ads": "",            # ex.: "AW-123456789"
     "ads_lead_label": "", # rótulo da conversão de lead no Google Ads
     "gsc_verification": "",  # código da meta google-site-verification, se usar verificação por HTML

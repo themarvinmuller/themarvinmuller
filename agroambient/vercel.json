@@ -6,6 +6,17 @@
   "trailingSlash": true,
   "redirects": [
     {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "agroambient-site.vercel.app"
+        }
+      ],
+      "destination": "https://agroambient.com.br/:path*",
+      "permanent": true
+    },
+    {
       "source": "/a-empresa",
       "destination": "/sobre/",
       "statusCode": 301
