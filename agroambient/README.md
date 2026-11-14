@@ -28,7 +28,8 @@ Início, Sobre, Serviços, 12 páginas de serviço, Fauna, Cursos e palestras, P
 - Dados estruturados (JSON-LD): Organization + ProfessionalService com endereço, geo, área atendida e catálogo de serviços; WebSite; BreadcrumbList; Service; FAQPage; Blog/BlogPosting; AboutPage; ContactPage.
 - `sitemap.xml`, `robots.txt`, `manifest.webmanifest`, 404 própria.
 - Redirecionamentos 301 dos endereços do site antigo (`/a-empresa`, `/assessoria-ambiental`, `/portfolio`, `/fale-conocsco`).
-- Quando o domínio .com.br estiver na Vercel: trocar `SITE["url"]` em `content.py`, adicionar o domínio no projeto e cadastrar o sitemap no Google Search Console.
+- Domínio oficial: https://agroambient.com.br (DNS no Registro.br). `www.agroambient.com.br` e o endereço antigo `agroambient-site.vercel.app` redirecionam para ele.
+- Falta cadastrar o domínio e o sitemap (`/sitemap.xml`) no Google Search Console.
 
 ## Visibilidade para IA
 - `llms.txt` (resumo navegável, formato llmstxt.org) e `llms-full.txt` (conteúdo completo em texto).
@@ -36,6 +37,8 @@ Início, Sobre, Serviços, 12 páginas de serviço, Fauna, Cursos e palestras, P
 - Cada serviço e artigo abre com uma resposta curta ("Em resumo" / "Resposta curta"), em HTML semântico.
 
 ## Medição (GA4 e Google Ads)
+GA4 ativo: `G-Z8P10ESHK6` (conta AgroAmbient, propriedade agroambient.com.br). Google Ads ainda sem ID.
+
 Preencha em `content.py`:
 
 ```python
