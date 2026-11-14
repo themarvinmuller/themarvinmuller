@@ -13,8 +13,8 @@ def TBD(text):
 # Configuração geral
 # ---------------------------------------------------------------------------
 SITE = {
-    # Troque para https://www.agroambient.com.br quando o domínio estiver apontado para a Vercel.
-    "url": "https://agroambient-site.vercel.app",
+    # Domínio oficial (Registro.br, apontado para a Vercel; www redireciona para cá).
+    "url": "https://agroambient.com.br",
     "name": "AgroAmbient",
     "legal_name": "AgroAmbient Assessoria Agroambiental",
     "slogan": "Preservação ambiental, plante esta ideia.",
