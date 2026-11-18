@@ -6,7 +6,62 @@
    480
   ]
  },
+ "anfibio.jpg": {
+  "w": 960,
+  "h": 1280,
+  "webp": [
+   480,
+   800
+  ]
+ },
+ "anotacoes-campo.jpg": {
+  "w": 1070,
+  "h": 1280,
+  "webp": [
+   480,
+   800
+  ]
+ },
+ "armadilha-fotografica-instalacao.jpg": {
+  "w": 960,
+  "h": 1280,
+  "webp": [
+   480,
+   800
+  ]
+ },
  "armadilha-fotografica.jpg": {
+  "w": 960,
+  "h": 1280,
+  "webp": [
+   480,
+   800
+  ]
+ },
+ "armadilha-gaiola.jpg": {
+  "w": 960,
+  "h": 1280,
+  "webp": [
+   480,
+   800
+  ]
+ },
+ "armadilha-luminosa.jpg": {
+  "w": 753,
+  "h": 501,
+  "webp": [
+   480
+  ]
+ },
+ "armadilha-queda-anfibios.jpg": {
+  "w": 960,
+  "h": 1280,
+  "webp": [
+   480,
+   800
+  ]
+ },
+ "ave-manuseio.jpg": {
   "w": 960,
   "h": 1280,
   "webp": [
@@ -23,6 +78,14 @@
    1280
   ]
  },
+ "caiaque-macrofitas.jpg": {
+  "w": 960,
+  "h": 1280,
+  "webp": [
+   480,
+   800
+  ]
+ },
  "caiaque-reservatorio.jpg": {
   "w": 908,
   "h": 1210,
@@ -31,9 +94,62 @@
    800
   ]
  },
+ "capivaras.jpg": {
+  "w": 1280,
+  "h": 854,
+  "webp": [
+   480,
+   800,
+   1280
+  ]
+ },
  "cascavel.jpg": {
   "w": 1280,
   "h": 853,
+  "webp": [
+   480,
+   800,
+   1280
+  ]
+ },
+ "coleta-puca-margem.jpg": {
+  "w": 1280,
+  "h": 840,
+  "webp": [
+   480,
+   800,
+   1280
+  ]
+ },
+ "coleta-puca-rio.jpg": {
+  "w": 1200,
+  "h": 1600,
+  "webp": [
+   480,
+   800
+  ]
+ },
+ "colhereiro-voo.jpg": {
+  "w": 1280,
+  "h": 854,
+  "webp": [
+   480,
+   800,
+   1280
+  ]
+ },
+ "colhereiros.jpg": {
+  "w": 1280,
+  "h": 854,
+  "webp": [
+   480,
+   800,
+   1280
+  ]
+ },
+ "corrego-mata.jpg": {
+  "w": 1280,
+  "h": 960,
   "webp": [
    480,
    800,
@@ -57,6 +173,66 @@
    1280
   ]
  },
+ "equipe-campanha.jpg": {
+  "w": 1280,
+  "h": 720,
+  "webp": [
+   480,
+   800,
+   1280
+  ]
+ },
+ "equipe-margem-aerea.jpg": {
+  "w": 1280,
+  "h": 720,
+  "webp": [
+   480,
+   800,
+   1280
+  ]
+ },
+ "equipe-trilha.jpg": {
+  "w": 1600,
+  "h": 1066,
+  "webp": [
+   480,
+   800,
+   1280
+  ]
+ },
+ "frente-supressao.jpg": {
+  "w": 1118,
+  "h": 1280,
+  "webp": [
+   480,
+   800
+  ]
+ },
+ "gamba.jpg": {
+  "w": 960,
+  "h": 1280,
+  "webp": [
+   480,
+   800
+  ]
+ },
+ "garca-branca.jpg": {
+  "w": 1280,
+  "h": 854,
+  "webp": [
+   480,
+   800,
+   1280
+  ]
+ },
+ "jabuti.jpg": {
+  "w": 960,
+  "h": 1280,
+  "webp": [
+   480,
+   800
+  ]
+ },
  "macrofitas.jpg": {
   "w": 908,
   "h": 1210,
@@ -72,6 +248,30 @@
    480
   ]
  },
+ "morcego-orelhudo.jpg": {
+  "w": 960,
+  "h": 1280,
+  "webp": [
+   480,
+   800
+  ]
+ },
+ "morcego-rede-neblina.jpg": {
+  "w": 960,
+  "h": 720,
+  "webp": [
+   480,
+   800
+  ]
+ },
+ "morcego.jpg": {
+  "w": 828,
+  "h": 1472,
+  "webp": [
+   480,
+   800
+  ]
+ },
  "necropsia-peixes.jpg": {
   "w": 1280,
   "h": 960,
@@ -81,12 +281,37 @@
    1280
   ]
  },
+ "observacao-aves.jpg": {
+  "w": 960,
+  "h": 1280,
+  "webp": [
+   480,
+   800
+  ]
+ },
  "palestra.jpg": {
   "w": 864,
   "h": 864,
   "webp": [
    480,
    800
+  ]
+ },
+ "pegada-escala.jpg": {
+  "w": 960,
+  "h": 1280,
+  "webp": [
+   480,
+   800
+  ]
+ },
+ "pegada-medicao.jpg": {
+  "w": 1280,
+  "h": 960,
+  "webp": [
+   480,
+   800,
+   1280
   ]
  },
  "pesquisador-campo.jpg": {
@@ -98,9 +323,35 @@
    1280
   ]
  },
+ "pitiguari.jpg": {
+  "w": 828,
+  "h": 1468,
+  "webp": [
+   480,
+   800
+  ]
+ },
+ "qualidade-agua.jpg": {
+  "w": 1280,
+  "h": 960,
+  "webp": [
+   480,
+   800,
+   1280
+  ]
+ },
  "rio-cerrado.jpg": {
   "w": 1280,
   "h": 853,
+  "webp": [
+   480,
+   800,
+   1280
+  ]
+ },
+ "sapo.jpg": {
+  "w": 1280,
+  "h": 960,
   "webp": [
    480,
    800,
@@ -117,6 +368,24 @@
  "tamandua-mirim.jpg": {
   "w": 1280,
   "h": 853,
+  "webp": [
+   480,
+   800,
+   1280
+  ]
+ },
+ "tarrafa.jpg": {
+  "w": 1280,
+  "h": 527,
+  "webp": [
+   480,
+   800,
+   1280
+  ]
+ },
+ "triagem-reservatorio.jpg": {
+  "w": 1496,
+  "h": 1496,
   "webp": [
    480,
    800,

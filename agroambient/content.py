@@ -16,13 +16,15 @@ SITE = {
     # Domínio oficial (Registro.br, apontado para a Vercel; www redireciona para cá).
     "url": "https://agroambient.com.br",
     "name": "AgroAmbient",
-    "legal_name": "AgroAmbient Assessoria Agroambiental",
+    "legal_name": "AgroAmbient Estudos de Fauna",
     "slogan": "Preservação ambiental, plante esta ideia.",
-    "description": "Consultoria ambiental especializada em estudos de fauna terrestre e aquática, licenciamento ambiental e assessoria agroambiental. Base em Catalão (GO), na divisa com Minas Gerais, e atuação em todo o Brasil.",
-    "phone": "(34) 3855-1197",
-    "phone_e164": "+553438551197",
-    "whatsapp_e164": "5534998067566",
-    "whatsapp": "(34) 99806-7566",
+    "description": "Consultoria ambiental especializada em fauna terrestre e aquática, com destaque em fauna aquática: inventários, monitoramentos, resgate e afugentamento de fauna para licenciamento de mineração, energia, infraestrutura e agronegócio. Base em Catalão (GO) e atuação em todo o Brasil.",
+    "phone": "",          # fixo saiu: o questionário de 2026-11 lista só o celular/WhatsApp
+    "phone_e164": "",
+    "whatsapp_e164": "5534991555480",
+    "whatsapp": "(34) 99155-5480",
+    "hours": "Segunda a sexta, das 8h às 11h e das 13h às 17h",
+    "hours_ld": [("08:00", "11:00"), ("13:00", "17:00")],
     "email": "agroambient@gmail.com",
     "street": "Rua Belém, 1409",
     "city": "Catalão",
@@ -34,6 +36,7 @@ SITE = {
     "ctf": "7856773",          # Cadastro Técnico Federal do IBAMA
     "crbio": "000944-04/2021", # registro da empresa no CRBio-04
     "founder_title": "Biólogo, mestre e especialista em Zoologia com ênfase em ictiofauna",
+    "founder_crbio": "104040/04-D",  # CRBio do diretor técnico
     "portfolio_pdf": "/static/portfolio-agroambient-estudos-de-fauna.pdf",
     "facebook": "https://www.facebook.com/AgroAmbient",
     "instagram": "https://www.instagram.com/agroambient_fauna/",
@@ -70,21 +73,90 @@ PHOTOS = {
     "cursos": F + "palestra.jpg",
     # Antes vinham do Wix; trocadas por fotos próprias até chegarem fotos específicas desses serviços.
     "viveiro": F + "drone.jpg",
-    "licenciamento": F + "amostras-laboratorio.jpg",
-    "campo2": F + "rio-cerrado.jpg",
+    "licenciamento": F + "anotacoes-campo.jpg",
+    "campo2": F + "qualidade-agua.jpg",
+    "piscicultura": F + "tarrafa.jpg",
+    "saf": F + "equipe-campanha.jpg",
+    "supressao": F + "frente-supressao.jpg",
+    "morcego": F + "morcego-rede-neblina.jpg",
+    "gamba": F + "gamba.jpg",
 }
 
-# Clientes e parceiros (do portfólio)
-PARTNERS = ["Mosaic Fertilizantes", "IBAR", "Serra Mar Ambiental", "RHI Magnesita", "Água e Terra Análise Ambiental",
-            "Verde Cerrado Consultoria", "EuroChem Fertilizantes Tocantins", "Viver Minas Mineração", "Bio Golden Consultoria Ambiental e Mineral"]
-SECTORS = ["Mineração", "Energia", "Agropecuária", "Indústria", "Consultorias e gestão ambiental"]
+# Galeria completa (página /projetos/ e seleção na home). (arquivo, legenda, grupo)
+GALERIA = [
+    ("gamba.jpg", "Gambá em monitoramento de mastofauna", "Mastofauna"),
+    ("morcego-rede-neblina.jpg", "Morcego capturado em rede de neblina", "Mastofauna"),
+    ("morcego-orelhudo.jpg", "Morcego em triagem noturna", "Mastofauna"),
+    ("morcego.jpg", "Manuseio de morcego com luvas", "Mastofauna"),
+    ("capivaras.jpg", "Capivaras às margens do rio", "Mastofauna"),
+    ("armadilha-gaiola.jpg", "Armadilha de captura viva para pequenos mamíferos", "Mastofauna"),
+    ("armadilha-fotografica-instalacao.jpg", "Instalação de armadilha fotográfica", "Mastofauna"),
+    ("pegada-escala.jpg", "Pegadas registradas com escala", "Mastofauna"),
+    ("pegada-medicao.jpg", "Medição de pegadas em campo", "Mastofauna"),
+    ("colhereiro-voo.jpg", "Colhereiro em voo", "Avifauna"),
+    ("colhereiros.jpg", "Colhereiros à beira d'água", "Avifauna"),
+    ("garca-branca.jpg", "Garça-branca", "Avifauna"),
+    ("pitiguari.jpg", "Ave em manuseio durante captura", "Avifauna"),
+    ("ave-manuseio.jpg", "Ave capturada para identificação", "Avifauna"),
+    ("observacao-aves.jpg", "Observação de aves com binóculo", "Avifauna"),
+    ("jabuti.jpg", "Jabuti registrado em campo", "Herpetofauna"),
+    ("anfibio.jpg", "Anfíbio em busca ativa noturna", "Herpetofauna"),
+    ("sapo.jpg", "Sapo em manuseio para identificação", "Herpetofauna"),
+    ("armadilha-queda-anfibios.jpg", "Anfíbios em armadilha de interceptação e queda", "Herpetofauna"),
+    ("tarrafa.jpg", "Coleta de peixes com tarrafa", "Ictiofauna"),
+    ("coleta-puca-rio.jpg", "Coleta com puçá no rio", "Ictiofauna"),
+    ("coleta-puca-margem.jpg", "Coleta com puçá na margem", "Ictiofauna"),
+    ("triagem-reservatorio.jpg", "Triagem de amostras na margem do reservatório", "Ictiofauna"),
+    ("qualidade-agua.jpg", "Medição de parâmetros da água", "Ictiofauna"),
+    ("caiaque-macrofitas.jpg", "Caiaque entre macrófitas no reservatório", "Ictiofauna"),
+    ("armadilha-luminosa.jpg", "Armadilha luminosa em coleta noturna", "Equipe em campo"),
+    ("equipe-margem-aerea.jpg", "Equipe em coleta na margem, vista aérea", "Equipe em campo"),
+    ("equipe-trilha.jpg", "Equipe em deslocamento na trilha", "Equipe em campo"),
+    ("equipe-campanha.jpg", "Equipe em campanha de campo", "Equipe em campo"),
+    ("anotacoes-campo.jpg", "Registro de dados em campo", "Equipe em campo"),
+    ("frente-supressao.jpg", "Equipe em área de supressão de vegetação", "Equipe em campo"),
+    ("corrego-mata.jpg", "Córrego em mata ciliar", "Equipe em campo"),
+]
+
+# Vídeos curtos de campo (static/videos). (arquivo sem extensão, título)
+VIDEOS = [
+    ("ictiofauna-1", "Coleta de peixes em córrego do Cerrado"),
+    ("ictiofauna-2", "Bagres e coridoras: identificação em campo"),
+    ("ictiofauna-3", "Triagem e pesagem dos peixes coletados"),
+]
+
+# Números informados pela empresa (questionário de 2026-11). Valores aproximados.
+NUMEROS = [
+    ("15", "anos do diretor técnico na área, desde 2011"),
+    ("90", "projetos distintos, aproximadamente"),
+    ("40", "inventários e levantamentos de fauna"),
+    ("30", "monitoramentos de fauna"),
+    ("70", "clientes, contando 19 consultorias parceiras"),
+]
+
+# Clientes por setor (questionário de 2026-11) e consultorias parceiras (portfólio)
+CLIENTES = [
+    ("Mineração e fertilizantes", ["Mosaic Fertilizantes", "NEXA Recursos Minerais", "Votorantim Siderurgia", "Galvani", "EuroChem / Salitre Fertilizantes",
+                                   "Yara", "COMIPA", "RHI Magnesita", "IBAR", "Viver Minas Mineração", "Metalsider", "Arinos Calcário"]),
+    ("Energia", ["UHE Itumbiara", "UHE Mascarenhas", "PCH Piedade", "PCH Malagone", "PCH Jataí", "CGHs de Itaúna", "Complexo Fotovoltaico Janaúba"]),
+    ("Sucroenergético", ["Usina Delta", "Usina Coruripe", "Usina Cerradão", "Araporã Bioenergia", "Bioenergética Aroeira"]),
+    ("Agronegócio", ["Shimada Agronegócios", "Santo Aleixo Empreendimentos Agropecuários", "Mamoneira Agropastoril", "Agroeldorado",
+                     "Agroflorestal Rio Bicudo", "Lotes do PADAP", "Mais de 20 fazendas em MG e GO"]),
+    ("Infraestrutura e outros", ["Construtora Triunfo", "CTR de Montes Claros", "Lago das Rosas Empreendimentos Imobiliários", "Loteamento Fazenda do Óleo"]),
+    ("Consultorias parceiras", ["Serra Mar Ambiental", "Água e Terra Análise Ambiental", "Verde Cerrado Consultoria", "Bio Golden Consultoria Ambiental e Mineral"]),
+]
+# Top 10 na faixa de logos (home e /projetos/). Logo em static/clientes/<slug do nome>.svg|png; sem arquivo, mostra o nome.
+PARTNERS = ["Mosaic Fertilizantes", "NEXA Recursos Minerais", "Votorantim Siderurgia", "Yara", "EuroChem / Salitre Fertilizantes", "RHI Magnesita",
+            "Galvani", "UHE Itumbiara", "UHE Mascarenhas", "Usina Coruripe"]
+SECTORS = ["Mineração e fertilizantes", "Energia (UHEs, PCHs, CGHs e solar)", "Sucroenergético", "Agronegócio", "Infraestrutura e indústria",
+           "Consultorias ambientais que subcontratam estudos de fauna"]
 DIFERENCIAIS = ["Atuação em todo o território nacional", "Alto padrão técnico e científico", "Atendimento personalizado",
                 "Cumprimento de prazos", "Equipe qualificada e equipada", "Todos os grupos animais"]
 
 AREAS = [
     ("fauna", "Estudos de fauna", "Levantamentos de fauna terrestre e aquática para licenciamento, condicionantes e obras."),
     ("licenciamento", "Assessoria e licenciamento", "Estudos e documentos exigidos para regularizar o empreendimento, com acompanhamento do processo."),
-    ("agro", "Agro e produção", "Assessoria agrícola que une produtividade e conservação do solo, da água e da biodiversidade."),
+    ("agro", "Agro e produção", "Assessoria agrícola, piscicultura e sistemas agroflorestais que unem produtividade e conservação."),
     ("educacao", "Educação ambiental", "Programas, cursos e palestras para escolas, empresas, produtores e comunidades."),
 ]
 
@@ -164,7 +236,7 @@ SERVICES = [
             "Supressão de vegetação autorizada.",
             "Obras lineares, como estradas, linhas de transmissão e dutos.",
             "Enchimento ou esvaziamento de reservatórios e manutenção de barragens.",
-            "Drenagem de lagoas, canais e tanques.",
+            "Drenagem de lagoas, canais e tanques, e despescas.",
         ],
         "how": [
             ("Plano de resgate", "Programa com métodos, equipe, áreas de soltura e destinação, para aprovação e autorização do órgão."),
@@ -490,7 +562,53 @@ SERVICES = [
         ],
         "deliverables": ["Diagnóstico da propriedade", "Plano de regularização", "Projetos técnicos"],
         "faq": [],
-        "related": ["outorga-de-agua", "licenciamento-ambiental", "diagnostico-ambiental"],
+        "related": ["outorga-de-agua", "piscicultura-e-despesca", "sistemas-agroflorestais"],
+    },
+    {
+        "slug": "piscicultura-e-despesca", "area": "agro", "hero": "river", "photo": "piscicultura",
+        "name": "Piscicultura e despesca",
+        "title": "Projetos de piscicultura e despesca",
+        "short": "Projetos de criação de peixes e acompanhamento técnico de despescas em tanques, lagoas e reservatórios.",
+        "summary": "Elaboramos projetos de piscicultura e acompanhamos despescas, unindo a experiência da equipe em ictiofauna com a regularização ambiental que a atividade exige, como licença e outorga de água.",
+        "intro": [
+            "A piscicultura depende de água de boa qualidade e de manejo correto dos peixes. Nossa equipe trabalha com peixes há mais de uma década, em rios, reservatórios e tanques.",
+            "Na despesca, organizamos a retirada dos peixes com cuidado com os animais e, quando a drenagem pode atingir peixes nativos, com o resgate da ictiofauna.",
+        ],
+        "when": [
+            "Implantação ou ampliação de tanques e viveiros de peixes.",
+            "Despesca de tanques, lagoas ou reservatórios.",
+            "Regularização de piscicultura que precisa de licença e outorga.",
+        ],
+        "how": [
+            ("Diagnóstico", "Visita ao local, avaliação da água disponível e do objetivo da criação."),
+            ("Projeto", "Projeto técnico e documentos para licença e outorga, quando exigidos."),
+            ("Acompanhamento", "Apoio técnico na despesca e no manejo dos peixes."),
+        ],
+        "deliverables": ["Projeto técnico de piscicultura", "Apoio à regularização (licença e outorga)", "Acompanhamento de despesca"],
+        "faq": [],
+        "related": ["estudos-ictiologicos", "outorga-de-agua", "resgate-de-fauna"],
+    },
+    {
+        "slug": "sistemas-agroflorestais", "area": "agro", "hero": "cerrado", "photo": "saf",
+        "name": "Sistemas agroflorestais",
+        "title": "Projetos de sistemas agroflorestais (SAF)",
+        "short": "Projetos que combinam árvores, lavouras e criação na mesma área, com produção e conservação juntas.",
+        "summary": "Sistemas agroflorestais (SAF) combinam espécies florestais com cultivos agrícolas ou criação de animais na mesma área. Elaboramos projetos de SAF para produtores que querem diversificar a renda e recuperar solo, água e biodiversidade.",
+        "intro": [
+            "O SAF é uma forma de alimentar o mundo e, ao mesmo tempo, proteger a qualidade de vida, que é a ideia que deu origem à AgroAmbient.",
+        ],
+        "when": [
+            "Diversificação da produção na propriedade rural.",
+            "Recuperação de áreas degradadas com retorno produtivo.",
+        ],
+        "how": [
+            ("Visita técnica", "Diagnóstico da área, do solo e dos objetivos do produtor."),
+            ("Projeto", "Escolha das espécies, desenho do sistema e cronograma de implantação."),
+            ("Acompanhamento", "Orientação na implantação e no manejo."),
+        ],
+        "deliverables": ["Diagnóstico da área", "Projeto do sistema agroflorestal", "Cronograma de implantação"],
+        "faq": [],
+        "related": ["assessoria-agricola", "estudos-tecnicos", "diagnostico-ambiental"],
     },
     {
         "slug": "educacao-ambiental", "area": "educacao", "hero": "cerrado", "photo": "educacao",
@@ -544,13 +662,14 @@ GLOSS = [
 # ---------------------------------------------------------------------------
 FAQ = [
     ("Sobre a AgroAmbient", [
-        ("O que a AgroAmbient faz?", "A AgroAmbient é uma consultoria ambiental especializada em estudos de fauna terrestre e aquática. Também faz licenciamento ambiental, outorga de água, diagnósticos, planos de manejo, assessoria agrícola, educação ambiental, cursos e palestras."),
+        ("O que a AgroAmbient faz?", "A AgroAmbient – Estudos de Fauna é uma consultoria ambiental especializada em fauna terrestre e aquática, com destaque em fauna aquática. Desde 2015 faz inventários, monitoramentos, resgates e afugentamento de fauna para licenciamento ambiental (EIA/RIMA, RCA/PCA) de empreendimentos de mineração, energia e agronegócio. Também faz licenciamento, outorga de água, programas ambientais, projetos de piscicultura e sistemas agroflorestais, cursos e palestras."),
         ("Onde a AgroAmbient atende?", "A sede fica em Catalão (GO), na divisa com Minas Gerais, e a empresa atende em todo o território nacional, com equipe que se desloca até o empreendimento. Com mais frequência, atendemos o sudeste goiano, o Triângulo Mineiro e o Alto Paranaíba."),
         ("A AgroAmbient trabalha com licenciamento em Goiás?", "Sim. Preparamos estudos e processos para a SEMAD de Goiás e para os órgãos ambientais municipais, além de Minas Gerais e outros estados."),
         ("Desde quando a empresa atua?", "A AgroAmbient foi fundada em 2015 e atua com estudos e serviços ambientais voltados à fauna terrestre e aquática."),
         ("A AgroAmbient é registrada nos órgãos competentes?", "Sim. A empresa tem CNPJ 21.630.431/0001-01, é certificada no Cadastro Técnico Federal do IBAMA (CTF 7856773) e registrada no Conselho Regional de Biologia (CRBio-04 000944-04/2021)."),
-        ("Quem é o responsável técnico?", "A direção técnica é do biólogo Willian Lopes Silva, mestre e especialista em Zoologia com ênfase em ictiofauna, com equipe multidisciplinar de biólogos especialistas nas diversas áreas da zoologia e da gestão ambiental."),
-        ("Para quais setores a AgroAmbient trabalha?", "Para empresas de consultoria e gestão ambiental e para os setores minerário, energético, agropecuário e industrial."),
+        ("Quem é o responsável técnico?", "A direção técnica é do biólogo Willian Lopes Silva, mestre e especialista em Zoologia com ênfase em ictiofauna (CRBio 104040/04-D). A equipe reúne profissionais com formação em nível de mestrado e doutorado nas diversas áreas da zoologia e da gestão ambiental."),
+        ("Para quais setores a AgroAmbient trabalha?", "Mineradoras, hidrelétricas e outros empreendimentos de energia, usinas do setor sucroenergético, agronegócio, infraestrutura e construção, indústrias e consultorias ambientais que precisam de execução de estudos especializados de fauna. São cerca de 50 contratantes finais, ou 70 contando as 19 consultorias que já subcontrataram a AgroAmbient."),
+        ("Qual o horário de atendimento?", "De segunda a sexta, das 8h às 11h e das 13h às 17h. Fora desse horário, deixe sua mensagem no WhatsApp que respondemos no próximo período de atendimento."),
     ]),
     ("Estudos de fauna", [
         ("Qual a diferença entre inventário e monitoramento de fauna?", "O inventário levanta as espécies que existem na área em um momento. O monitoramento repete o levantamento ao longo do tempo, com os mesmos métodos, para medir mudanças e avaliar impactos do empreendimento."),
@@ -567,7 +686,7 @@ FAQ = [
     ("Orçamento e prazos", [
         ("Quanto custa um estudo ambiental?", "O valor depende do tipo de estudo, da área, dos grupos de fauna, do número de campanhas e da distância. Enviamos uma proposta depois de entender o empreendimento."),
         ("Quanto tempo leva?", "Estudos de campo seguem o calendário de campanhas pedido pelo órgão, muitas vezes cobrindo seca e chuva. Documentos sem campo costumam ser mais rápidos. O prazo vai detalhado na proposta."),
-        ("Como peço um orçamento?", "Pelo formulário da página de contato, que abre o WhatsApp (34) 99806-7566 com a mensagem pronta, ou por e-mail. Conte o tipo de empreendimento, a cidade e o que o órgão pediu."),
+        ("Como peço um orçamento?", "Pelo formulário da página de contato, que abre o WhatsApp (34) 99155-5480 com a mensagem pronta, ou por e-mail. Conte o tipo de empreendimento, a cidade e o que o órgão pediu."),
     ]),
 ]
 
