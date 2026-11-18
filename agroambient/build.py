@@ -587,7 +587,7 @@ CLIENT_LOGOS = {}  # nome do cliente -> arquivo em static/clientes/ (quando houv
 
 
 def _client_chip(name):
-    for ext in ("svg", "png", "webp"):
+    for ext in ("svg", "png", "webp", "jpg"):
         f = ROOT / "static" / "clientes" / ("%s.%s" % (slugify(name), ext))
         if f.exists():
             return '<li class="logo"><img src="/static/clientes/%s" alt="%s" loading="lazy" height="44"></li>' % (f.name, e(name))

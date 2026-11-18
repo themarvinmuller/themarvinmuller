@@ -527,3 +527,6 @@ ol.howto p{color:var(--muted);margin-top:.15rem}
 .lb-thumbs img.on{opacity:1;outline-color:#FFD15C}
 @media (max-width:760px){.lb-nav{width:2.6rem;height:2.6rem}.lb-prev{left:.4rem}.lb-next{right:.4rem}.lb-thumbs{display:none}}
 .client-list-t{font-size:var(--step-1);margin:0}
+.marquee li.logo{width:200px;height:76px;justify-content:center;border-radius:14px}
+.marquee li.logo img{max-width:150px;max-height:48px}
+.client-list{margin-top:3rem}
