@@ -15,7 +15,7 @@ import shutil
 from pathlib import Path
 from urllib.parse import quote
 
-from content import SITE, PHOTOS, AREAS, SERVICES, GLOSS, FAQ, POSTS, PARTNERS, SECTORS, DIFERENCIAIS, CARREIRAS
+from content import SITE, PHOTOS, AREAS, SERVICES, GLOSS, FAQ, POSTS, PARTNERS, SECTORS, DIFERENCIAIS, CARREIRAS, CLIENTES, GALERIA, VIDEOS, NUMEROS
 
 ROOT = Path(__file__).parent
 DIST = ROOT / "dist"
@@ -139,7 +139,7 @@ def org_ld():
         "@id": ORG_ID,
         "name": SITE["name"],
         "legalName": SITE["legal_name"],
-        "alternateName": ["Agroambient", "AgroAmbient Assessoria Agro-Ambiental"],
+        "alternateName": ["Agroambient", "AgroAmbient – Estudos de Fauna", "AgroAmbient Assessoria Agro-Ambiental"],
         "url": U + "/",
         "logo": abs_url("/static/logo-agroambient.png"),
         "image": abs_url("/static/og.png"),
@@ -156,7 +156,10 @@ def org_ld():
                     "addressRegion": SITE["region"], "postalCode": SITE["postal"], "addressCountry": "BR"},
         "geo": {"@type": "GeoCoordinates", "latitude": SITE["geo"][0], "longitude": SITE["geo"][1]},
         "areaServed": [{"@type": "Country", "name": "Brasil"}, {"@type": "State", "name": "Goiás"}, {"@type": "State", "name": "Minas Gerais"}],
-        "founder": {"@type": "Person", "name": SITE["founder"], "jobTitle": SITE["founder_title"]},
+        "founder": {"@type": "Person", "name": SITE["founder"], "jobTitle": SITE["founder_title"],
+                    "identifier": {"@type": "PropertyValue", "propertyID": "CRBio", "value": SITE["founder_crbio"]}},
+        "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                                       "opens": a, "closes": b} for a, b in SITE["hours_ld"]],
         "foundingDate": SITE["founded"],
         "taxID": SITE["cnpj"],
         "identifier": [{"@type": "PropertyValue", "propertyID": "CNPJ", "value": SITE["cnpj"]},
@@ -166,7 +169,7 @@ def org_ld():
                        "ictiofauna", "transposição de peixes", "licenciamento ambiental", "outorga de água",
                        "EIA/RIMA", "PCA", "RAP", "PRAD", "PTRF", "PAE", "biota aquática", "ictioplâncton",
                        "necropsia de peixes", "laudos periciais ambientais", "manejo de macrófitas", "mapeamento com drone",
-                       "educação ambiental", "Cerrado"],
+                       "educação ambiental", "piscicultura", "despesca", "sistemas agroflorestais", "afugentamento de fauna", "Cerrado"],
         "sameAs": [x for x in [SITE["facebook"], SITE["instagram"], SITE.get("linkedin", ""), SITE.get("google_maps", "")] if x],
         "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Serviços ambientais",
                             "itemListElement": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": s["name"], "url": abs_url("/servicos/%s/" % s["slug"])}} for s in SERVICES]},
@@ -256,6 +259,7 @@ def footer():
         contato.append('<li><a href="tel:%s" data-track="phone_click" data-local="rodape">%s</a></li>' % (SITE["phone_e164"], SITE["phone"]))
     contato.append('<li><a href="mailto:%s" data-track="email_click" data-local="rodape">%s</a></li>' % (SITE["email"], SITE["email"]))
     contato.append('<li>%s</li><li>%s, %s · %s</li>' % (SITE["street"], SITE["city"], SITE["region"], SITE["postal"]))
+    contato.append('<li>%s</li>' % e(SITE["hours"]))
     contato.append('<li><a href="/perguntas-frequentes/">Perguntas frequentes</a></li><li><a href="/blog/">Blog</a></li><li><a href="/trabalhe-conosco/">Trabalhe conosco</a></li>')
     medidores = " e ".join(x for x in ["Google Analytics" if SITE["ga4"] else "", "Google Ads" if SITE["ads"] else ""] if x)
     objetivo = "entender as visitas e medir nossos anúncios" if SITE["ads"] else "entender como o site é usado"
@@ -263,7 +267,7 @@ def footer():
   <div class="wrap">
     <div>
       <a class="brand" href="/" style="color:#F4F1E4">%s AgroAmbient</a>
-      <p style="margin-top:1rem;max-width:40ch">Assessoria agroambiental e estudos de fauna terrestre e aquática. Base em Catalão (GO), atuação em todo o Brasil.</p>
+      <p style="margin-top:1rem;max-width:40ch">Consultoria ambiental especializada em fauna terrestre e aquática. Base em Catalão (GO), atuação em todo o Brasil.</p>
       <p style="margin-top:1rem">%s</p>
     </div>
     <div><h4>Serviços</h4><ul>%s<li><a href="/servicos/">Todos os serviços</a></li></ul></div>
@@ -500,6 +504,7 @@ def contact_block(heading="h2", title="Conte o que o seu empreendimento precisa.
       <div><dt>WhatsApp</dt><dd>%s</dd></div>
       %s
       <div><dt>E-mail</dt><dd><a id="mail" href="mailto:%s" data-track="email_click">%s</a><button class="copy" type="button" data-copy="mail" data-track="copy_email">copiar</button></dd></div>
+      <div><dt>Atendimento</dt><dd>%s</dd></div>
       <div><dt>Endereço</dt><dd>%s<br>%s, %s · %s<br><a href="%s" target="_blank" rel="noopener" style="font-size:.92rem;font-weight:500">Ver no Google Maps</a></dd></div>
       <div><dt>Redes</dt><dd>%s</dd></div>
     </dl>
@@ -519,7 +524,7 @@ def contact_block(heading="h2", title="Conte o que o seu empreendimento precisa.
       <p class="form-msg" id="formMsg" aria-live="polite"></p>
     </div>
   </form>
-</div>""" % (wa, tel_row, SITE["email"], SITE["email"], SITE["street"], SITE["city"], SITE["region"], SITE["postal"], maps,
+</div>""" % (wa, tel_row, SITE["email"], SITE["email"], e(SITE["hours"]), SITE["street"], SITE["city"], SITE["region"], SITE["postal"], maps,
            socials(), SITE["whatsapp_e164"], SITE["email"], intro, opts, btn)
 
 
@@ -532,16 +537,46 @@ def partners_html():
 
 
 def credentials_html():
-    items = [("Fundada em", SITE["founded"]), ("CNPJ", SITE["cnpj"]), ("CTF/IBAMA", SITE["ctf"]), ("CRBio-04", SITE["crbio"])]
+    items = [("Fundada em", SITE["founded"]), ("CNPJ", SITE["cnpj"]), ("CTF/IBAMA", SITE["ctf"]), ("CRBio-04 da empresa", SITE["crbio"]),
+             ("CRBio do diretor técnico", SITE["founder_crbio"])]
     return '<dl class="creds reveal">%s</dl>' % "".join('<div><dt>%s</dt><dd>%s</dd></div>' % (e(a), e(b)) for a, b in items)
 
 
 def gallery():
-    items = [("monitoramento", "Armadilha fotográfica", "g1"), ("ictio", "Ictiofauna em reservatório", "g2"), ("resgate", "Resgate de fauna", "g3"),
-             ("macrofitas", "Manejo de macrófitas", "g4"), ("eia", "Levantamento para EIA/RIMA", "g5"), ("drone", "Mapeamento com drone", "g6")]
+    items = [("gamba", "Gambá em monitoramento de mastofauna", "g1"), ("ictio", "Ictiofauna em reservatório", "g2"), ("morcego", "Morcego em rede de neblina", "g3"),
+             ("piscicultura", "Coleta de peixes com tarrafa", "g4"), ("monitoramento", "Armadilha fotográfica", "g5"), ("supressao", "Acompanhamento de supressão", "g6")]
     return '<div class="gallery">%s</div>' % "".join(
         photo(k, "Registro de campo da AgroAmbient: " + c.lower(), cls=g + " reveal", caption=c, style="--d:%.2fs" % ((i % 3) * .08),
               sizes="(max-width: 760px) 50vw, 34vw") for i, (k, c, g) in enumerate(items))
+
+
+def full_gallery():
+    """Galeria completa por grupo (página /projetos/)."""
+    out = []
+    for grupo in dict.fromkeys(g for _, _, g in GALERIA):
+        figs = "".join('<figure class="photo reveal" style="margin:0"><span class="ph">%s</span>%s<figcaption>%s</figcaption></figure>' % (
+            e(c), img_tag("/static/fotos/" + f, "%s: registro de campo da AgroAmbient" % c, "(max-width: 760px) 50vw, 25vw"), e(c))
+            for f, c, g in GALERIA if g == grupo)
+        out.append('<div><h3 class="gal-group">%s</h3><div class="gallery-grid">%s</div></div>' % (e(grupo), figs))
+    return '<div class="stack-lg">%s</div>' % "".join(out)
+
+
+def videos_html():
+    items = "".join('<figure class="video reveal" style="--d:%.2fs"><video controls preload="none" playsinline poster="/static/videos/%s.jpg" width="464" height="832">'
+                    '<source src="/static/videos/%s.mp4" type="video/mp4"></video><figcaption>%s</figcaption></figure>' % (i * .08, v, v, e(t))
+                    for i, (v, t) in enumerate(VIDEOS))
+    return '<div class="videos">%s</div>' % items
+
+
+def numbers_html():
+    return '<dl class="numbers reveal">%s</dl><p class="note" style="margin-top:.8rem">Números aproximados informados pela AgroAmbient.</p>' % "".join(
+        '<div><dt>%s</dt><dd>%s</dd></div>' % (e(n), e(t)) for n, t in NUMEROS)
+
+
+def clients_html():
+    return '<div class="client-groups">%s</div>' % "".join(
+        '<div class="reveal"><h3 class="gal-group">%s</h3><ul class="partners">%s</ul></div>' % (e(g), "".join('<li>%s</li>' % e(x) for x in xs))
+        for g, xs in CLIENTES)
 
 
 # ---------------------------------------------------------------------------
@@ -563,11 +598,11 @@ def page_home():
 
 <section class="sec" id="sobre"><div class="wrap">
   <div class="sec-head reveal"><p class="eyebrow">A empresa</p><h2>Consultoria ambiental especializada em fauna.</h2>
-    <p>A AgroAmbient é especializada em estudos de fauna e oferece assessoria ambiental e agrícola completa em todo o território nacional, com profissionais qualificados.</p></div>
+    <p>A AgroAmbient – Estudos de Fauna faz inventários, monitoramentos, resgates e afugentamento de fauna terrestre e aquática para o licenciamento de mineração, energia, infraestrutura e agronegócio, com destaque em fauna aquática.</p></div>
   <div class="about-grid">
     <div class="about-text reveal">
-      <p>Fundada em 2015, a AgroAmbient atua com fauna terrestre e aquática: monitoramento, inventariamento, resgate, biota aquática e ictioplâncton, laudos e necropsia, sempre com biólogos especialistas nas diversas áreas da zoologia. Junto disso, cuidamos da parte técnica e documental que o empreendimento precisa para operar dentro da lei.</p>
-      <p>Atendemos empresas de consultoria e gestão ambiental e os setores minerário, energético, agropecuário e industrial.</p>
+      <p>Com experiência no atendimento a empreendimentos de mineração, energia e infraestrutura, a AgroAmbient reúne profissionais com formação em nível de mestrado e doutorado e desenvolve trabalhos técnicos voltados ao licenciamento ambiental, ao acompanhamento de impactos e ao atendimento de requisitos e condicionantes ambientais.</p>
+      <p>A atuação vai do planejamento e da execução das campanhas de campo até a análise de dados e os relatórios técnicos, com suporte especializado para a tomada de decisão e a gestão ambiental do empreendimento.</p>
       <p>A empresa também ministra cursos e palestras para instruir a sociedade a respeito da preservação ambiental, aliada ao desenvolvimento econômico e sustentável.</p>
       <p style="display:flex;flex-wrap:wrap;gap:.8rem"><a class="btn btn-line" href="/sobre/">Conheça a AgroAmbient</a>%s</p>
       <div class="about-photos">%s%s%s</div>
@@ -580,9 +615,16 @@ def page_home():
   </div>
 </div></section>
 
-<section class="sec" id="parceiros" style="padding-top:0"><div class="wrap">
-  <div class="sec-head reveal"><p class="eyebrow">Clientes e parceiros</p><h2>Quem já trabalhou com a gente.</h2></div>
+<section class="sec" id="numeros" style="padding-top:0"><div class="wrap">
+  <div class="sec-head reveal"><p class="eyebrow">Em números</p><h2>Experiência medida em campo.</h2></div>
   %s
+</div></section>
+
+<section class="sec" id="parceiros" style="padding-top:0"><div class="wrap">
+  <div class="sec-head reveal"><p class="eyebrow">Clientes</p><h2>Quem já trabalhou com a gente.</h2>
+    <p>Mineradoras, hidrelétricas, usinas, agronegócio, infraestrutura e consultorias ambientais que precisam de execução de estudos de fauna.</p></div>
+  %s
+  <p class="reveal" style="margin-top:1.6rem"><a class="btn btn-line" href="/projetos/#clientes">Ver todos os clientes</a></p>
 </div></section>
 
 <section class="sec services" id="servicos"><div class="wrap">
@@ -599,6 +641,7 @@ def page_home():
 <section class="sec" id="campo" style="padding-top:0"><div class="wrap">
   <div class="sec-head reveal"><p class="eyebrow">Do campo</p><h2>Registros reais dos nossos trabalhos.</h2></div>
   <div style="margin-top:3rem">%s</div>
+  <p class="reveal" style="margin-top:1.6rem"><a class="btn btn-line" href="/projetos/#galeria">Ver a galeria completa e os vídeos</a></p>
 </div></section>
 
 <section class="sec courses" id="cursos">
@@ -629,9 +672,9 @@ def page_home():
         btn("/contato/", "Solicitar orçamento", track="cta_orcamento", local="hero"),
         portfolio_btn("home"),
         photo("equipe", "Biólogo da AgroAmbient com puçá em levantamento de fauna no Cerrado", caption="Equipe em campo"),
-        photo("monitoramento", "Instalação de armadilha fotográfica para monitoramento de fauna", caption="Armadilha fotográfica", sizes="(max-width: 860px) 50vw, 25vw"),
+        photo("gamba", "Bióloga da AgroAmbient com gambá em monitoramento de mastofauna", caption="Mastofauna", sizes="(max-width: 860px) 50vw, 25vw"),
         photo("necropsia", "Análise de peixes em laboratório com estereomicroscópio", caption="Laboratório", sizes="(max-width: 860px) 50vw, 25vw"),
-        e(SITE["founder"]), e(SITE["founder_title"]), partners_html(), areas_grid(), river_block(), fauna_panel(), process_html(), gallery(),
+        e(SITE["founder"]), e(SITE["founder_title"]), numbers_html(), partners_html(), areas_grid(), river_block(), fauna_panel(), process_html(), gallery(),
         courses_cards() + '<p class="reveal" style="margin-top:2rem">%s</p>' % btn("/cursos-e-palestras/", "Ver cursos e palestras"),
         faq_html(faq_preview), "".join(post_card(p) for p in POSTS[:3]), contact_block())
     render("/", "AgroAmbient | Estudos de fauna e consultoria ambiental",
@@ -655,8 +698,9 @@ def page_sobre():
   <div class="split">
     <div class="prose reveal">
       <h2 style="margin-top:0">Quem somos</h2>
-      <p>Fundada em 2015, a AgroAmbient é especializada na execução de estudos e serviços ambientais voltados à fauna terrestre e aquática, e fornece assessoria ambiental e agrícola completa em todo o território nacional.</p>
-      <p>Desenvolvemos soluções ambientais para empresas de consultoria e gestão ambiental e para os setores minerário, energético, agropecuário e industrial, com atendimento técnico em todas as etapas dos projetos, de forma eficiente, segura e alinhada às exigências legais.</p>
+      <p>A AgroAmbient – Estudos de Fauna é especializada em consultoria ambiental, com foco na realização de estudos, inventários e monitoramentos de fauna terrestre e aquática. Com experiência no atendimento a empreendimentos de mineração, energia e infraestrutura, a empresa reúne profissionais com formação em nível de mestrado e doutorado e desenvolve trabalhos técnicos voltados ao licenciamento ambiental, ao acompanhamento de impactos e ao atendimento de requisitos e condicionantes ambientais.</p>
+      <p>Sua atuação abrange desde o planejamento e a execução de campanhas de campo até a análise de dados e a elaboração de relatórios técnicos, oferecendo suporte especializado para a tomada de decisão e a gestão ambiental dos empreendimentos.</p>
+      <p>Fundada em 2015, a empresa já soma cerca de 90 projetos, entre inventários, monitoramentos e operações de resgate e afugentamento de fauna, para cerca de 50 contratantes finais e 19 consultorias ambientais.</p>
       <p>Nossa sede fica em Catalão, no sudeste de Goiás, na divisa com Minas Gerais, uma região de forte produção agrícola, mineração e Cerrado. Essa origem explica o jeito de trabalhar: entender a rotina de quem produz e encontrar o caminho para que a atividade cresça dentro da lei e com respeito ao ambiente.</p>
       <p>Além dos estudos técnicos, a AgroAmbient ministra cursos e palestras para instruir a sociedade a respeito da preservação ambiental, aliada ao desenvolvimento econômico e sustentável.</p>
     </div>
@@ -674,7 +718,11 @@ def page_sobre():
   </blockquote>
   <div>
     <div class="sec-head reveal"><p class="eyebrow">Equipe</p><h2>Profissionais qualificados em cada grupo de fauna.</h2>
-      <p>Equipe multidisciplinar de biólogos especialistas nas diversas áreas da zoologia e da gestão ambiental, sob a direção do biólogo %s, mestre e especialista em Zoologia com ênfase em ictiofauna. Cada estudo tem responsável técnico habilitado.</p></div>
+      <p>Profissionais com formação em nível de mestrado e doutorado, especialistas nas diversas áreas da zoologia e da gestão ambiental, sob a direção do biólogo %s, mestre e especialista em Zoologia com ênfase em ictiofauna (CRBio 104040/04-D), na área desde 2011. Cada estudo tem responsável técnico habilitado.</p></div>
+  </div>
+  <div>
+    <div class="sec-head reveal"><p class="eyebrow">Em números</p><h2>Experiência medida em campo.</h2></div>
+    %s
   </div>
   <div>
     <div class="sec-head reveal"><p class="eyebrow">Diferenciais</p><h2>O que você pode esperar da AgroAmbient.</h2></div>
@@ -691,7 +739,7 @@ def page_sobre():
   </div>
 </div></section>
 %s""" % (photo("equipe", "Biólogo da AgroAmbient com puçá em levantamento de fauna no Cerrado", caption="Equipe em campo"), e(SITE["founder"]), e(SITE["founder_title"]),
-         e(SITE["founder"]), "".join("<li>%s</li>" % e(d) for d in DIFERENCIAIS), credentials_html(), portfolio_btn("sobre", "btn-ipe"), cta_band())
+         e(SITE["founder"]), numbers_html(), "".join("<li>%s</li>" % e(d) for d in DIFERENCIAIS), credentials_html(), portfolio_btn("sobre", "btn-ipe"), cta_band())
     render("/sobre/", "Sobre a AgroAmbient: consultoria ambiental especializada em fauna",
            "Conheça a AgroAmbient, fundada em 2015 e especializada em estudos de fauna terrestre e aquática. Equipe de biólogos, registros no IBAMA e CRBio, missão e diferenciais.",
            body, schema=[{"@type": "AboutPage", "url": abs_url("/sobre/"), "name": "Sobre a AgroAmbient", "about": {"@id": ORG_ID}}, crumbs_ld(cr)])
@@ -735,6 +783,8 @@ def page_service(s):
     parts.append('<h2>Como fazemos</h2><ol class="howto">%s</ol>' % "".join('<li><div><strong>%s</strong><p>%s</p></div></li>' % (e(a), e(b)) for a, b in s["how"]))
     parts.append('<h2>O que você recebe</h2><ul>%s</ul>' % "".join('<li>%s</li>' % e(d) for d in s["deliverables"]))
     parts.append(photo(s["photo"], "%s: registro de campo da AgroAmbient" % s["name"], caption=s["name"]))
+    if s["slug"] == "estudos-ictiologicos":
+        parts.append('<h2>Vídeos de campo</h2>' + videos_html())
     if s["faq"]:
         parts.append('<h2>Perguntas frequentes</h2>' + faq_html(s["faq"]))
     parts.append('<p class="note">Conteúdo informativo. Exigências variam conforme o órgão ambiental, o estado e o tipo de empreendimento.</p>')
@@ -824,14 +874,17 @@ def page_projetos():
 <section class="sec"><div class="wrap stack-lg">
   <div><div class="sec-head reveal"><p class="eyebrow">Para quem trabalhamos</p><h2>Empreendimentos que costumam precisar de estudos de fauna.</h2></div><div class="cards" style="margin-top:2rem">%s</div></div>
   <div><div class="sec-head reveal"><p class="eyebrow">Setores atendidos</p><h2>Mineração, energia, agro, indústria e consultorias.</h2><p>Atendemos diretamente os empreendimentos e também empresas de consultoria e gestão ambiental que precisam de equipe especializada em fauna.</p></div><ul class="checks reveal">%s</ul></div>
-  <div><div class="sec-head reveal"><p class="eyebrow">Do campo</p><h2>Registros dos nossos trabalhos.</h2></div><div style="margin-top:2rem">%s</div></div>
-  <div><div class="sec-head reveal"><p class="eyebrow">Clientes e parceiros</p><h2>Quem confia no nosso trabalho.</h2></div>
+  <div><div class="sec-head reveal"><p class="eyebrow">Em números</p><h2>Cerca de 90 projetos desde 2015.</h2></div>%s</div>
+  <div id="clientes"><div class="sec-head reveal"><p class="eyebrow">Clientes</p><h2>Quem confia no nosso trabalho.</h2>
+    <p>Lista informada pela AgroAmbient, organizada por setor.</p></div>
   %s
   <p class="reveal" style="margin-top:1.6rem">%s</p></div>
+  <div id="galeria"><div class="sec-head reveal"><p class="eyebrow">Galeria</p><h2>Registros dos nossos trabalhos de campo.</h2></div><div style="margin-top:2rem">%s</div></div>
+  <div id="videos"><div class="sec-head reveal"><p class="eyebrow">Vídeos</p><h2>Ictiofauna em campo.</h2><p>Coleta, identificação e triagem de peixes em córregos do Cerrado.</p></div><div style="margin-top:2rem">%s</div></div>
 </div></section>
-%s""" % (cards, setores, gallery(), partners_html(), portfolio_btn("projetos", "btn-ipe"), cta_band())
-    render("/projetos/", "Projetos e tipos de empreendimento atendidos",
-           "Estudos de fauna e assessoria ambiental para mineração, energia, agropecuária, indústria e consultorias. Clientes como Mosaic Fertilizantes, RHI Magnesita e EuroChem.",
+%s""" % (cards, setores, numbers_html(), clients_html(), portfolio_btn("projetos", "btn-ipe"), full_gallery(), videos_html(), cta_band())
+    render("/projetos/", "Projetos, clientes e galeria de campo",
+           "Cerca de 90 projetos de fauna para mineração, energia, usinas, agronegócio e consultorias. Clientes como Mosaic, NEXA, Votorantim, Yara e UHE Itumbiara. Galeria e vídeos de campo.",
            body, schema=[crumbs_ld(cr)])
 
 
@@ -1023,7 +1076,9 @@ def write_seo_files():
          "- Fundação: %s" % SITE["founded"], "- CNPJ: %s" % SITE["cnpj"], "- CTF/IBAMA: %s" % SITE["ctf"], "- Registro CRBio-04: %s" % SITE["crbio"],
          "- Direção técnica: %s, %s" % (SITE["founder"], SITE["founder_title"]),
          "- Setores atendidos: %s" % ", ".join(SECTORS),
-         "- Clientes e parceiros: %s" % ", ".join(PARTNERS),
+         "- Horário de atendimento: %s" % SITE["hours"],
+         "- Clientes: %s" % "; ".join("%s: %s" % (g, ", ".join(xs)) for g, xs in CLIENTES),
+         "- Números (aproximados): %s" % "; ".join("%s %s" % (n, t) for n, t in NUMEROS),
          "- Portfólio em PDF: %s%s" % (U, SITE["portfolio_pdf"]),
          "- Especialidade: estudos de fauna terrestre e aquática (mastofauna, avifauna, herpetofauna, ictiofauna)",
          "- Missão: oferecer produtos, soluções e a execução de trabalhos de qualidade aos clientes, aliando produtividade, eficiência e preservação do meio ambiente.", "",
