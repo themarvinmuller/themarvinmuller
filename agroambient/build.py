@@ -533,7 +533,7 @@ def portfolio_btn(local, cls="btn-line"):
 
 
 def partners_html():
-    return '<ul class="partners">%s</ul>' % "".join('<li>%s</li>' % e(x) for x in PARTNERS)
+    return '<div class="marquees reveal">%s</div>' % marquee(PARTNERS, speed=45)
 
 
 def credentials_html():
@@ -551,14 +551,18 @@ def gallery():
 
 
 def full_gallery():
-    """Galeria completa por grupo (página /projetos/)."""
-    out = []
-    for grupo in dict.fromkeys(g for _, _, g in GALERIA):
-        figs = "".join('<figure class="photo reveal" style="margin:0"><span class="ph">%s</span>%s<figcaption>%s</figcaption></figure>' % (
-            e(c), img_tag("/static/fotos/" + f, "%s: registro de campo da AgroAmbient" % c, "(max-width: 760px) 50vw, 25vw"), e(c))
-            for f, c, g in GALERIA if g == grupo)
-        out.append('<div><h3 class="gal-group">%s</h3><div class="gallery-grid">%s</div></div>' % (e(grupo), figs))
-    return '<div class="stack-lg">%s</div>' % "".join(out)
+    """Galeria interativa: filtros por grupo e lightbox (assets/site.js). Sem JS, cada foto abre o JPEG."""
+    grupos = list(dict.fromkeys(g for _, _, g in GALERIA))
+    chips = '<button type="button" class="chip" aria-pressed="true" data-filter="*">Todas <span>%d</span></button>' % len(GALERIA) + "".join(
+        '<button type="button" class="chip" aria-pressed="false" data-filter="%s">%s <span>%d</span></button>' % (e(g), e(g), sum(1 for x in GALERIA if x[2] == g)) for g in grupos)
+    items = []
+    for i, (f, c, g) in enumerate(GALERIA):
+        stem = f.rsplit(".", 1)[0]
+        info = FOTO_TAM.get(f, {})
+        full = "/static/fotos/w/%s-%d.webp" % (stem, max(info.get("webp") or [1280]))
+        items.append('<a class="gal-item" href="/static/fotos/%s" data-full="%s" data-group="%s" data-cap="%s" style="--i:%d">%s<span class="gal-cap"><b>%s</b>%s</span></a>' % (
+            f, full, e(g), e(c), i % 8, img_tag("/static/fotos/" + f, "%s: registro de campo da AgroAmbient" % c, "(max-width: 760px) 50vw, 25vw"), e(g), e(c)))
+    return '<div class="gal" data-gal><div class="chips" role="group" aria-label="Filtrar fotos por grupo">%s</div><div class="gal-grid">%s</div></div>' % (chips, "".join(items))
 
 
 def videos_html():
@@ -573,10 +577,36 @@ def numbers_html():
         '<div><dt>%s</dt><dd>%s</dd></div>' % (e(n), e(t)) for n, t in NUMEROS)
 
 
+def slugify(s):
+    import unicodedata
+    s = unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode().lower()
+    return re.sub(r"[^a-z0-9]+", "-", s).strip("-")
+
+
+CLIENT_LOGOS = {}  # nome do cliente -> arquivo em static/clientes/ (quando houver logo); sem arquivo, mostra o nome
+
+
+def _client_chip(name):
+    for ext in ("svg", "png", "webp"):
+        f = ROOT / "static" / "clientes" / ("%s.%s" % (slugify(name), ext))
+        if f.exists():
+            return '<li class="logo"><img src="/static/clientes/%s" alt="%s" loading="lazy" height="44"></li>' % (f.name, e(name))
+    ini = "".join(w[0] for w in name.replace("/", " ").split() if w[0].isupper())[:2] or name[:1]
+    return '<li><span class="mono" aria-hidden="true">%s</span>%s</li>' % (e(ini), e(name))
+
+
+def marquee(names, reverse=False, speed=60):
+    row = "".join(_client_chip(n) for n in names)
+    return ('<div class="marquee%s" style="--dur:%ds"><ul class="marquee-track">%s</ul><ul class="marquee-track" aria-hidden="true">%s</ul></div>'
+            % (" rev" if reverse else "", speed, row, row))
+
+
 def clients_html():
-    return '<div class="client-groups">%s</div>' % "".join(
-        '<div class="reveal"><h3 class="gal-group">%s</h3><ul class="partners">%s</ul></div>' % (e(g), "".join('<li>%s</li>' % e(x) for x in xs))
-        for g, xs in CLIENTES)
+    todos = [n for _, xs in CLIENTES for n in xs if not n.startswith("Mais de")]
+    half = (len(todos) + 1) // 2
+    lista = "".join('<div><h3 class="gal-group">%s</h3><p>%s</p></div>' % (e(g), e(", ".join(xs))) for g, xs in CLIENTES)
+    return ('<div class="marquees reveal">%s%s</div><details class="client-list reveal"><summary>Ver a lista completa por setor</summary><div>%s</div></details>'
+            % (marquee(todos[:half]), marquee(todos[half:], reverse=True, speed=70), lista))
 
 
 # ---------------------------------------------------------------------------
