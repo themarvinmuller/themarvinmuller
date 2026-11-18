@@ -597,16 +597,16 @@ def _client_chip(name):
 
 def marquee(names, reverse=False, speed=60):
     row = "".join(_client_chip(n) for n in names)
+    if len(names) < 14:  # garante faixa mais larga que telas grandes
+        row += row
     return ('<div class="marquee%s" style="--dur:%ds"><ul class="marquee-track">%s</ul><ul class="marquee-track" aria-hidden="true">%s</ul></div>'
             % (" rev" if reverse else "", speed, row, row))
 
 
 def clients_html():
-    todos = [n for _, xs in CLIENTES for n in xs if not n.startswith("Mais de")]
-    half = (len(todos) + 1) // 2
     lista = "".join('<div><h3 class="gal-group">%s</h3><p>%s</p></div>' % (e(g), e(", ".join(xs))) for g, xs in CLIENTES)
-    return ('<div class="marquees reveal">%s%s</div><details class="client-list reveal"><summary>Ver a lista completa por setor</summary><div>%s</div></details>'
-            % (marquee(todos[:half]), marquee(todos[half:], reverse=True, speed=70), lista))
+    return ('<div class="marquees reveal">%s</div><div class="client-list reveal"><h3 class="client-list-t">Todos os clientes</h3><div>%s</div></div>'
+            % (marquee(PARTNERS, speed=40), lista))
 
 
 # ---------------------------------------------------------------------------

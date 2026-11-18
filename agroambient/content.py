@@ -145,9 +145,9 @@ CLIENTES = [
     ("Infraestrutura e outros", ["Construtora Triunfo", "CTR de Montes Claros", "Lago das Rosas Empreendimentos Imobiliários", "Loteamento Fazenda do Óleo"]),
     ("Consultorias parceiras", ["Serra Mar Ambiental", "Água e Terra Análise Ambiental", "Verde Cerrado Consultoria", "Bio Golden Consultoria Ambiental e Mineral"]),
 ]
-# Destaques para a home
-PARTNERS = ["Mosaic Fertilizantes", "NEXA Recursos Minerais", "Votorantim Siderurgia", "Yara", "EuroChem", "RHI Magnesita",
-            "UHE Itumbiara", "UHE Mascarenhas", "Usina Delta", "Usina Coruripe", "Galvani", "Construtora Triunfo"]
+# Top 10 na faixa de logos (home e /projetos/). Logo em static/clientes/<slug do nome>.svg|png; sem arquivo, mostra o nome.
+PARTNERS = ["Mosaic Fertilizantes", "NEXA Recursos Minerais", "Votorantim Siderurgia", "Yara", "EuroChem / Salitre Fertilizantes", "RHI Magnesita",
+            "Galvani", "UHE Itumbiara", "UHE Mascarenhas", "Usina Coruripe"]
 SECTORS = ["Mineração e fertilizantes", "Energia (UHEs, PCHs, CGHs e solar)", "Sucroenergético", "Agronegócio", "Infraestrutura e indústria",
            "Consultorias ambientais que subcontratam estudos de fauna"]
 DIFERENCIAIS = ["Atuação em todo o território nacional", "Alto padrão técnico e científico", "Atendimento personalizado",
