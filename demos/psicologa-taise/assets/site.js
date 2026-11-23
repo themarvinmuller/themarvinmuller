@@ -9,8 +9,16 @@
 
   /* ---------- Links de WhatsApp ---------- */
   var waText="Olá, Taise! Vim pelo site e gostaria de marcar uma primeira conversa.";
+  /* Envia evento ao Google Analytics (GA4), se a tag estiver carregada. */
+  function track(name,params){ if(typeof window.gtag==="function") window.gtag("event",name,params||{}); }
+  function waLocal(a){
+    if(a.classList.contains("wa")) return "botao_flutuante";
+    var s=a.closest("header,footer,section"); if(!s) return "outro";
+    return s.id||s.tagName.toLowerCase();
+  }
   d.querySelectorAll("[data-wa]").forEach(function(a){
     a.href="https://wa.me/"+WA+"?text="+encodeURIComponent(waText); a.target="_blank"; a.rel="noopener";
+    a.addEventListener("click",function(){ track("whatsapp_click",{link_location:waLocal(a),link_text:(a.getAttribute("aria-label")||a.textContent).trim().slice(0,60)}); });
   });
 
   /* ---------- Menu ---------- */
@@ -81,6 +89,8 @@
       var texto=$("f-msg").value.trim();
       if(texto) lines.push("","Mensagem: "+texto);
       var url="https://wa.me/"+WA+"?text="+encodeURIComponent(lines.join("\n"));
+      track("whatsapp_click",{link_location:"formulario",link_text:"Enviar pelo WhatsApp"});
+      track("generate_lead",{method:"formulario_whatsapp",atendimento:$("f-modo").value});
       var w=window.open(url,"_blank","noopener");
       if(!w) location.href=url;
       msg.textContent="Abrimos o WhatsApp com a sua mensagem. É só tocar em enviar.";
