@@ -1,0 +1,28 @@
+// Categorias do Oscar. Para mudar ordem, nomes ou ícones, edite esta lista.
+// "id" não deve mudar depois que a votação começar (é onde os votos ficam guardados).
+export const CATEGORIES = [
+  { id: 'pessoa-do-ano', name: 'Pessoa do Ano', icon: '🌟', desc: 'Quem fez 2026 ser melhor para todo mundo.' },
+  { id: 'parceiro-de-trabalho', name: 'Melhor Parceiro(a) de Trabalho', icon: '🤝', desc: 'Aquela pessoa que você quer em todo projeto.' },
+  { id: 'resolvedor-de-problemas', name: 'Resolvedor(a) de Problemas', icon: '🛠️', desc: 'Deu problema? Chama que resolve.' },
+  { id: 'mestre-da-organizacao', name: 'Mestre da Organização', icon: '🗂️', desc: 'Planilha impecável, pastas nomeadas, prazos em dia.' },
+  { id: 'trabalho-em-equipe', name: 'Melhor Trabalho em Equipe', icon: '🏅', desc: 'Pode ser uma pessoa, uma dupla ou um time inteiro.' },
+  { id: 'mais-prestativo', name: 'Mais Prestativo(a)', icon: '🙋', desc: 'Sempre com um "posso ajudar?" na ponta da língua.' },
+  { id: 'revelacao-do-ano', name: 'Revelação do Ano', icon: '🚀', desc: 'Chegou (ou apareceu) e brilhou.' },
+  { id: 'comunicacao-nota-10', name: 'Comunicação Nota 10', icon: '📣', desc: 'Explica difícil de um jeito fácil.' },
+  { id: 'guardiao-dos-processos', name: 'Guardião(ã) dos Processos', icon: '🛡️', desc: 'Nada passa sem seguir o fluxo.' },
+  { id: 'melhor-ideia', name: 'Dono(a) da Melhor Ideia do Ano', icon: '💡', desc: 'A ideia que todo mundo queria ter tido.' },
+  { id: 'espirito-de-colaboracao', name: 'Maior Espírito de Colaboração', icon: '🧩', desc: 'Junta gente, divide crédito, soma esforço.' },
+  { id: 'mais-confiavel', name: 'Pessoa Mais Confiável', icon: '🔒', desc: 'Disse que faz, está feito.' },
+  { id: 'voce-esta-no-mudo', name: 'Mestre do "Você Está no Mudo"', icon: '🔇', desc: 'Fala por minutos até alguém avisar.' },
+  { id: 'radar-do-cafe', name: 'Radar do Café', icon: '☕', desc: 'Sabe quando o café acabou de passar.' },
+  { id: 'rei-rainha-do-gif', name: 'Rei/Rainha do GIF', icon: '🎞️', desc: 'Responde tudo com o GIF perfeito.' },
+  { id: 'fundo-de-reuniao', name: 'Melhor Fundo de Reunião', icon: '🖼️', desc: 'Estante, planta, praia ou desfoque artístico.' },
+  { id: 'mais-aparece-no-teams', name: 'Mais Aparece no Teams', icon: '🟢', desc: 'Bolinha verde 24 horas por dia.' },
+  { id: 'so-uma-perguntinha', name: 'Especialista em "Só uma Perguntinha"', icon: '❓', desc: 'A perguntinha nunca é pequena.' },
+  { id: 'abas-abertas', name: 'Maior Colecionador(a) de Abas Abertas', icon: '🗃️', desc: 'O navegador pede socorro.' },
+  { id: 'detetive-dos-bugs', name: 'Detetive dos Bugs', icon: '🔎', desc: 'Acha o erro antes de todo mundo.' },
+  { id: 'link-certo', name: 'Pessoa que Sempre Tem o Link Certo', icon: '🔗', desc: 'Pediu o link, recebeu em segundos.' },
+  { id: 'mais-rapido-no-chat', name: 'Mais Rápido(a) no Chat', icon: '⚡', desc: 'Responde antes de você terminar de digitar.' },
+  { id: 'sobrevivente-de-reunioes', name: 'Maior Sobrevivente de Reuniões', icon: '🗓️', desc: 'Agenda lotada e ainda de pé.' },
+  { id: 'vou-compartilhar-a-tela', name: 'Prêmio "Vou Compartilhar a Tela"', icon: '🖥️', desc: '"Vocês estão vendo minha tela?"' },
+];

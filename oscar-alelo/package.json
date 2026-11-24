@@ -1,0 +1,14 @@
+{
+  "name": "oscar-alelo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node dev-server.mjs"
+  },
+  "dependencies": {
+    "@vercel/blob": "2.3.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel do Oscar</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="hero" style="padding-bottom:20px">
+    <div class="eyebrow">Organização</div>
+    <h1 class="gold-text" style="font-size:40px">Painel do Oscar</h1>
+  </header>
+
+  <form id="login" class="card stack">
+    <label class="field" for="pwd">Senha do painel</label>
+    <input id="pwd" type="password" autocomplete="current-password" required>
+    <button class="btn btn-gold btn-block" type="submit">Entrar</button>
+  </form>
+
+  <main id="app" class="hidden">
+    <nav class="tabs" id="tabs">
+      <button data-tab="geral" class="active">Geral</button>
+      <button data-tab="pessoas">Participantes</button>
+      <button data-tab="votos">Quem votou</button>
+      <button data-tab="resultado">Resultado</button>
+    </nav>
+
+    <section data-panel="geral" class="stack">
+      <div class="stats">
+        <div class="stat"><b id="sPeople">0</b><span>participantes</span></div>
+        <div class="stat"><b id="sVoters">0</b><span>já votaram</span></div>
+        <div class="stat"><b id="sPct">0%</b><span>participação</span></div>
+      </div>
+      <div class="card stack">
+        <label class="switch"><input type="checkbox" id="votingOpen"> <span><b>Votação aberta</b><br><span class="small muted">Feche antes da cerimônia para ninguém votar durante a revelação.</span></span></label>
+        <label class="switch"><input type="checkbox" id="allowSelfVote"> <span><b>Pode votar em si mesmo(a)</b></span></label>
+        <div>
+          <label class="field" for="eventName">Nome do evento</label>
+          <input id="eventName" type="text" maxlength="80">
+        </div>
+        <div>
+          <label class="field" for="accessCode">Código da festa <span class="muted small">(opcional)</span></label>
+          <input id="accessCode" type="text" maxlength="40" placeholder="Deixe vazio para não pedir código">
+          <p class="small muted" style="margin:6px 0 0">Se preencher, quem for votar precisa digitar este código. Ajuda a evitar votos de fora.</p>
+        </div>
+        <button class="btn btn-gold" id="saveGeneral" type="button">Salvar</button>
+      </div>
+      <div class="card stack">
+        <b>Links</b>
+        <div class="row"><a class="btn btn-ghost" href="/" target="_blank">Página de votação</a><a class="btn btn-ghost" href="/cerimonia" target="_blank">Abrir a cerimônia</a></div>
+        <p class="small muted" style="margin:0">Mande para o pessoal o link da página de votação: <span id="voteUrl"></span></p>
+      </div>
+    </section>
+
+    <section data-panel="pessoas" class="hidden stack">
+      <div class="card stack">
+        <label class="field" for="people">Um nome por linha</label>
+        <textarea id="people" placeholder="Ana Souza&#10;Bruno Lima&#10;…"></textarea>
+        <p class="small muted" style="margin:0" id="peopleCount"></p>
+        <button class="btn btn-gold" id="savePeople" type="button">Salvar participantes</button>
+        <p class="small muted" style="margin:0">Se trocar a grafia de um nome depois que a votação começou, os votos antigos com o nome anterior continuam contando com o nome anterior.</p>
+      </div>
+    </section>
+
+    <section data-panel="votos" class="hidden stack">
+      <div class="card">
+        <b>Já votaram</b>
+        <ul class="list" id="voterList" style="margin-top:8px"></ul>
+      </div>
+      <div class="card">
+        <b>Ainda não votaram</b>
+        <div class="chips" id="pending" style="margin-top:10px"></div>
+      </div>
+      <div class="card stack">
+        <b>Zerar votação</b>
+        <p class="small muted" style="margin:0">Apaga todos os votos (por exemplo, depois de um teste). Não dá para desfazer.</p>
+        <button class="btn btn-danger" id="reset" type="button">Apagar todos os votos</button>
+      </div>
+    </section>
+
+    <section data-panel="resultado" class="hidden stack">
+      <div class="notice small">Spoiler! O resultado completo aparece aqui. Para a festa, use a <a href="/cerimonia" target="_blank">cerimônia</a>, que revela uma categoria por vez.</div>
+      <div class="row"><button class="btn btn-ghost" id="loadResults" type="button">Mostrar resultado</button><button class="btn btn-ghost hidden" id="csv" type="button">Baixar CSV</button></div>
+      <div id="results" class="stack"></div>
+    </section>
+  </main>
+  <footer class="foot"><a href="/">Voltar para a votação</a></footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+const $ = (s) => document.querySelector(s);
+let pwd = '';
+let state = null;
+let lastResults = null;
+try { pwd = sessionStorage.getItem('oscar-admin') || ''; } catch {}
+
+function toast(msg, err) {
+  const t = $('#toast'); t.textContent = msg; t.className = 'toast show' + (err ? ' err' : '');
+  clearTimeout(toast.t); toast.t = setTimeout(() => (t.className = 'toast'), 3000);
+}
+
+async function api(path, body) {
+  const r = await fetch(path, {
+    method: body ? 'POST' : 'GET',
+    headers: { 'x-admin-password': pwd, ...(body ? { 'content-type': 'application/json' } : {}) },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  const data = await r.json().catch(() => ({}));
+  if (r.status === 401) { logout(); throw new Error('Senha incorreta.'); }
+  if (!r.ok) throw new Error(data.error || 'Erro.');
+  return data;
+}
+
+function logout() {
+  try { sessionStorage.removeItem('oscar-admin'); } catch {}
+  $('#app').classList.add('hidden'); $('#login').classList.remove('hidden');
+}
+
+async function load() {
+  state = await api('/api/admin/status');
+  const c = state.config;
+  $('#login').classList.add('hidden'); $('#app').classList.remove('hidden');
+  $('#votingOpen').checked = c.votingOpen;
+  $('#allowSelfVote').checked = c.allowSelfVote;
+  $('#eventName').value = c.eventName;
+  $('#accessCode').value = c.accessCode || '';
+  if (document.activeElement !== $('#people')) $('#people').value = c.participants.join('\n');
+  peopleCount();
+  const voted = new Set(state.voters.map((v) => v.name));
+  $('#sPeople').textContent = c.participants.length;
+  $('#sVoters').textContent = state.voters.length;
+  $('#sPct').textContent = c.participants.length ? Math.round((voted.size / c.participants.length) * 100) + '%' : '0%';
+  $('#voterList').innerHTML = '';
+  for (const v of state.voters) {
+    const li = document.createElement('li');
+    const a = document.createElement('span'); a.textContent = v.name;
+    const b = document.createElement('span'); b.className = 'muted small';
+    b.textContent = `${v.categories} categorias · ${new Date(v.savedAt).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' })}`;
+    li.append(a, b); $('#voterList').append(li);
+  }
+  if (!state.voters.length) $('#voterList').innerHTML = '<li class="muted">Ninguém votou ainda.</li>';
+  $('#pending').innerHTML = '';
+  for (const p of c.participants.filter((p) => !voted.has(p))) {
+    const s = document.createElement('span'); s.className = 'chip'; s.textContent = p; $('#pending').append(s);
+  }
+  if (!$('#pending').children.length) $('#pending').innerHTML = '<span class="muted small">Todo mundo já votou 🎉</span>';
+}
+
+function peopleCount() {
+  const n = $('#people').value.split('\n').map((s) => s.trim()).filter(Boolean).length;
+  $('#peopleCount').textContent = `${n} nome${n === 1 ? '' : 's'}`;
+}
+
+$('#voteUrl').textContent = location.origin + '/';
+$('#login').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  pwd = $('#pwd').value;
+  try { await load(); try { sessionStorage.setItem('oscar-admin', pwd); } catch {} }
+  catch (err) { toast(err.message, true); }
+});
+
+$('#tabs').addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  document.querySelectorAll('#tabs button').forEach((x) => x.classList.toggle('active', x === b));
+  document.querySelectorAll('[data-panel]').forEach((p) => p.classList.toggle('hidden', p.dataset.panel !== b.dataset.tab));
+  if (b.dataset.tab !== 'resultado') load().catch((err) => toast(err.message, true));
+});
+
+$('#saveGeneral').addEventListener('click', async () => {
+  try {
+    await api('/api/admin/config', {
+      votingOpen: $('#votingOpen').checked, allowSelfVote: $('#allowSelfVote').checked,
+      eventName: $('#eventName').value, accessCode: $('#accessCode').value,
+    });
+    toast('Salvo!'); load();
+  } catch (err) { toast(err.message, true); }
+});
+
+$('#people').addEventListener('input', peopleCount);
+$('#savePeople').addEventListener('click', async () => {
+  try {
+    const participants = $('#people').value.split('\n').map((s) => s.trim()).filter(Boolean);
+    const r = await api('/api/admin/config', { participants });
+    $('#people').value = r.config.participants.join('\n');
+    toast(`${r.config.participants.length} participantes salvos.`); load();
+  } catch (err) { toast(err.message, true); }
+});
+
+$('#reset').addEventListener('click', async () => {
+  const typed = prompt('Para apagar todos os votos, digite APAGAR');
+  if (typed !== 'APAGAR') return;
+  try { const r = await api('/api/admin/reset', { confirm: 'APAGAR' }); toast(`${r.removed} registros apagados.`); load(); }
+  catch (err) { toast(err.message, true); }
+});
+
+$('#loadResults').addEventListener('click', async () => {
+  try {
+    const r = await api('/api/admin/status?results=1');
+    lastResults = r.results;
+    const box = $('#results'); box.innerHTML = '';
+    for (const cat of r.results) {
+      const el = document.createElement('div'); el.className = 'card result';
+      const h = document.createElement('h3'); h.textContent = `${cat.icon} ${cat.name}`; el.append(h);
+      if (!cat.ranking.length) { const p = document.createElement('p'); p.className = 'muted small'; p.textContent = 'Sem votos.'; el.append(p); }
+      const max = cat.ranking[0]?.votes || 1;
+      for (const row of cat.ranking.slice(0, 5)) {
+        const d = document.createElement('div'); d.className = 'bar';
+        d.innerHTML = '<div class="track"><div class="fill"></div><div class="lbl"></div></div><div class="n"></div>';
+        d.querySelector('.fill').style.width = (row.votes / max) * 100 + '%';
+        d.querySelector('.lbl').textContent = (cat.winners.includes(row.name) ? '🏆 ' : '') + row.name;
+        d.querySelector('.n').textContent = row.votes;
+        el.append(d);
+      }
+      box.append(el);
+    }
+    $('#csv').classList.remove('hidden');
+  } catch (err) { toast(err.message, true); }
+});
+
+$('#csv').addEventListener('click', () => {
+  if (!lastResults) return;
+  const q = (s) => '"' + String(s).replace(/"/g, '""') + '"';
+  const lines = [['Categoria', 'Pessoa', 'Votos', 'Vencedor(a)'].map(q).join(';')];
+  for (const c of lastResults) for (const r of c.ranking) lines.push([c.name, r.name, r.votes, c.winners.includes(r.name) ? 'sim' : ''].map(q).join(';'));
+  const blob = new Blob(['﻿' + lines.join('\n')], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'resultado-oscar.csv'; a.click();
+});
+
+if (pwd) load().catch(() => logout());
+</script>
+</body>
+</html>

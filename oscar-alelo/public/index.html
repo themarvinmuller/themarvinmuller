@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Oscar de Fim de Ano</title>
+<meta name="description" content="Vote nos destaques do ano.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0b0a08">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <img class="statue" src="/assets/statue.svg" alt="">
+    <div class="eyebrow">Votação aberta</div>
+    <h1 class="gold-text" id="eventName">Oscar</h1>
+    <p>Escolha uma pessoa para cada categoria. Você pode voltar e mudar seus votos até a votação fechar.</p>
+  </header>
+
+  <div id="loading" class="notice center muted">Carregando…</div>
+  <div id="message" class="notice hidden"></div>
+
+  <form id="form" class="hidden" autocomplete="off" novalidate>
+    <div class="card">
+      <label class="field" for="voter">Quem é você?</label>
+      <select id="voter" required><option value="">Selecione seu nome</option></select>
+      <div id="codeBox" class="hidden" style="margin-top:14px">
+        <label class="field" for="code">Código da festa</label>
+        <input id="code" type="text" inputmode="text" placeholder="Informado pela organização">
+      </div>
+      <p class="small muted" style="margin:10px 0 0">Seu nome é usado só para garantir um voto por pessoa. Ninguém vê em quem você votou.</p>
+    </div>
+
+    <div id="cats" style="margin-top:12px"></div>
+
+    <div class="sticky-bar">
+      <div class="progress"><i id="progressFill"></i></div>
+      <div class="bar-row">
+        <span class="count" id="count">0 de 0</span>
+        <button class="btn btn-gold" id="submit" type="submit">Enviar meus votos</button>
+      </div>
+    </div>
+  </form>
+
+  <section id="done" class="success hidden">
+    <div class="big">🏆</div>
+    <h2 class="gold-text" style="font-size:34px">Votos registrados!</h2>
+    <p class="muted">Obrigado. Os vencedores serão revelados na festa.</p>
+    <div class="card summary"><ul id="summary"></ul></div>
+    <p><button class="btn btn-ghost" id="edit" type="button">Mudar meus votos</button></p>
+  </section>
+
+  <footer class="foot">Cada pessoa vota uma vez. Se votar de novo, vale o último envio.</footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { CATEGORIES } from '/assets/categories.js';
+
+const $ = (s) => document.querySelector(s);
+const DRAFT = 'oscar-draft-v1';
+let cfg = null;
+
+const store = {
+  get() { try { return JSON.parse(localStorage.getItem(DRAFT)) || {}; } catch { return {}; } },
+  set(v) { try { localStorage.setItem(DRAFT, JSON.stringify(v)); } catch {} },
+};
+
+function toast(msg, err) {
+  const t = $('#toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (err ? ' err' : '');
+  clearTimeout(toast.t);
+  toast.t = setTimeout(() => (t.className = 'toast'), 3500);
+}
+
+function show(msg, kind = '') {
+  $('#loading').classList.add('hidden');
+  const m = $('#message');
+  m.className = 'notice center ' + kind;
+  m.innerHTML = msg;
+}
+
+function option(name, selected) {
+  const o = document.createElement('option');
+  o.value = name; o.textContent = name; if (selected) o.selected = true;
+  return o;
+}
+
+function renderCats() {
+  const draft = store.get();
+  const box = $('#cats');
+  box.innerHTML = '';
+  CATEGORIES.forEach((c, i) => {
+    const el = document.createElement('div');
+    el.className = 'card cat';
+    el.innerHTML = `<div class="icon" aria-hidden="true">${c.icon}</div>
+      <div><div class="num">${String(i + 1).padStart(2, '0')} / ${CATEGORIES.length}</div><h3></h3><p class="desc"></p></div>`;
+    el.querySelector('h3').textContent = c.name;
+    el.querySelector('.desc').textContent = c.desc;
+    const sel = document.createElement('select');
+    sel.name = c.id;
+    sel.setAttribute('aria-label', c.name);
+    sel.append(option('', false));
+    sel.options[0].textContent = 'Escolha uma pessoa';
+    el.append(sel);
+    box.append(el);
+  });
+  fillOptions(draft.votes || {});
+}
+
+// Preenche as listas (sem o próprio nome, se não puder votar em si).
+function fillOptions(keep) {
+  const me = $('#voter').value;
+  document.querySelectorAll('#cats select').forEach((sel) => {
+    const cur = keep ? keep[sel.name] ?? sel.value : sel.value;
+    sel.length = 1;
+    for (const p of cfg.participants) {
+      if (!cfg.allowSelfVote && p === me) continue;
+      sel.append(option(p, p === cur));
+    }
+    if (cur && sel.value !== cur) sel.value = '';
+  });
+  updateProgress();
+}
+
+function collect() {
+  const votes = {};
+  document.querySelectorAll('#cats select').forEach((s) => { if (s.value) votes[s.name] = s.value; });
+  return votes;
+}
+
+function updateProgress() {
+  const votes = collect();
+  const n = Object.keys(votes).length;
+  $('#count').textContent = `${n} de ${CATEGORIES.length}`;
+  $('#progressFill').style.width = (n / CATEGORIES.length) * 100 + '%';
+  document.querySelectorAll('#cats select').forEach((s) => {
+    s.classList.toggle('filled', Boolean(s.value));
+    s.closest('.cat').classList.toggle('done', Boolean(s.value));
+  });
+  store.set({ ...store.get(), voter: $('#voter').value, votes });
+}
+
+function showDone(voter, votes) {
+  $('#form').classList.add('hidden');
+  const ul = $('#summary');
+  ul.innerHTML = '';
+  for (const c of CATEGORIES) {
+    if (!votes[c.id]) continue;
+    const li = document.createElement('li');
+    const a = document.createElement('span'); a.textContent = c.name;
+    const b = document.createElement('b'); b.textContent = votes[c.id];
+    li.append(a, b); ul.append(li);
+  }
+  $('#done').classList.remove('hidden');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+async function init() {
+  try {
+    const r = await fetch('/api/config');
+    cfg = await r.json();
+  } catch {
+    return show('Não foi possível carregar a votação. Tente recarregar a página.', 'err');
+  }
+  $('#eventName').textContent = cfg.eventName;
+  document.title = cfg.eventName;
+  if (!cfg.votingOpen) {
+    document.querySelector('.eyebrow').textContent = 'Votação encerrada';
+    return show('<b>A votação foi encerrada.</b><br><span class="muted">Agora é só esperar a cerimônia! 🍿</span>');
+  }
+  if (!cfg.participants.length) {
+    return show('A lista de participantes ainda está sendo preparada. Volte em breve!');
+  }
+  $('#loading').classList.add('hidden');
+  const draft = store.get();
+  const voterSel = $('#voter');
+  for (const p of cfg.participants) voterSel.append(option(p, p === draft.voter));
+  if (cfg.needsCode) $('#codeBox').classList.remove('hidden');
+  if (draft.code) $('#code').value = draft.code;
+  renderCats();
+  $('#form').classList.remove('hidden');
+
+  voterSel.addEventListener('change', () => fillOptions(collect()));
+  $('#cats').addEventListener('change', updateProgress);
+  $('#code').addEventListener('input', () => store.set({ ...store.get(), code: $('#code').value }));
+
+  $('#form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const voter = voterSel.value;
+    if (!voter) { voterSel.focus(); voterSel.scrollIntoView({ block: 'center', behavior: 'smooth' }); return toast('Escolha seu nome primeiro.', true); }
+    const votes = collect();
+    const missing = CATEGORIES.length - Object.keys(votes).length;
+    if (!Object.keys(votes).length) return toast('Escolha pelo menos uma categoria.', true);
+    if (missing && !confirmMissing(missing)) return;
+    const btn = $('#submit');
+    btn.disabled = true; btn.textContent = 'Enviando…';
+    try {
+      const r = await fetch('/api/vote', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ voter, votes, code: $('#code').value }),
+      });
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(data.error || 'Erro ao enviar.');
+      store.set({ voter, votes, code: $('#code').value, sent: true });
+      showDone(voter, votes);
+    } catch (err) {
+      toast(err.message, true);
+    } finally {
+      btn.disabled = false; btn.textContent = 'Enviar meus votos';
+    }
+  });
+
+  $('#edit').addEventListener('click', () => {
+    $('#done').classList.add('hidden');
+    $('#form').classList.remove('hidden');
+  });
+}
+
+// Primeiro clique avisa que faltam categorias; o segundo envia assim mesmo.
+let warned = false;
+function confirmMissing(n) {
+  if (warned) return true;
+  warned = true;
+  const first = [...document.querySelectorAll('#cats select')].find((s) => !s.value);
+  first?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  toast(`Faltam ${n} categoria${n > 1 ? 's' : ''}. Toque em enviar de novo para mandar assim mesmo.`);
+  return false;
+}
+
+init();
+</script>
+</body>
+</html>
