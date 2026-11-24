@@ -98,7 +98,7 @@ function latestByKey(items) {
 
 // ---------- Configuração ----------
 export const DEFAULT_CONFIG = {
-  eventName: 'Oscar CRM 2026',
+  eventName: 'Oscar MarTech 2026',
   // Lista inicial; pode ser editada no painel (/admin).
   participants: ["Ana Gabriela de Carvalho", "André Phillipe Mansano", "Aryel da Silva Sampaio", "Bianca Ribeiro Melo", "Cristiane Justino dos Santos", "Eduardo Souza Borges", "Elizabeth dos Santos", "Frederico Augusto Tomaz Monteiro", "Fulvio", "Gabriel Vieira Barbosa", "Gladson Barreto", "Janice dos Santos Almeida", "Joao Pedro Costa Lima", "José Lourenço da Silva Neto", "Karina Moimas", "Leticia Oliveira Nascimento", "Luciano Mateus Almeida Cardoso", "Ludmila dos Santos Silva", "Luísa Menezes de Mattos", "Matheus Alarcon Brunchner", "Michel Allan Goncalves Romera", "Nathalia Barreto Alegretti", "Patrícia Regina Corrêa", "Rafael Alcantara de Freitas", "Tatiana", "Viviane Oliani Andrade", "Waldinei Comercio de Souza Guimarães", "Willian Alves Rosa"],
   votingOpen: true,
@@ -117,7 +117,7 @@ export async function getConfig({ fresh = false } = {}) {
     const data = await readItem(items[0]);
     if (data) value = { ...DEFAULT_CONFIG, ...data };
     // nome antigo (renomeado a pedido): usa o nome novo
-    if (value.eventName === 'Oscar Alelo 2026') value.eventName = DEFAULT_CONFIG.eventName;
+    if (['Oscar Alelo 2026', 'Oscar CRM 2026'].includes(value.eventName)) value.eventName = DEFAULT_CONFIG.eventName;
     // limpa versões antigas (mantém as 3 últimas)
     if (items.length > 3) deleteItems(items.slice(3)).catch(() => {});
   }

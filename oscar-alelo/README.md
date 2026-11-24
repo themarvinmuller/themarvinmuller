@@ -1,6 +1,6 @@
 # Oscar de fim de ano
 
-Site de votação estilo Oscar ("Oscar CRM 2026") para a festa de fim de ano. Cada pessoa escolhe seu nome numa lista e indica **uma pessoa por categoria** (24 categorias). Na festa, a página de cerimônia revela os vencedores um a um.
+Site de votação estilo Oscar ("Oscar MarTech 2026") para a festa de fim de ano. Cada pessoa escolhe seu nome numa lista e indica **uma pessoa por categoria** (24 categorias). Na festa, a página de cerimônia revela os vencedores um a um.
 
 Publicado na Vercel (projeto `oscar-alelo`, Root Directory `oscar-alelo`). Os votos ficam num store privado do Vercel Blob.
 
