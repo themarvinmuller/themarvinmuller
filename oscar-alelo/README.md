@@ -17,7 +17,7 @@ Publicado na Vercel (projeto `oscar-alelo`, Root Directory `oscar-alelo`). Os vo
 ## Regras
 
 - Lista suspensa com os nomes cadastrados no painel (sem texto livre).
-- Uma pessoa por categoria; dá para pular categorias.
+- Uma pessoa por categoria, e cada pessoa só pode ser escolhida em uma categoria (as já escolhidas ficam desabilitadas nas outras listas). Dá para pular categorias.
 - Não dá para votar em si mesmo(a) (pode ser liberado no painel).
 - Votar de novo com o mesmo nome substitui o voto anterior.
 - Código da festa opcional para evitar votos de fora.

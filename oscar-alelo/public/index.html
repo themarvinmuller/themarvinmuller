@@ -19,7 +19,7 @@
     <img class="statue" src="/assets/statue.svg" alt="">
     <div class="eyebrow">Votação aberta</div>
     <h1 class="gold-text" id="eventName">Oscar</h1>
-    <p>Escolha uma pessoa para cada categoria. Você pode voltar e mudar seus votos até a votação fechar.</p>
+    <p>Escolha uma pessoa para cada categoria. Cada pessoa só pode ganhar o seu voto em uma categoria. Você pode mudar seus votos até a votação fechar.</p>
   </header>
 
   <div id="loading" class="notice center muted">Carregando…</div>
@@ -135,8 +135,24 @@ function collect() {
   return votes;
 }
 
+// Cada pessoa só pode ser escolhida em uma categoria: quem já foi escolhido
+// em outra fica desabilitado (e marcado) nas demais listas.
+function refreshTaken(votes) {
+  const where = {};
+  for (const c of CATEGORIES) if (votes[c.id]) where[votes[c.id]] = c.name;
+  document.querySelectorAll('#cats select').forEach((sel) => {
+    for (const o of sel.options) {
+      if (!o.value) continue;
+      const taken = where[o.value] && o.value !== sel.value;
+      o.disabled = Boolean(taken);
+      o.textContent = taken ? `${o.value} (já em ${where[o.value]})` : o.value;
+    }
+  });
+}
+
 function updateProgress() {
   const votes = collect();
+  refreshTaken(votes);
   const n = Object.keys(votes).length;
   $('#count').textContent = `${n} de ${CATEGORIES.length}`;
   $('#progressFill').style.width = (n / CATEGORIES.length) * 100 + '%';
