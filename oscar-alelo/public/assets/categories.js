@@ -25,4 +25,6 @@ export const CATEGORIES = [
   { id: 'mais-rapido-no-chat', name: 'Mais Rápido(a) no Chat', icon: '⚡', desc: 'Tempo de resposta menor que o de qualquer chatbot.' },
   { id: 'sobrevivente-de-reunioes', name: 'Maior Sobrevivente de Reuniões', icon: '🗓️', desc: 'Agenda 100% ocupada e ainda entrega o planejamento.' },
   { id: 'vou-compartilhar-a-tela', name: 'Prêmio "Vou Compartilhar a Tela"', icon: '🖥️', desc: '"Vocês estão vendo minha tela?" Clássico das reviews de campanha.' },
+  { id: 'melhores-historias', name: 'Melhores Histórias', icon: '📖', desc: 'Todo café vira um case. Storytelling nível campanha premiada.' },
+  { id: 'pior-computador', name: 'Pior Computador', icon: '💻', desc: 'Trava no Excel, esquenta no Looker e reinicia no meio da call.' },
 ];
