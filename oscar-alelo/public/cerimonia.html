@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,55 +8,57 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/style.css">
 <style>
-  body { overflow: hidden; background: #050403; }
+  body { overflow: hidden; background: var(--bg); }
   .stage { position: fixed; inset: 0; display: grid; place-items: center; text-align: center; padding: 24px; }
+  .grid-bg { position: fixed; inset: 0; pointer-events: none;
+    background-image: linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+    background-size: 40px 40px; }
   .spot { position: fixed; inset: 0; pointer-events: none;
-    background: radial-gradient(ellipse 45% 60% at 50% 45%, rgba(246,220,143,.16), transparent 70%); }
-  .curtain { position: fixed; top: 0; bottom: 0; width: 9vw; pointer-events: none;
-    background: repeating-linear-gradient(90deg, #4a0d0d 0 1.6vw, #6b1414 1.6vw 3vw); opacity: .55; }
-  .curtain.l { left: 0; box-shadow: inset -30px 0 40px rgba(0,0,0,.6); }
-  .curtain.r { right: 0; box-shadow: inset 30px 0 40px rgba(0,0,0,.6); }
-  .slide { max-width: 1100px; width: 100%; animation: in .7s ease both; }
+    background: radial-gradient(ellipse 50% 60% at 50% 45%, rgba(0,166,81,.28), transparent 70%),
+                radial-gradient(circle at 88% 12%, rgba(196,214,0,.18), transparent 35%); }
+  .slide { max-width: 1100px; width: 100%; animation: in .7s ease both; position: relative; }
   @keyframes in { from { opacity: 0; transform: translateY(18px) scale(.98); } to { opacity: 1; transform: none; } }
-  .slide .eyebrow { font-size: clamp(13px, 1.6vw, 18px); }
-  .title-xl { font-size: clamp(44px, 8vw, 110px); margin: 14px 0; }
-  .title-l { font-size: clamp(34px, 5.6vw, 76px); margin: 14px 0 6px; }
-  .cat-icon { font-size: clamp(54px, 8vw, 96px); filter: drop-shadow(0 8px 30px rgba(227,185,85,.35)); }
+  .slide .eyebrow { font-size: clamp(12px, 1.4vw, 16px); color: var(--lime); }
+  .title-xl { font-size: clamp(44px, 8vw, 110px); margin: 14px 0; color: #fff; }
+  .title-l { font-size: clamp(32px, 5.4vw, 72px); margin: 14px 0 6px; color: #fff; }
+  .title-xl .hl, .title-l .hl { color: var(--lime); }
+  .cat-icon { font-size: clamp(50px, 7.5vw, 90px); }
   .lead { color: var(--muted); font-size: clamp(16px, 2vw, 24px); }
   .nominees { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin-top: 34px; }
-  .nominee { min-width: 220px; padding: 22px 26px; border-radius: 16px; border: 1px solid var(--gold-3);
-    background: linear-gradient(180deg, rgba(227,185,85,.08), rgba(227,185,85,.02));
-    font: 700 clamp(22px, 2.8vw, 36px) var(--serif); opacity: 0; animation: in .6s ease both; }
-  .envelope { width: min(420px, 70vw); aspect-ratio: 1.6; margin: 40px auto 0; position: relative; cursor: pointer;
-    background: linear-gradient(180deg, #f1d88f, #c89a3c); border-radius: 10px; box-shadow: 0 20px 60px rgba(0,0,0,.6);
-    display: grid; place-items: center; font: 700 clamp(16px,2vw,22px) var(--serif); color: #3b2a0b; }
-  .envelope::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 55%;
-    background: linear-gradient(180deg, #e6c36b, #c89a3c); clip-path: polygon(0 0, 100% 0, 50% 100%); border-radius: 10px 10px 0 0; transition: transform .6s; transform-origin: top; }
-  .envelope:hover::before { transform: rotateX(25deg); }
-  .envelope span { margin-top: 30%; }
-  .winner-name { font-size: clamp(48px, 9vw, 130px); margin: 10px 0; animation: win 1s cubic-bezier(.2,1.4,.4,1) both; }
-  @keyframes win { from { opacity: 0; transform: scale(.6); letter-spacing: .3em; } to { opacity: 1; transform: none; } }
-  .votes { color: var(--muted); font-size: clamp(14px, 1.6vw, 20px); }
-  .statue-big { height: clamp(120px, 22vh, 220px); filter: drop-shadow(0 10px 40px rgba(227,185,85,.45)); }
+  .nominee { min-width: 220px; padding: 20px 26px; border-radius: 16px; border: 1px solid var(--line);
+    background: var(--surface); text-align: left; opacity: 0; animation: in .6s ease both; }
+  .nominee small { display: block; font: 600 12px var(--mono); color: var(--lime); letter-spacing: .12em; margin-bottom: 4px; }
+  .nominee span { font: 700 clamp(20px, 2.6vw, 32px)/1.15 var(--head); }
+  .envelope { width: min(440px, 72vw); margin: 40px auto 0; cursor: pointer; text-align: left;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 22px 24px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.45); }
+  .envelope .t { font: 600 13px var(--mono); color: var(--lime); letter-spacing: .1em; text-transform: uppercase; }
+  .envelope .q { font: 700 clamp(18px, 2.2vw, 26px) var(--head); margin: 8px 0 16px; }
+  .envelope .pb { height: 8px; border-radius: 99px; background: var(--line); overflow: hidden; }
+  .envelope .pb i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--lime)); animation: load 2.4s ease-in-out forwards; }
+  .envelope .hint { margin-top: 12px; font-size: 13px; color: var(--muted); }
+  @keyframes load { to { width: 100%; } }
+  .winner-name { font-size: clamp(46px, 8.5vw, 124px); margin: 10px 0; color: var(--lime); animation: win 1s cubic-bezier(.2,1.4,.4,1) both; }
+  @keyframes win { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: none; } }
+  .votes { font: 600 clamp(13px, 1.4vw, 18px) var(--mono); color: var(--muted); }
+  .statue-big { height: clamp(120px, 22vh, 220px); }
   .hud { position: fixed; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; align-items: center;
-    padding: 12px 16px; color: var(--muted); font-size: 13px; opacity: .35; transition: opacity .2s; z-index: 5; }
+    padding: 12px 16px; color: var(--muted); font: 600 12px var(--mono); opacity: .4; transition: opacity .2s; z-index: 5; }
   .hud:hover { opacity: 1; }
   .hud button { background: transparent; border: 1px solid var(--line); color: var(--muted); border-radius: 999px; padding: 7px 14px; cursor: pointer; font: inherit; }
   canvas#confetti { position: fixed; inset: 0; pointer-events: none; z-index: 4; }
   #gate { position: fixed; inset: 0; display: grid; place-items: center; z-index: 10; background: var(--bg); padding: 16px; }
   #gate .card { width: min(420px, 100%); }
   .recap { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px 22px; text-align: left; margin-top: 22px; max-height: 62vh; overflow: auto; }
-  .recap div { border-bottom: 1px solid var(--line); padding: 6px 0; font-size: clamp(12px, 1.2vw, 15px); }
-  .recap b { display: block; color: var(--gold-2); font-family: var(--serif); font-size: 1.15em; }
-  @media (max-width: 700px) { .curtain { display: none; } }
+  .recap div { border-bottom: 1px solid var(--line); padding: 6px 0; font-size: clamp(12px, 1.2vw, 15px); color: var(--muted); }
+  .recap b { display: block; color: #fff; font: 700 1.15em var(--head); }
 </style>
 </head>
 <body>
-<div class="spot"></div>
-<div class="curtain l"></div><div class="curtain r"></div>
+<div class="grid-bg"></div><div class="spot"></div>
 <canvas id="confetti"></canvas>
 <main class="stage" id="stage"></main>
 <div class="hud">
@@ -68,7 +70,8 @@
 <div id="gate">
   <form class="card stack" id="login">
     <div class="center"><img src="/assets/statue.svg" alt="" style="height:70px"></div>
-    <h2 class="center gold-text" style="font-size:30px">Cerimônia</h2>
+    <div class="eyebrow center">MarTech · Fim de ano 2026</div>
+    <h2 class="center" style="font-size:30px">Cerimônia</h2>
     <p class="small muted center" style="margin:0">Use a senha do painel. Os resultados só aparecem um a um.</p>
     <input id="pwd" type="password" placeholder="Senha" required autocomplete="current-password">
     <label class="switch small"><input type="checkbox" id="showVotes"> Mostrar número de votos do vencedor</label>
@@ -107,35 +110,35 @@ function build({ config, results, voters }) {
   slides.push(() => `
     <img class="statue-big" src="/assets/statue.svg" alt="">
     <div class="eyebrow" style="margin-top:18px">Bem-vindos à</div>
-    <h1 class="title-xl gold-text">${esc(config.eventName)}</h1>
-    <p class="lead">${results.length} categorias · ${voters.length} pessoas votaram</p>`);
+    <h1 class="title-xl">${esc(config.eventName)}</h1>
+    <p class="votes">${results.length} categorias · ${voters.length} votantes · 100% dos dados auditados ✓</p>`);
   results.forEach((cat, n) => {
     const nominees = cat.ranking.slice(0, 3).map((r) => r.name);
     // garante que todos os empatados em 1º apareçam entre os indicados
     for (const w of cat.winners) if (!nominees.includes(w)) nominees.push(w);
     const shuffled = [...nominees].sort((a, b) => a.localeCompare(b, 'pt-BR'));
     const head = `<div class="cat-icon">${cat.icon}</div>
-      <div class="eyebrow">Categoria ${n + 1} de ${results.length}</div>
-      <h2 class="title-l gold-text">${esc(cat.name)}</h2>`;
+      <div class="eyebrow">Categoria ${String(n + 1).padStart(2, "0")} / ${results.length}</div>
+      <h2 class="title-l">${esc(cat.name)}</h2>`;
     if (!cat.winners.length) {
       slides.push(() => `${head}<p class="lead">Ninguém votou nesta categoria.</p>`);
       return;
     }
-    slides.push(() => `${head}<p class="lead">E os indicados são…</p>
-      <div class="nominees">${shuffled.map((p, k) => `<div class="nominee" style="animation-delay:${0.5 + k * 0.7}s">${esc(p)}</div>`).join('')}</div>`);
-    slides.push(() => `${head}<div class="envelope" id="env" role="button" tabindex="0"><span>E o Oscar vai para…</span></div>`);
+    slides.push(() => `${head}<p class="lead">E a shortlist é…</p>
+      <div class="nominees">${shuffled.map((p, k) => `<div class="nominee" style="animation-delay:${0.5 + k * 0.7}s"><small>INDICADO(A) ${String(k + 1).padStart(2, "0")}</small><span>${esc(p)}</span></div>`).join('')}</div>`);
+    slides.push(() => `${head}<div class="envelope" id="env" role="button" tabindex="0"><div class="t">Rodando a query…</div><div class="q">E o Oscar vai para…</div><div class="pb"><i></i></div><div class="hint">Clique ou aperte → para revelar</div></div>`);
     const tie = cat.winners.length > 1;
     const votes = cat.ranking[0].votes;
     slides.push({
       html: () => `${head}<div class="eyebrow" style="margin-top:20px">${tie ? 'Empate! O Oscar vai para' : 'O Oscar vai para'}</div>
-        <h1 class="winner-name gold-text">${cat.winners.map(esc).join('<br>')}</h1>
-        ${showVotes ? `<p class="votes">${votes} voto${votes > 1 ? 's' : ''}${tie ? ' cada' : ''}</p>` : ''}`,
+        <h1 class="winner-name">${cat.winners.map(esc).join('<br>')}</h1>
+        ${showVotes ? `<p class="votes">${votes} voto${votes > 1 ? 's' : ''}${tie ? ' cada' : ''} · conversão confirmada</p>` : ''}`,
       confetti: true,
     });
   });
   slides.push(() => `
-    <div class="eyebrow">Os grandes vencedores</div>
-    <h2 class="title-l gold-text">Parabéns a todos!</h2>
+    <div class="eyebrow">Dashboard final · vencedores 2026</div>
+    <h2 class="title-l">Parabéns a <span class="hl">todos!</span></h2>
     <div class="recap">${results.filter((c) => c.winners.length).map((c) => `<div>${c.icon} ${esc(c.name)}<b>${c.winners.map(esc).join(' e ')}</b></div>`).join('')}</div>`);
 }
 
@@ -168,7 +171,7 @@ const ctx = cv.getContext('2d');
 let parts = [], raf = 0;
 function confetti() {
   cv.width = innerWidth * devicePixelRatio; cv.height = innerHeight * devicePixelRatio;
-  const colors = ['#f6dc8f', '#e3b955', '#a77c26', '#fff4d0', '#c0392b'];
+  const colors = ['#00a651', '#c4d600', '#ffffff', '#00573f', '#7be3a6'];
   parts = Array.from({ length: 220 }, () => ({
     x: Math.random() * cv.width, y: -Math.random() * cv.height * .6,
     w: (6 + Math.random() * 8) * devicePixelRatio, h: (8 + Math.random() * 10) * devicePixelRatio,

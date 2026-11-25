@@ -6,21 +6,26 @@
 <title>Oscar de Fim de Ano</title>
 <meta name="description" content="Vote nos destaques do ano.">
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#0b0a08">
+<meta name="theme-color" content="#00573f">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
+<div class="band">
+  <div class="wrap">
+    <header class="hero">
+      <img class="statue" src="/assets/statue.svg" alt="">
+      <div class="eyebrow" id="status">MarTech · Fim de ano 2026 · Votação aberta</div>
+      <h1 id="eventName">Oscar</h1>
+      <p>Seu voto é o dado mais importante do ano. Escolha uma pessoa por categoria; cada pessoa só pode receber o seu voto uma vez. Dá para mudar até a votação fechar.</p>
+      <div class="chips-row"><span class="kpi"><b>24</b> categorias</span><span class="kpi"><b>1</b> voto por categoria</span><span class="kpi"><b>100%</b> anônimo</span></div>
+    </header>
+  </div>
+</div>
 <div class="wrap">
-  <header class="hero">
-    <img class="statue" src="/assets/statue.svg" alt="">
-    <div class="eyebrow">Votação aberta</div>
-    <h1 class="gold-text" id="eventName">Oscar</h1>
-    <p>Escolha uma pessoa para cada categoria. Cada pessoa só pode ganhar o seu voto em uma categoria. Você pode mudar seus votos até a votação fechar.</p>
-  </header>
 
   <div id="loading" class="notice center muted">Carregando…</div>
   <div id="message" class="notice hidden"></div>
@@ -50,7 +55,7 @@
   <section id="done" class="success hidden">
     <div class="big">🏆</div>
     <h2 class="gold-text" style="font-size:34px">Votos registrados!</h2>
-    <p class="muted">Obrigado. Os vencedores serão revelados na festa.</p>
+    <p class="muted">Dados recebidos com sucesso. Os vencedores serão revelados na festa.</p>
     <div class="card summary"><ul id="summary"></ul></div>
     <p><button class="btn btn-ghost" id="edit" type="button">Mudar meus votos</button></p>
   </section>
@@ -100,7 +105,7 @@ function renderCats() {
     const el = document.createElement('div');
     el.className = 'card cat';
     el.innerHTML = `<div class="icon" aria-hidden="true">${c.icon}</div>
-      <div><div class="num">${String(i + 1).padStart(2, '0')} / ${CATEGORIES.length}</div><h3></h3><p class="desc"></p></div>`;
+      <div><div class="num">Categoria ${String(i + 1).padStart(2, '0')} / ${CATEGORIES.length}</div><h3></h3><p class="desc"></p></div>`;
     el.querySelector('h3').textContent = c.name;
     el.querySelector('.desc').textContent = c.desc;
     const sel = document.createElement('select');
@@ -188,7 +193,7 @@ async function init() {
   $('#eventName').textContent = cfg.eventName;
   document.title = cfg.eventName;
   if (!cfg.votingOpen) {
-    document.querySelector('.eyebrow').textContent = 'Votação encerrada';
+    document.querySelector('#status').textContent = 'MarTech · Fim de ano 2026 · Votação encerrada';
     return show('<b>A votação foi encerrada.</b><br><span class="muted">Agora é só esperar a cerimônia! 🍿</span>');
   }
   if (!cfg.participants.length) {
