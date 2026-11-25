@@ -100,7 +100,7 @@ function latestByKey(items) {
 export const DEFAULT_CONFIG = {
   eventName: 'Oscar MarTech 2026',
   // Lista inicial; pode ser editada no painel (/admin).
-  participants: ["Ana Gabriela de Carvalho", "André Phillipe Mansano", "Aryel da Silva Sampaio", "Bianca Ribeiro Melo", "Cristiane Justino dos Santos", "Eduardo Souza Borges", "Elizabeth dos Santos", "Frederico Augusto Tomaz Monteiro", "Fulvio", "Gabriel Vieira Barbosa", "Gladson Barreto", "Janice dos Santos Almeida", "Joao Pedro Costa Lima", "José Lourenço da Silva Neto", "Karina Moimas", "Leticia Oliveira Nascimento", "Luciano Mateus Almeida Cardoso", "Ludmila dos Santos Silva", "Luísa Menezes de Mattos", "Matheus Alarcon Brunchner", "Michel Allan Goncalves Romera", "Nathalia Barreto Alegretti", "Patrícia Regina Corrêa", "Rafael Alcantara de Freitas", "Tatiana", "Viviane Oliani Andrade", "Waldinei Comercio de Souza Guimarães", "Willian Alves Rosa"],
+  participants: ["Ana Gabriela de Carvalho", "André Phillipe Mansano", "Aryel da Silva Sampaio", "Bianca Ribeiro Melo", "Cristiane Justino dos Santos", "Eduardo Souza Borges", "Elizabeth dos Santos", "Frederico Augusto Tomaz Monteiro", "Gabriel Vieira Barbosa", "Gladson Barreto", "Janice dos Santos Almeida", "Joao Pedro Costa Lima", "José Lourenço da Silva Neto", "Karina Moimas", "Leticia Oliveira Nascimento", "Luciano Mateus Almeida Cardoso", "Ludmila dos Santos Silva", "Luísa Menezes de Mattos", "Matheus Alarcon Brunchner", "Michel Allan Goncalves Romera", "Nathalia Barreto Alegretti", "Patrícia Regina Corrêa", "Rafael Alcantara de Freitas", "Viviane Oliani Andrade", "Waldinei Comercio de Souza Guimarães", "Willian Alves Rosa"],
   votingOpen: true,
   allowSelfVote: false,
   accessCode: '',
