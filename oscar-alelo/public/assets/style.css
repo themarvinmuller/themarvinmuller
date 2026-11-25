@@ -121,6 +121,8 @@ textarea { min-height: 260px; resize: vertical; line-height: 1.6; }
 .bar-row { display: flex; gap: 12px; align-items: center; }
 .bar-row .count { font: 600 13px var(--mono); color: var(--muted); white-space: nowrap; }
 .bar-row .btn { flex: 1; }
+.bar-row .btn-clear { flex: none; padding: 14px 16px; font-size: 14px; background: var(--surface); }
+@media (max-width: 380px) { .bar-row .btn-clear { padding: 14px 12px; } .bar-row .count { font-size: 12px; } }
 
 .notice { border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 18px; background: var(--surface); }
 .notice.err { border-color: color-mix(in srgb, var(--danger) 50%, transparent); color: var(--danger); }
@@ -130,7 +132,7 @@ textarea { min-height: 260px; resize: vertical; line-height: 1.6; }
 footer.foot { text-align: center; color: var(--muted); font-size: 13px; padding: 40px 0 28px; }
 
 .toast {
-  position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(30px);
+  position: fixed; left: 50%; bottom: calc(100px + env(safe-area-inset-bottom)); transform: translateX(-50%) translateY(30px); pointer-events: none;
   background: var(--ink); color: var(--bg); padding: 12px 18px; border-radius: 12px;
   opacity: 0; transition: .25s; z-index: 50; max-width: calc(100% - 32px);
 }

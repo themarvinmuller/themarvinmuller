@@ -47,7 +47,8 @@
       <div class="progress"><i id="progressFill"></i></div>
       <div class="bar-row">
         <span class="count" id="count">0 de 0</span>
-        <button class="btn btn-gold" id="submit" type="submit">Enviar meus votos</button>
+        <button class="btn btn-ghost btn-clear" id="clear" type="button" disabled>Limpar tudo</button>
+        <button class="btn btn-gold" id="submit" type="submit">Enviar votos</button>
       </div>
     </div>
   </form>
@@ -161,6 +162,7 @@ function updateProgress() {
   const n = Object.keys(votes).length;
   $('#count').textContent = `${n} de ${CATEGORIES.length}`;
   $('#progressFill').style.width = (n / CATEGORIES.length) * 100 + '%';
+  $('#clear').disabled = n === 0;
   document.querySelectorAll('#cats select').forEach((s) => {
     s.classList.toggle('filled', Boolean(s.value));
     s.closest('.cat').classList.toggle('done', Boolean(s.value));
@@ -209,7 +211,27 @@ async function init() {
   $('#form').classList.remove('hidden');
 
   voterSel.addEventListener('change', () => fillOptions(collect()));
-  $('#cats').addEventListener('change', updateProgress);
+  $('#cats').addEventListener('change', () => { clearArmed = false; updateProgress(); });
+
+  // Limpar tudo: pede um segundo toque para não apagar sem querer.
+  let clearArmed = false, clearTimer;
+  $('#clear').addEventListener('click', () => {
+    const n = Object.keys(collect()).length;
+    if (!n) return;
+    if (!clearArmed) {
+      clearArmed = true;
+      $('#clear').textContent = 'Confirmar?';
+      clearTimeout(clearTimer);
+      clearTimer = setTimeout(() => { clearArmed = false; $('#clear').textContent = 'Limpar tudo'; }, 4000);
+      return toast(`Toque de novo para apagar suas ${n} escolha${n > 1 ? 's' : ''}.`);
+    }
+    clearArmed = false; clearTimeout(clearTimer);
+    $('#clear').textContent = 'Limpar tudo';
+    document.querySelectorAll('#cats select').forEach((s) => { s.value = ''; });
+    updateProgress();
+    toast('Escolhas apagadas. Pode começar de novo!');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
   $('#code').addEventListener('input', () => store.set({ ...store.get(), code: $('#code').value }));
 
   $('#form').addEventListener('submit', async (e) => {
@@ -234,7 +256,7 @@ async function init() {
     } catch (err) {
       toast(err.message, true);
     } finally {
-      btn.disabled = false; btn.textContent = 'Enviar meus votos';
+      btn.disabled = false; btn.textContent = 'Enviar votos';
     }
   });
 
