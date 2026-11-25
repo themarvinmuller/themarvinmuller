@@ -11,6 +11,7 @@ Publicado na Vercel (projeto `oscar-alelo`, Root Directory `oscar-alelo`). Os vo
 | `/` | Votação (mandar este link para o pessoal) |
 | `/admin` | Organização: participantes, abrir/fechar votação, quem já votou, resultado, CSV |
 | `/cerimonia` | Telão: indicados, envelope e vencedor com confete, categoria por categoria |
+| `/qrcode` | QR code grande para o telão, levando para a votação |
 
 `/admin` e `/cerimonia` pedem a senha definida na variável `ADMIN_PASSWORD` da Vercel.
 
