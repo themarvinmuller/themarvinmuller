@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cerimônia do Oscar</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css">
+<style>
+  body { overflow: hidden; background: var(--bg); }
+  .stage { position: fixed; inset: 0; display: grid; place-items: center; text-align: center; padding: 24px; }
+  .grid-bg { position: fixed; inset: 0; pointer-events: none;
+    background-image: linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+    background-size: 40px 40px; }
+  .spot { position: fixed; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse 50% 60% at 50% 45%, rgba(0,166,81,.28), transparent 70%),
+                radial-gradient(circle at 88% 12%, rgba(196,214,0,.18), transparent 35%); }
+  .slide { max-width: 1100px; width: 100%; animation: in .7s ease both; position: relative; }
+  @keyframes in { from { opacity: 0; transform: translateY(18px) scale(.98); } to { opacity: 1; transform: none; } }
+  .slide .eyebrow { font-size: clamp(12px, 1.4vw, 16px); color: var(--lime); }
+  .title-xl { font-size: clamp(44px, 8vw, 110px); margin: 14px 0; color: #fff; }
+  .title-l { font-size: clamp(32px, 5.4vw, 72px); margin: 14px 0 6px; color: #fff; }
+  .title-xl .hl, .title-l .hl { color: var(--lime); }
+  .cat-icon { font-size: clamp(50px, 7.5vw, 90px); }
+  .lead { color: var(--muted); font-size: clamp(16px, 2vw, 24px); }
+  .nominees { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin-top: 34px; }
+  .nominee { min-width: 220px; padding: 20px 26px; border-radius: 16px; border: 1px solid var(--line);
+    background: var(--surface); text-align: left; opacity: 0; animation: in .6s ease both; }
+  .nominee small { display: block; font: 600 12px var(--mono); color: var(--lime); letter-spacing: .12em; margin-bottom: 4px; }
+  .nominee span { font: 700 clamp(20px, 2.6vw, 32px)/1.15 var(--head); }
+  .envelope { width: min(440px, 72vw); margin: 40px auto 0; cursor: pointer; text-align: left;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 22px 24px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.45); }
+  .envelope .t { font: 600 13px var(--mono); color: var(--lime); letter-spacing: .1em; text-transform: uppercase; }
+  .envelope .q { font: 700 clamp(18px, 2.2vw, 26px) var(--head); margin: 8px 0 16px; }
+  .envelope .pb { height: 8px; border-radius: 99px; background: var(--line); overflow: hidden; }
+  .envelope .pb i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--lime)); animation: load 2.4s ease-in-out forwards; }
+  .envelope .hint { margin-top: 12px; font-size: 13px; color: var(--muted); }
+  @keyframes load { to { width: 100%; } }
+  .winner-name { font-size: clamp(46px, 8.5vw, 124px); margin: 10px 0; color: var(--lime); animation: win 1s cubic-bezier(.2,1.4,.4,1) both; }
+  @keyframes win { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: none; } }
+  .votes { font: 600 clamp(13px, 1.4vw, 18px) var(--mono); color: var(--muted); }
+  .statue-big { height: clamp(120px, 22vh, 220px); }
+  .hud { position: fixed; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 16px; color: var(--muted); font: 600 12px var(--mono); opacity: .4; transition: opacity .2s; z-index: 5; }
+  .hud:hover { opacity: 1; }
+  .hud button { background: transparent; border: 1px solid var(--line); color: var(--muted); border-radius: 999px; padding: 7px 14px; cursor: pointer; font: inherit; }
+  canvas#confetti { position: fixed; inset: 0; pointer-events: none; z-index: 4; }
+  #gate { position: fixed; inset: 0; display: grid; place-items: center; z-index: 10; background: var(--bg); padding: 16px; }
+  #gate .card { width: min(420px, 100%); }
+  .recap { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px 22px; text-align: left; margin-top: 22px; max-height: 62vh; overflow: auto; }
+  .recap div { border-bottom: 1px solid var(--line); padding: 6px 0; font-size: clamp(12px, 1.2vw, 15px); color: var(--muted); }
+  .recap b { display: block; color: #fff; font: 700 1.15em var(--head); }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div><div class="spot"></div>
+<canvas id="confetti"></canvas>
+<main class="stage" id="stage"></main>
+<div class="hud">
+  <span id="pos"></span>
+  <span>← → ou espaço para navegar · F para tela cheia</span>
+  <span><button id="prev" type="button">Voltar</button> <button id="next" type="button">Avançar</button></span>
+</div>
+
+<div id="gate">
+  <form class="card stack" id="login">
+    <div class="center"><img src="/assets/statue.svg" alt="" style="height:70px"></div>
+    <div class="eyebrow center">MarTech · Fim de ano 2026</div>
+    <h2 class="center" style="font-size:30px">Cerimônia</h2>
+    <p class="small muted center" style="margin:0">Use a senha do painel. Os resultados só aparecem um a um.</p>
+    <input id="pwd" type="password" placeholder="Senha" required autocomplete="current-password">
+    <label class="switch small"><input type="checkbox" id="showVotes"> Mostrar número de votos do vencedor</label>
+    <button class="btn btn-gold btn-block" type="submit">Começar</button>
+    <p id="err" class="small center" style="color:var(--danger);margin:0"></p>
+  </form>
+</div>
+
+<script type="module">
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+let slides = [];
+let i = 0;
+let showVotes = false;
+
+try { $('#pwd').value = sessionStorage.getItem('oscar-admin') || ''; } catch {}
+
+$('#login').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  $('#err').textContent = '';
+  const pwd = $('#pwd').value;
+  showVotes = $('#showVotes').checked;
+  try {
+    const r = await fetch('/api/admin/status?results=1', { headers: { 'x-admin-password': pwd } });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error || 'Erro ao carregar.');
+    try { sessionStorage.setItem('oscar-admin', pwd); } catch {}
+    build(data);
+    $('#gate').remove();
+    go(0);
+  } catch (err) { $('#err').textContent = err.message; }
+});
+
+function build({ config, results, voters }) {
+  slides = [];
+  slides.push(() => `
+    <img class="statue-big" src="/assets/statue.svg" alt="">
+    <div class="eyebrow" style="margin-top:18px">Bem-vindos à</div>
+    <h1 class="title-xl">${esc(config.eventName)}</h1>
+    <p class="votes">${results.length} categorias · ${voters.length} votantes · 100% dos dados auditados ✓</p>`);
+  results.forEach((cat, n) => {
+    const nominees = cat.ranking.slice(0, 3).map((r) => r.name);
+    // garante que todos os empatados em 1º apareçam entre os indicados
+    for (const w of cat.winners) if (!nominees.includes(w)) nominees.push(w);
+    const shuffled = [...nominees].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+    const head = `<div class="cat-icon">${cat.icon}</div>
+      <div class="eyebrow">Categoria ${String(n + 1).padStart(2, "0")} / ${results.length}</div>
+      <h2 class="title-l">${esc(cat.name)}</h2>`;
+    if (!cat.winners.length) {
+      slides.push(() => `${head}<p class="lead">Ninguém votou nesta categoria.</p>`);
+      return;
+    }
+    slides.push(() => `${head}<p class="lead">E a shortlist é…</p>
+      <div class="nominees">${shuffled.map((p, k) => `<div class="nominee" style="animation-delay:${0.5 + k * 0.7}s"><small>INDICADO(A) ${String(k + 1).padStart(2, "0")}</small><span>${esc(p)}</span></div>`).join('')}</div>`);
+    slides.push(() => `${head}<div class="envelope" id="env" role="button" tabindex="0"><div class="t">Rodando a query…</div><div class="q">E o Oscar vai para…</div><div class="pb"><i></i></div><div class="hint">Clique ou aperte → para revelar</div></div>`);
+    const tie = cat.winners.length > 1;
+    const votes = cat.ranking[0].votes;
+    slides.push({
+      html: () => `${head}<div class="eyebrow" style="margin-top:20px">${tie ? 'Empate! O Oscar vai para' : 'O Oscar vai para'}</div>
+        <h1 class="winner-name">${cat.winners.map(esc).join('<br>')}</h1>
+        ${showVotes ? `<p class="votes">${votes} voto${votes > 1 ? 's' : ''}${tie ? ' cada' : ''} · conversão confirmada</p>` : ''}`,
+      confetti: true,
+    });
+  });
+  slides.push(() => `
+    <div class="eyebrow">Dashboard final · vencedores 2026</div>
+    <h2 class="title-l">Parabéns a <span class="hl">todos!</span></h2>
+    <div class="recap">${results.filter((c) => c.winners.length).map((c) => `<div>${c.icon} ${esc(c.name)}<b>${c.winners.map(esc).join(' e ')}</b></div>`).join('')}</div>`);
+}
+
+function go(n) {
+  i = Math.max(0, Math.min(slides.length - 1, n));
+  const s = slides[i];
+  const html = typeof s === 'function' ? s() : s.html();
+  $('#stage').innerHTML = `<div class="slide">${html}</div>`;
+  $('#pos').textContent = `${i + 1} / ${slides.length}`;
+  stopConfetti();
+  if (s.confetti) confetti();
+  const env = $('#env');
+  if (env) env.addEventListener('click', () => go(i + 1));
+}
+
+$('#next').addEventListener('click', () => go(i + 1));
+$('#prev').addEventListener('click', () => go(i - 1));
+document.addEventListener('keydown', (e) => {
+  if (!slides.length) return;
+  if (['ArrowRight', ' ', 'Enter', 'PageDown'].includes(e.key)) { e.preventDefault(); go(i + 1); }
+  if (['ArrowLeft', 'PageUp', 'Backspace'].includes(e.key)) { e.preventDefault(); go(i - 1); }
+  if (e.key.toLowerCase() === 'f') {
+    if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen?.();
+  }
+});
+
+// Confete dourado
+const cv = $('#confetti');
+const ctx = cv.getContext('2d');
+let parts = [], raf = 0;
+function confetti() {
+  cv.width = innerWidth * devicePixelRatio; cv.height = innerHeight * devicePixelRatio;
+  const colors = ['#00a651', '#c4d600', '#ffffff', '#00573f', '#7be3a6'];
+  parts = Array.from({ length: 220 }, () => ({
+    x: Math.random() * cv.width, y: -Math.random() * cv.height * .6,
+    w: (6 + Math.random() * 8) * devicePixelRatio, h: (8 + Math.random() * 10) * devicePixelRatio,
+    vy: (2 + Math.random() * 4) * devicePixelRatio, vx: (Math.random() - .5) * 2 * devicePixelRatio,
+    r: Math.random() * 6, vr: (Math.random() - .5) * .25, c: colors[(Math.random() * colors.length) | 0],
+  }));
+  const start = performance.now();
+  const tick = (t) => {
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    for (const p of parts) {
+      p.x += p.vx; p.y += p.vy; p.r += p.vr;
+      if (t - start < 3500 && p.y > cv.height) p.y = -20;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.fillStyle = p.c; ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); ctx.restore();
+    }
+    if (parts.some((p) => p.y < cv.height)) raf = requestAnimationFrame(tick);
+  };
+  raf = requestAnimationFrame(tick);
+}
+function stopConfetti() { cancelAnimationFrame(raf); ctx.clearRect(0, 0, cv.width, cv.height); }
+</script>
+</body>
+</html>
